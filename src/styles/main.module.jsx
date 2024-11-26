@@ -16,6 +16,35 @@ export const CategoryBox1 = styled.div`
   color: white;
 `;
 
+export const ListContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const MenuListWrap = styled.div`
+  padding: 20px;
+`;
+
+export const OrderContainer = styled.div``;
+export const OrderContent = styled.div``;
+export const OrderTitle = styled.div``;
+export const MenuContainer = styled.div``;
+export const MenuContent = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const MenuList = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+`;
+export const TableNum = styled.div`
+  color: black;
+`;
+export const OrderedMenu = styled.div``;
+export const MenuName = styled.div``;
+export const MenuQuantity = styled.div``;
+
 export const ModalContainer = styled.div`
   width: 100%;
   height: 100%;

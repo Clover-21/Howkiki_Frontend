@@ -23,7 +23,7 @@ export default function SideBar() {
         selected={selectedBar === "접수대기"}
       >
         <SideBarName>접수대기</SideBarName>
-        <Count>1</Count>
+        <Count>10</Count>
       </SideBarLink>
       <SideBarLink
         onClick={() => handleClick("처리중", "/preparing")}
