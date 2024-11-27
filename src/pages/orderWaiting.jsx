@@ -10,19 +10,21 @@ import {
   MenuListWrap,
   OrderContainer,
   OrderContent,
-  OrderTitle,
   MenuContainer,
   MenuContent,
   TableNum,
-  OrderedMenu,
   MenuName,
   MenuQuantity,
+  BtnContainer,
+  OrderOkBtn,
+  OrderCancelBtn,
   ModalContainer,
   Modal,
   Button,
   ModalContent,
 } from "../styles/main.module";
 import useModal from "../hooks/useModal";
+import Line from "../components/Line";
 
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
@@ -72,18 +74,20 @@ export default function OrderWaitingPage() {
               orderData.data.orders.map((order, i) => (
                 <OrderContent key={i}>
                   <TableNum>테이블{order.tableNumber}</TableNum>
-                  <OrderedMenu>
-                    <OrderTitle>주문된 메뉴</OrderTitle>
-                    <MenuContainer>
-                      {order.menuSummary &&
-                        order.menuSummary.map((menu, i) => (
-                          <MenuContent key={i}>
-                            <MenuName>{menu.menuName}</MenuName>
-                            <MenuQuantity>{menu.quantity}</MenuQuantity>
-                          </MenuContent>
-                        ))}
-                    </MenuContainer>
-                  </OrderedMenu>
+                  <MenuContainer>
+                    {order.menuSummary &&
+                      order.menuSummary.map((menu, i) => (
+                        <MenuContent key={i}>
+                          <MenuName>{menu.menuName}</MenuName>
+                          <MenuQuantity>{menu.quantity}</MenuQuantity>
+                        </MenuContent>
+                      ))}
+                  </MenuContainer>
+                  <BtnContainer>
+                    <OrderOkBtn>주문수락</OrderOkBtn>
+                    <OrderCancelBtn>주문취소</OrderCancelBtn>
+                  </BtnContainer>
+                  <Line />
                 </OrderContent>
               ))}
           </OrderContainer>
