@@ -13,6 +13,7 @@ export const CategoryBox1 = styled.div`
   height: 80px;
   background-color: #fd961f;
   font-size: 25px;
+  font-weight: bold;
   color: white;
 `;
 
@@ -48,7 +49,9 @@ export const OrderedMenu = styled.div``;
 export const MenuName = styled.div`
   margin-bottom: 5px;
 `;
-export const MenuQuantity = styled.div``;
+export const MenuQuantity = styled.div`
+  margin-left: 10px;
+`;
 export const BtnContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,7 +62,7 @@ export const OrderOkBtn = styled.div`
   color: white;
   font-size: 15px;
   font-weight: bold;
-  padding: 10px;
+  padding: 10px 15px;
   background-color: #fd961f;
   border-radius: 10px;
 `;
@@ -67,7 +70,7 @@ export const OrderCancelBtn = styled.div`
   color: white;
   font-size: 15px;
   font-weight: bold;
-  padding: 10px;
+  padding: 10px 15px;
   background-color: #b2b2b2;
   border-radius: 10px;
 `;
@@ -98,6 +101,7 @@ export const Modal = styled.div`
 
 export const ModalContent = styled.div`
   font-size: 30px;
+  font-weight: bold;
   margin-bottom: 40px;
 `;
 

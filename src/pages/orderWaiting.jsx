@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
@@ -29,34 +29,49 @@ import Line from "../components/Line";
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
-  /*const [orderDetail, setOrderDetail] = useState(null);*/
+  const [previousData, setPreviousData] = useState(null);
+  const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(`/stores/1/orders`);
-      console.log(response.data);
-      setOrderData(response.data);
-      openModal();
+      const currentData = response.data;
+
+      // 이전 데이터와 비교
+      if (previousData) {
+        const currentOrderIds = currentData.data.orders.map(
+          (order) => order.id
+        );
+        const previousOrderIds = previousData.data.orders.map(
+          (order) => order.id
+        );
+
+        // 새로운 주문이 추가된 경우 모달 열기
+        if (
+          currentOrderIds.length > previousOrderIds.length || //이전 상태 그대로에서 추가된 경우
+          !currentOrderIds.every((id) => previousOrderIds.includes(id)) //이전 상태에서 없던 것이 추가된 경우(원래 있던 거에서 빠진 게 존재할 수도 있음)
+        ) {
+          openModal();
+        }
+      }
+
+      // 데이터 업데이트
+      setOrderData(currentData);
+      setPreviousData(currentData);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     }
   };
-  /*
-  // 주문 상세 데이터를 가져오는 함수
-  const fetchOrderDetail = async (orderId) => {
-    try {
-      const response = await axios.get(
-        `http://15.164.233.144:8080/stores/${storeId}/orders/${orderId}`
-      );
-      setOrderDetail(response.data);
-    } catch (error) {
-      console.error("주문 상세 가져오기 실패:", error);
-    }
-  };
-*/
+
+  // 주기적으로 데이터 가져오기 (폴링)
   useEffect(() => {
-    fetchOrderData();
+    fetchOrderData(); // 초기 데이터 가져오기
+    intervalRef.current = setInterval(fetchOrderData, 5000); // 5초마다 데이터 가져오기
+
+    return () => {
+      clearInterval(intervalRef.current); // 컴포넌트 언마운트 시 폴링 정지
+    };
   }, []);
 
   return (
@@ -93,7 +108,7 @@ export default function OrderWaitingPage() {
           </OrderContainer>
         </MenuListWrap>
       </ListContainer>
-      {isOpen && orderData && (
+      {isOpen && (
         <ModalContainer>
           <Modal>
             <ModalContent>새로운 주문이 도착하였습니다!</ModalContent>
