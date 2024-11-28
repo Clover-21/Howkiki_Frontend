@@ -59,18 +59,19 @@ export default function OrderWaitingPage() {
       // 데이터 업데이트
       setOrderData(currentData);
       setPreviousData(currentData);
+      localStorage.setItem("previousData", JSON.stringify(currentData));
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     }
   };
 
-  // 주기적으로 데이터 가져오기 (폴링)
+  // 주기적으로 데이터 가져오기
   useEffect(() => {
-    fetchOrderData(); // 초기 데이터 가져오기
+    fetchOrderData();
     intervalRef.current = setInterval(fetchOrderData, 5000); // 5초마다 데이터 가져오기
 
     return () => {
-      clearInterval(intervalRef.current); // 컴포넌트 언마운트 시 폴링 정지
+      clearInterval(intervalRef.current);
     };
   }, []);
 
