@@ -13,18 +13,18 @@ export const SideBarLink = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+  cursor: pointer;
   background-color: ${(props) => (props.selected ? "#ffffff" : "#dddddd")};
 `;
 
 export const SideBarName = styled.div`
   font-size: 25px;
   font-weight: bold;
-  color: #535353;
+  color: ${(props) => (props.selected ? "#000000" : "#535353")};
 `;
 
 export const Count = styled.div`
   font-size: 25px;
   font-weight: bold;
-  color: #535353;
+  color: ${(props) => (props.selected ? "#000000" : "#535353")};
 `;
