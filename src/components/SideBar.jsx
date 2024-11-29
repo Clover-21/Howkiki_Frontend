@@ -8,6 +8,15 @@ import {
   Count,
 } from "../styles/sideBar.module";
 
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function SideBar() {
   const location = useLocation(); // 현재 경로 확인
   const navigate = useNavigate();
@@ -17,7 +26,7 @@ export default function SideBar() {
 
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/stores/1/orders`);
+      const response = await axios.get(`${host}/stores/1/orders`);
       console.log(response.data);
       const pendingOrders = response.data.data.orders.filter(
         (order) => order.status === "PENDING"
