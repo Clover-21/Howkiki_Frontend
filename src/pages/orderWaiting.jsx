@@ -26,6 +26,15 @@ import {
 import useModal from "../hooks/useModal";
 import Line from "../components/Line";
 
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
@@ -35,9 +44,7 @@ export default function OrderWaitingPage() {
   // 주문 목록을 가져오는 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(
-        `http://15.164.233.144:8080/stores/1/orders`
-      );
+      const response = await axios.get(`${host}/stores/1/orders`);
       const currentData = response.data;
 
       // 이전 데이터와 비교
