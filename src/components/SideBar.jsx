@@ -18,12 +18,13 @@ export default function SideBar() {
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(`/stores/1/orders`);
-      const pendingOrders = response.data.filter(
+      console.log(response.data);
+      const pendingOrders = response.data.data.orders.filter(
         (order) => order.status === "PENDING"
       );
       setWaitingCount(pendingOrders.length);
     } catch (error) {
-      console.error("주문 데이터 가져오기 실패:", error);
+      console.error("주문 데이터 실패:", error);
     }
   };
 
