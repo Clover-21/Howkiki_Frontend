@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   SideBarContainer,
@@ -12,23 +13,40 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const [selectedBar, setSelectedBar] = useState(location.pathname);
+  const [waitingCount, setWaitingCount] = useState(0);
 
-  const handleClick = (bar, path) => {
-    setSelectedBar(path); // 경로로 상태 업데이트
-    navigate(path); // 페이지 이동
+  const fetchOrderData = async () => {
+    try {
+      const response = await axios.get(`/stores/1/orders`);
+      const pendingOrders = response.data.filter(
+        (order) => order.status === "PENDING"
+      );
+      setWaitingCount(pendingOrders.length);
+    } catch (error) {
+      console.error("주문 데이터 가져오기 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderData();
+  }, []);
+
+  const handleClick = (path) => {
+    setSelectedBar(path);
+    navigate(path);
   };
 
   return (
     <SideBarContainer>
       <SideBarLink
-        onClick={() => handleClick("접수대기", "/")}
+        onClick={() => handleClick("/")}
         selected={selectedBar === "/"}
       >
         <SideBarName selected={selectedBar === "/"}>접수대기</SideBarName>
-        <Count selected={selectedBar === "/"}>10</Count>
+        <Count selected={selectedBar === "/"}>{waitingCount}</Count>
       </SideBarLink>
       <SideBarLink
-        onClick={() => handleClick("처리중", "/preparing")}
+        onClick={() => handleClick("/preparing")}
         selected={selectedBar === "/preparing"}
       >
         <SideBarName selected={selectedBar === "/preparing"}>
@@ -37,14 +55,14 @@ export default function SideBar() {
         <Count selected={selectedBar === "/preparing"}>3</Count>
       </SideBarLink>
       <SideBarLink
-        onClick={() => handleClick("완료", "/complete")}
+        onClick={() => handleClick("/complete")}
         selected={selectedBar === "/complete"}
       >
         <SideBarName selected={selectedBar === "/complete"}>완료</SideBarName>
         <Count selected={selectedBar === "/complete"}>3</Count>
       </SideBarLink>
       <SideBarLink
-        onClick={() => handleClick("주문조회", "/check")}
+        onClick={() => handleClick("/check")}
         selected={selectedBar === "/check"}
       >
         <SideBarName selected={selectedBar === "/check"}>주문조회</SideBarName>
