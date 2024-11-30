@@ -36,10 +36,16 @@ export default function SideBar() {
       console.error("주문 데이터 실패:", error);
     }
   };
-
   useEffect(() => {
+    // 첫 번째 호출
     fetchOrderData();
-  }, []);
+
+    // 5초마다 폴링
+    const interval = setInterval(fetchOrderData, 5000);
+
+    // 컴포넌트가 unmount 될 때 폴링 정리
+    return () => clearInterval(interval);
+  }, []); // 빈 배열을 사용하여 최초 렌더링 때만 실행
 
   const handleClick = (path) => {
     setSelectedBar(path);

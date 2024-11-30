@@ -38,7 +38,10 @@ export const apiClient = axios.create({
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
-  const [previousData, setPreviousData] = useState(null);
+  const [previousData, setPreviousData] = useState(() => {
+    const storedData = localStorage.getItem("previousData");
+    return storedData ? JSON.parse(storedData) : null; // localStorage에 데이터가 있으면 파싱하여 사용
+  });
   const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
@@ -47,28 +50,38 @@ export default function OrderWaitingPage() {
       const response = await axios.get(`${host}/stores/1/orders`);
       const currentData = response.data;
 
-      // 이전 데이터와 비교
-      if (previousData) {
+      // localStorage에서 이전 데이터 가져오기
+      const storedPreviousData = localStorage.getItem("previousData");
+      const parsedPreviousData = storedPreviousData
+        ? JSON.parse(storedPreviousData)
+        : null;
+
+      if (!parsedPreviousData) {
+        console.log("이전 데이터가 없습니다. 첫 번째 호출입니다.");
+      } else {
         const currentOrderIds = currentData.data.orders.map(
           (order) => order.id
         );
-        const previousOrderIds = previousData.data.orders.map(
+        const previousOrderIds = parsedPreviousData.data.orders.map(
           (order) => order.id
         );
 
-        // 새로운 주문이 추가된 경우 모달 열기
+        console.log("currentOrderIds:", currentOrderIds);
+        console.log("previousOrderIds:", previousOrderIds);
+
         if (
-          currentOrderIds.length > previousOrderIds.length || //이전 상태 그대로에서 추가된 경우
-          !currentOrderIds.every((id) => previousOrderIds.includes(id)) //이전 상태에서 없던 것이 추가된 경우(원래 있던 거에서 빠진 게 존재할 수도 있음)
+          currentOrderIds.length > previousOrderIds.length ||
+          !currentOrderIds.every((id) => previousOrderIds.includes(id))
         ) {
+          console.log("새로운 주문이 감지됨: 모달 열림");
           openModal();
         }
       }
 
       // 데이터 업데이트
       setOrderData(currentData);
-      setPreviousData(currentData);
-      localStorage.setItem("previousData", JSON.stringify(currentData));
+      setPreviousData(currentData); // 상태로도 업데이트
+      localStorage.setItem("previousData", JSON.stringify(currentData)); // localStorage 업데이트
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     }
@@ -83,6 +96,16 @@ export default function OrderWaitingPage() {
       clearInterval(intervalRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (previousData) {
+      localStorage.setItem("previousData", JSON.stringify(previousData));
+    }
+  }, [previousData]);
+
+  useEffect(() => {
+    console.log("모달 상태 변화:", isOpen);
+  }, [isOpen]);
 
   return (
     <>
