@@ -4,6 +4,7 @@ export default function useModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
+    console.log("openModal 호출됨");
     document.body.style.overflow = "hidden";
     setIsOpen(true);
   };
