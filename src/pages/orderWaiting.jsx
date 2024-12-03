@@ -77,26 +77,22 @@ export default function OrderWaitingPage() {
         }
       }
 
+      // 주문 목록 최신순으로 정렬 (createdAt 기준)
+      const sortedOrders = [...currentData.data.orders].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
       // 데이터 업데이트
-      setOrderData(currentData);
+      setOrderData({
+        ...currentData,
+        data: { ...currentData.data, orders: sortedOrders },
+      });
       setPreviousData(currentData); // 상태로도 업데이트
       localStorage.setItem("previousData", JSON.stringify(currentData)); // localStorage 업데이트
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     }
   };
-
-  useEffect(() => {
-    if (orderData?.data?.orders) {
-      const sortedOrders = [...orderData.data.orders].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt) // createdAt 기준 최신순 정렬
-      );
-      setOrderData({
-        ...orderData,
-        data: { ...orderData.data, orders: sortedOrders },
-      });
-    }
-  }, [orderData]);
 
   // 주기적으로 데이터 가져오기
   useEffect(() => {
