@@ -35,13 +35,15 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
+const getPreviousData = () => {
+  const storedData = localStorage.getItem("previousData");
+  return storedData ? JSON.parse(storedData) : null;
+};
+
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
-  const [previousData, setPreviousData] = useState(() => {
-    const storedData = localStorage.getItem("previousData");
-    return storedData ? JSON.parse(storedData) : null; // localStorage에 데이터가 있으면 파싱하여 사용
-  });
+  const [previousData, setPreviousData] = useState(getPreviousData);
   const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
@@ -66,9 +68,6 @@ export default function OrderWaitingPage() {
           (order) => order.id
         );
 
-        console.log("currentOrderIds:", currentOrderIds);
-        console.log("previousOrderIds:", previousOrderIds);
-
         if (
           currentOrderIds.length > previousOrderIds.length ||
           !currentOrderIds.every((id) => previousOrderIds.includes(id))
@@ -78,8 +77,16 @@ export default function OrderWaitingPage() {
         }
       }
 
+      // 주문 목록 최신순으로 정렬 (createdAt 기준)
+      const sortedOrders = [...currentData.data.orders].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
       // 데이터 업데이트
-      setOrderData(currentData);
+      setOrderData({
+        ...currentData,
+        data: { ...currentData.data, orders: sortedOrders },
+      });
       setPreviousData(currentData); // 상태로도 업데이트
       localStorage.setItem("previousData", JSON.stringify(currentData)); // localStorage 업데이트
     } catch (error) {

@@ -23,6 +23,8 @@ export default function SideBar() {
 
   const [selectedBar, setSelectedBar] = useState(location.pathname);
   const [waitingCount, setWaitingCount] = useState(0);
+  const [preparingCount, setPreparingCount] = useState(0);
+  const [completeCount, setCompleteCount] = useState(0);
 
   const fetchOrderData = async () => {
     try {
@@ -68,14 +70,14 @@ export default function SideBar() {
         <SideBarName selected={selectedBar === "/preparing"}>
           처리중
         </SideBarName>
-        <Count selected={selectedBar === "/preparing"}>3</Count>
+        <Count selected={selectedBar === "/preparing"}>{preparingCount}</Count>
       </SideBarLink>
       <SideBarLink
         onClick={() => handleClick("/complete")}
         selected={selectedBar === "/complete"}
       >
         <SideBarName selected={selectedBar === "/complete"}>완료</SideBarName>
-        <Count selected={selectedBar === "/complete"}>3</Count>
+        <Count selected={selectedBar === "/complete"}>{completeCount}</Count>
       </SideBarLink>
       <SideBarLink
         onClick={() => handleClick("/check")}
