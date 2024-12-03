@@ -47,7 +47,7 @@ export default function OrderWaitingPage() {
   // 주문 목록을 가져오는 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${host}/stores/1/orders`);
+      const response = await axios.get(`/stores/1/orders`);
       const currentData = response.data;
 
       // localStorage에서 이전 데이터 가져오기
@@ -86,6 +86,18 @@ export default function OrderWaitingPage() {
       console.error("주문 데이터 가져오기 실패:", error);
     }
   };
+
+  useEffect(() => {
+    if (orderData?.data?.orders) {
+      const sortedOrders = [...orderData.data.orders].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt) // createdAt 기준 최신순 정렬
+      );
+      setOrderData({
+        ...orderData,
+        data: { ...orderData.data, orders: sortedOrders },
+      });
+    }
+  }, [orderData]);
 
   // 주기적으로 데이터 가져오기
   useEffect(() => {

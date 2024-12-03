@@ -23,10 +23,12 @@ export default function SideBar() {
 
   const [selectedBar, setSelectedBar] = useState(location.pathname);
   const [waitingCount, setWaitingCount] = useState(0);
+  const [preparingCount, setPreparingCount] = useState(0);
+  const [completeCount, setCompleteCount] = useState(0);
 
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${host}/stores/1/orders`);
+      const response = await axios.get(`/stores/1/orders`);
       console.log(response.data);
       const pendingOrders = response.data.data.orders.filter(
         (order) => order.status === "PENDING"
@@ -68,14 +70,14 @@ export default function SideBar() {
         <SideBarName selected={selectedBar === "/preparing"}>
           처리중
         </SideBarName>
-        <Count selected={selectedBar === "/preparing"}>3</Count>
+        <Count selected={selectedBar === "/preparing"}>{preparingCount}</Count>
       </SideBarLink>
       <SideBarLink
         onClick={() => handleClick("/complete")}
         selected={selectedBar === "/complete"}
       >
         <SideBarName selected={selectedBar === "/complete"}>완료</SideBarName>
-        <Count selected={selectedBar === "/complete"}>3</Count>
+        <Count selected={selectedBar === "/complete"}>{completeCount}</Count>
       </SideBarLink>
       <SideBarLink
         onClick={() => handleClick("/check")}
