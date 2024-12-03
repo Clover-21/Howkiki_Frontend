@@ -35,13 +35,15 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
+const getPreviousData = () => {
+  const storedData = localStorage.getItem("previousData");
+  return storedData ? JSON.parse(storedData) : null;
+};
+
 export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
-  const [previousData, setPreviousData] = useState(() => {
-    const storedData = localStorage.getItem("previousData");
-    return storedData ? JSON.parse(storedData) : null; // localStorage에 데이터가 있으면 파싱하여 사용
-  });
+  const [previousData, setPreviousData] = useState(getPreviousData);
   const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
@@ -65,9 +67,6 @@ export default function OrderWaitingPage() {
         const previousOrderIds = parsedPreviousData.data.orders.map(
           (order) => order.id
         );
-
-        console.log("currentOrderIds:", currentOrderIds);
-        console.log("previousOrderIds:", previousOrderIds);
 
         if (
           currentOrderIds.length > previousOrderIds.length ||
