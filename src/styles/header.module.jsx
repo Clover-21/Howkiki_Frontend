@@ -3,18 +3,19 @@ import styled from "styled-components";
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 80px;
+  justify-content: center;
+  align-items: center;
+  gap: 170px;
+  height: 120px;
   padding: 20px;
-  background-color: #dddddd;
-  font-size: 30px;
-  font-weight: bold;
+  background-color: #7878f0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 `;
 
-export const Title = styled.div``;
-
-export const Circle = styled.div`
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  background-color: black;
+export const CategoryName = styled.div`
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  color: ${(props) => (props.selected ? "#fffff" : "rgba(255, 255, 255, 0.5)")};
 `;

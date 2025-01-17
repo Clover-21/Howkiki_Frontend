@@ -3,10 +3,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 import {
-  CategoryBar,
-  CategoryBox1,
   ListContainer,
-  MenuList,
   MenuListWrap,
   OrderContainer,
   OrderContent,
@@ -22,9 +19,14 @@ import {
   Modal,
   Button,
   ModalContent,
-} from "../styles/main.module";
+  ModalText,
+  CancelModalContainer,
+  CancelModal,
+  CancelModalContent,
+  CancelBtnContainer,
+  CancelBtn,
+} from "../styles/orderWaiting.module";
 import useModal from "../hooks/useModal";
-import Line from "../components/Line";
 
 const host =
   window.location.hostname === "localhost"
@@ -44,12 +46,13 @@ export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
   const [previousData, setPreviousData] = useState(getPreviousData);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${host}/stores/1/orders`);
+      const response = await axios.get(`/stores/1/orders`);
       const currentData = response.data;
 
       // localStorage에서 이전 데이터 가져오기
@@ -114,21 +117,21 @@ export default function OrderWaitingPage() {
     console.log("모달 상태 변화:", isOpen);
   }, [isOpen]);
 
+  const handleCancelClick = () => {
+    setIsCancelModalOpen(true); // 취소 모달 열기
+  };
+
   return (
     <>
       <Header />
-      <CategoryBar>
-        <CategoryBox1>주문접수</CategoryBox1>
-      </CategoryBar>
       <ListContainer>
         <SideBar />
         <MenuListWrap>
-          <MenuList>주문 목록</MenuList>
           <OrderContainer>
             {orderData?.data.orders &&
               orderData.data.orders.map((order, i) => (
                 <OrderContent key={i}>
-                  <TableNum>테이블{order.tableNumber}</TableNum>
+                  <TableNum>{order.tableNumber}번</TableNum>
                   <MenuContainer>
                     {order.menuSummary &&
                       order.menuSummary.map((menu, i) => (
@@ -139,19 +142,40 @@ export default function OrderWaitingPage() {
                       ))}
                   </MenuContainer>
                   <BtnContainer>
-                    <OrderOkBtn>주문수락</OrderOkBtn>
-                    <OrderCancelBtn>주문취소</OrderCancelBtn>
+                    <OrderCancelBtn onClick={handleCancelClick}>
+                      취소
+                    </OrderCancelBtn>
+                    <OrderOkBtn>수락</OrderOkBtn>
                   </BtnContainer>
-                  <Line />
                 </OrderContent>
               ))}
           </OrderContainer>
         </MenuListWrap>
       </ListContainer>
+      {isCancelModalOpen && (
+        <CancelModalContainer>
+          <CancelModal>
+            <CancelModalContent>
+              취소하시려는 이유를 골라주세요.
+            </CancelModalContent>
+            <CancelBtnContainer>
+              <CancelBtn
+                selected="close"
+                onClick={() => setIsCancelModalOpen(false)}
+              >
+                닫기
+              </CancelBtn>
+              <CancelBtn selected="next">다음</CancelBtn>
+            </CancelBtnContainer>
+          </CancelModal>
+        </CancelModalContainer>
+      )}
       {isOpen && (
         <ModalContainer>
           <Modal>
-            <ModalContent>새로운 주문이 도착하였습니다!</ModalContent>
+            <ModalContent>
+              <ModalText>새로운 주문</ModalText>이 도착하였습니다!
+            </ModalContent>
             <Button onClick={closeModal}>주문확인</Button>
           </Modal>
         </ModalContainer>

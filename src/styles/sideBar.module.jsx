@@ -3,28 +3,26 @@ import styled from "styled-components";
 export const SideBarContainer = styled.div`
   width: 200px;
   height: 1000px;
-  border-right: 5px solid #dddddd; /* 테두리 추가 */
+  background-color: #ffffff;
 `;
 
 export const SideBarLink = styled.div`
-  height: 250px;
-  border-bottom: 5px solid #dddddd;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  cursor: pointer;
-  background-color: ${(props) => (props.selected ? "#ffffff" : "#dddddd")};
+  height: 70px;
 `;
 
 export const SideBarName = styled.div`
-  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 18px;
   font-weight: bold;
-  color: ${(props) => (props.selected ? "#000000" : "#535353")};
-`;
-
-export const Count = styled.div`
-  font-size: 25px;
-  font-weight: bold;
-  color: ${(props) => (props.selected ? "#000000" : "#535353")};
+  background-color: ${(props) =>
+    props.selected ? "rgba(217, 217, 217, 0.5)" : ""};
 `;
