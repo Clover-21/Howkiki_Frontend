@@ -51,7 +51,7 @@ export default function OrderWaitingPage() {
   // 주문 목록을 가져오는 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/stores/1/orders`);
+      const response = await axios.get(`${host}/stores/1/orders`);
       const currentData = response.data;
 
       // localStorage에서 이전 데이터 가져오기
