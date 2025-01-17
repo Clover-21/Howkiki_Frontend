@@ -3,9 +3,9 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   SideBarContainer,
+  SideBarWrap,
   SideBarLink,
   SideBarName,
-  Count,
 } from "../styles/sideBar.module";
 
 const host =
@@ -22,9 +22,6 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const [selectedBar, setSelectedBar] = useState(location.pathname);
-  const [waitingCount, setWaitingCount] = useState(0);
-  const [preparingCount, setPreparingCount] = useState(0);
-  const [completeCount, setCompleteCount] = useState(0);
 
   const fetchOrderData = async () => {
     try {
@@ -33,7 +30,6 @@ export default function SideBar() {
       const pendingOrders = response.data.data.orders.filter(
         (order) => order.status === "PENDING"
       );
-      setWaitingCount(pendingOrders.length);
     } catch (error) {
       console.error("주문 데이터 실패:", error);
     }
@@ -56,35 +52,46 @@ export default function SideBar() {
 
   return (
     <SideBarContainer>
-      <SideBarLink
-        onClick={() => handleClick("/")}
-        selected={selectedBar === "/"}
-      >
-        <SideBarName selected={selectedBar === "/"}>접수대기</SideBarName>
-        <Count selected={selectedBar === "/"}>{waitingCount}</Count>
-      </SideBarLink>
-      <SideBarLink
-        onClick={() => handleClick("/preparing")}
-        selected={selectedBar === "/preparing"}
-      >
-        <SideBarName selected={selectedBar === "/preparing"}>
-          처리중
-        </SideBarName>
-        <Count selected={selectedBar === "/preparing"}>{preparingCount}</Count>
-      </SideBarLink>
-      <SideBarLink
-        onClick={() => handleClick("/complete")}
-        selected={selectedBar === "/complete"}
-      >
-        <SideBarName selected={selectedBar === "/complete"}>완료</SideBarName>
-        <Count selected={selectedBar === "/complete"}>{completeCount}</Count>
-      </SideBarLink>
-      <SideBarLink
-        onClick={() => handleClick("/check")}
-        selected={selectedBar === "/check"}
-      >
-        <SideBarName selected={selectedBar === "/check"}>주문조회</SideBarName>
-      </SideBarLink>
+      <SideBarWrap>
+        <SideBarLink
+          onClick={() => handleClick("/")}
+          selected={selectedBar === "/"}
+        >
+          <SideBarName selected={selectedBar === "/"}>접수대기</SideBarName>
+        </SideBarLink>
+        <SideBarLink
+          onClick={() => handleClick("/preparing")}
+          selected={selectedBar === "/preparing"}
+        >
+          <SideBarName selected={selectedBar === "/preparing"}>
+            처리중
+          </SideBarName>
+        </SideBarLink>
+        <SideBarLink
+          onClick={() => handleClick("/readycomplete")}
+          selected={selectedBar === "/readycomplete"}
+        >
+          <SideBarName selected={selectedBar === "/readycomplete"}>
+            완료
+          </SideBarName>
+        </SideBarLink>
+        <SideBarLink
+          onClick={() => handleClick("/paycomplete")}
+          selected={selectedBar === "/paycomplete"}
+        >
+          <SideBarName selected={selectedBar === "/paycomplete"}>
+            결제 완료
+          </SideBarName>
+        </SideBarLink>
+        <SideBarLink
+          onClick={() => handleClick("/fullorder")}
+          selected={selectedBar === "/fullorder"}
+        >
+          <SideBarName selected={selectedBar === "/fullorder"}>
+            주문조회
+          </SideBarName>
+        </SideBarLink>
+      </SideBarWrap>
     </SideBarContainer>
   );
 }
