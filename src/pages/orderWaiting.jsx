@@ -4,7 +4,6 @@ import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 import {
   ListContainer,
-  MenuListWrap,
   OrderContainer,
   OrderContent,
   MenuContainer,
@@ -126,31 +125,29 @@ export default function OrderWaitingPage() {
       <Header />
       <ListContainer>
         <SideBar />
-        <MenuListWrap>
-          <OrderContainer>
-            {orderData?.data.orders &&
-              orderData.data.orders.map((order, i) => (
-                <OrderContent key={i}>
-                  <TableNum>{order.tableNumber}번</TableNum>
-                  <MenuContainer>
-                    {order.menuSummary &&
-                      order.menuSummary.map((menu, i) => (
-                        <MenuContent key={i}>
-                          <MenuName>{menu.menuName}</MenuName>
-                          <MenuQuantity>{menu.quantity}</MenuQuantity>
-                        </MenuContent>
-                      ))}
-                  </MenuContainer>
-                  <BtnContainer>
-                    <OrderCancelBtn onClick={handleCancelClick}>
-                      취소
-                    </OrderCancelBtn>
-                    <OrderOkBtn>수락</OrderOkBtn>
-                  </BtnContainer>
-                </OrderContent>
-              ))}
-          </OrderContainer>
-        </MenuListWrap>
+        <OrderContainer>
+          {orderData?.data.orders &&
+            orderData.data.orders.map((order, i) => (
+              <OrderContent key={i}>
+                <TableNum>{order.tableNumber}번</TableNum>
+                <MenuContainer>
+                  {order.menuSummary &&
+                    order.menuSummary.map((menu, i) => (
+                      <MenuContent key={i}>
+                        <MenuName>{menu.menuName}</MenuName>
+                        <MenuQuantity>{menu.quantity}</MenuQuantity>
+                      </MenuContent>
+                    ))}
+                </MenuContainer>
+                <BtnContainer>
+                  <OrderCancelBtn onClick={handleCancelClick}>
+                    취소
+                  </OrderCancelBtn>
+                  <OrderOkBtn>수락</OrderOkBtn>
+                </BtnContainer>
+              </OrderContent>
+            ))}
+        </OrderContainer>
       </ListContainer>
       {isCancelModalOpen && (
         <CancelModalContainer>

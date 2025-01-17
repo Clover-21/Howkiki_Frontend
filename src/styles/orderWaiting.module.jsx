@@ -3,21 +3,16 @@ import styled from "styled-components";
 export const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
-`;
-
-export const MenuListWrap = styled.div`
-  flex: 1; /* 남은 공간을 차지 */
-  display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  justify-content: flex-start; /* 위에서부터 정렬 */
-  align-items: center; /* 가로 중앙 정렬 */
-  padding: 30px 20px; /* 내부 여백 추가 */
-  gap: 20px; /* 자식 간 간격 */
+  margin-top: 150px;
 `;
 
 export const OrderContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 200px;
+  width: calc(100% - 200px);
   gap: 30px;
 `;
 export const OrderContent = styled.div`

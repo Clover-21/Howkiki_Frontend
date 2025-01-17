@@ -4,6 +4,14 @@ export const SideBarContainer = styled.div`
   width: 200px;
   height: 1000px;
   background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+`;
+
+export const SideBarWrap = styled.div`
+  margin-top: 170px;
 `;
 
 export const SideBarLink = styled.div`
@@ -11,7 +19,7 @@ export const SideBarLink = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 70px;
+  height: 80px;
 `;
 
 export const SideBarName = styled.div`

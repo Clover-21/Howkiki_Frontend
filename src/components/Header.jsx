@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HeaderContainer, CategoryName } from "../styles/header.module";
 
-const Header = () => {
+export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -15,7 +15,13 @@ const Header = () => {
   return (
     <HeaderContainer>
       <CategoryName
-        selected={selectedBar === "/"}
+        selected={
+          selectedBar === "/" ||
+          selectedBar === "/preparing" ||
+          selectedBar === "/readycomplete" ||
+          selectedBar === "/paycomplete" ||
+          selectedBar === "/fullorder"
+        }
         onClick={() => handleClick("/")}
       >
         주문 접수
@@ -40,6 +46,4 @@ const Header = () => {
       </CategoryName>
     </HeaderContainer>
   );
-};
-
-export default Header;
+}
