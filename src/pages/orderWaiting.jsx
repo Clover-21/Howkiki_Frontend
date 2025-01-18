@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
+import CancelModal from "../components/CancelModal";
+import NewOrderModal from "../components/NewOrderModal";
 import {
   ListContainer,
   OrderContainer,
@@ -14,16 +16,6 @@ import {
   BtnContainer,
   OrderOkBtn,
   OrderCancelBtn,
-  ModalContainer,
-  Modal,
-  Button,
-  ModalContent,
-  ModalText,
-  CancelModalContainer,
-  CancelModal,
-  CancelModalContent,
-  CancelBtnContainer,
-  CancelBtn,
 } from "../styles/orderWaiting.module";
 import useModal from "../hooks/useModal";
 
@@ -46,6 +38,8 @@ export default function OrderWaitingPage() {
   const [orderData, setOrderData] = useState(null);
   const [previousData, setPreviousData] = useState(getPreviousData);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [selectedReason, setSelectedReason] = useState("");
   const intervalRef = useRef(null);
 
   // 주문 목록을 가져오는 함수
@@ -117,7 +111,24 @@ export default function OrderWaitingPage() {
   }, [isOpen]);
 
   const handleCancelClick = () => {
-    setIsCancelModalOpen(true); // 취소 모달 열기
+    setIsCancelModalOpen(true);
+    setCurrentStep(1);
+    setSelectedReason("");
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 1) {
+      if (selectedReason !== "재료 소진") {
+        return;
+      }
+      setCurrentStep(2);
+    } else {
+      setIsCancelModalOpen(false);
+    }
+  };
+
+  const handleSelectReason = (reason) => {
+    setSelectedReason(reason);
   };
 
   return (
@@ -149,34 +160,15 @@ export default function OrderWaitingPage() {
             ))}
         </OrderContainer>
       </ListContainer>
-      {isCancelModalOpen && (
-        <CancelModalContainer>
-          <CancelModal>
-            <CancelModalContent>
-              취소하시려는 이유를 골라주세요.
-            </CancelModalContent>
-            <CancelBtnContainer>
-              <CancelBtn
-                selected="close"
-                onClick={() => setIsCancelModalOpen(false)}
-              >
-                닫기
-              </CancelBtn>
-              <CancelBtn selected="next">다음</CancelBtn>
-            </CancelBtnContainer>
-          </CancelModal>
-        </CancelModalContainer>
-      )}
-      {isOpen && (
-        <ModalContainer>
-          <Modal>
-            <ModalContent>
-              <ModalText>새로운 주문</ModalText>이 도착하였습니다!
-            </ModalContent>
-            <Button onClick={closeModal}>주문확인</Button>
-          </Modal>
-        </ModalContainer>
-      )}
+      <CancelModal
+        isOpen={isCancelModalOpen}
+        onClose={() => setIsCancelModalOpen(false)}
+        currentStep={currentStep}
+        onNext={handleNextStep}
+        selectedReason={selectedReason}
+        onSelectReason={handleSelectReason}
+      />
+      <NewOrderModal isOpen={isOpen} onClose={closeModal} />
     </>
   );
 }
