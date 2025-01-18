@@ -22,10 +22,12 @@ export default function SideBar() {
     <SideBarContainer>
       <SideBarWrap>
         <SideBarLink
-          onClick={() => handleClick("/")}
-          selected={selectedBar === "/"}
+          onClick={() => handleClick("/waiting")}
+          selected={selectedBar === "/waiting"}
         >
-          <SideBarName selected={selectedBar === "/"}>접수대기</SideBarName>
+          <SideBarName selected={selectedBar === "/waiting"}>
+            접수대기
+          </SideBarName>
         </SideBarLink>
         <SideBarLink
           onClick={() => handleClick("/preparing")}

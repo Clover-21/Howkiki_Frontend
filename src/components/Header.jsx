@@ -16,13 +16,13 @@ export default function Header() {
     <HeaderContainer>
       <CategoryName
         selected={
-          selectedBar === "/" ||
+          selectedBar === "/waiting" ||
           selectedBar === "/preparing" ||
           selectedBar === "/readycomplete" ||
           selectedBar === "/paycomplete" ||
           selectedBar === "/fullorder"
         }
-        onClick={() => handleClick("/")}
+        onClick={() => handleClick("/waiting")}
       >
         주문 접수
       </CategoryName>
