@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CancelModalContainer,
   CancelModalWrap,
@@ -10,8 +10,13 @@ import {
   CheckBoxWrap,
   SelectedTitle,
   MenuContainer,
+  MenuContent,
+  MenuName,
+  CheckboxWrapper,
+  MenuContentWrapper,
 } from "../styles/cancelModal.module";
 import Checkbox from "./CheckBox";
+import Line from "./Line";
 
 export default function CancelModal({
   isOpen,
@@ -20,8 +25,42 @@ export default function CancelModal({
   onNext,
   selectedReason,
   onSelectReason,
+  canceledOrder,
 }) {
+  const [selectedMenus, setSelectedMenus] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedMenus([]);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
+  const handleReasonSelect = (reason) => {
+    if (selectedReason === reason) {
+      // 이미 선택된 이유라면 해제
+      onSelectReason(null);
+    } else {
+      // 이유 선택
+      onSelectReason(reason);
+    }
+  };
+
+  const handleMenuSelect = (menuName) => {
+    setSelectedMenus((prevSelectedMenus) => {
+      if (prevSelectedMenus.includes(menuName)) {
+        // 이미 선택된 메뉴라면 해제
+        return prevSelectedMenus.filter((item) => item !== menuName);
+      } else {
+        // 메뉴 선택
+        return [...prevSelectedMenus, menuName];
+      }
+    });
+  };
+
+  const isStep1ButtonActive = selectedReason;
+  const isStep2ButtonActive = selectedMenus.length > 0;
 
   const handleNext = () => {
     if (selectedReason === "재료 소진" && currentStep === 1) {
@@ -41,17 +80,17 @@ export default function CancelModal({
               <CheckBoxWrap>
                 <Checkbox
                   text="재료 소진"
-                  onClick={() => onSelectReason("재료 소진")}
+                  onChange={() => handleReasonSelect("재료 소진")}
                   checked={selectedReason === "재료 소진"}
                 />
                 <Checkbox
                   text="라스트오더 종료"
-                  onClick={() => onSelectReason("라스트오더 종료")}
+                  onChange={() => handleReasonSelect("라스트오더 종료")}
                   checked={selectedReason === "라스트오더 종료"}
                 />
                 <Checkbox
                   text="기타"
-                  onClick={() => onSelectReason("기타")}
+                  onChange={() => handleReasonSelect("기타")}
                   checked={selectedReason === "기타"}
                 />
               </CheckBoxWrap>
@@ -60,7 +99,22 @@ export default function CancelModal({
           {currentStep === 2 && selectedReason === "재료 소진" && (
             <>
               <SelectedTitle>재료 소진된 메뉴를 골라주세요.</SelectedTitle>
-              <MenuContainer></MenuContainer>
+              <MenuContainer>
+                {canceledOrder?.menuSummary.map((menu, index) => (
+                  <MenuContentWrapper key={index}>
+                    <MenuContent>
+                      <CheckboxWrapper>
+                        <Checkbox
+                          onChange={() => handleMenuSelect(menu.menuName)}
+                          checked={selectedMenus.includes(menu.menuName)}
+                        />
+                      </CheckboxWrapper>
+                      <MenuName>{menu.menuName}</MenuName>
+                    </MenuContent>
+                    <Line />
+                  </MenuContentWrapper>
+                ))}
+              </MenuContainer>
             </>
           )}
         </CancelModalContent>
@@ -68,7 +122,9 @@ export default function CancelModal({
           <CloseBtn onClick={onClose}>닫기</CloseBtn>
           <CancelBtn
             onClick={handleNext}
-            active={selectedReason && currentStep === 1}
+            active={
+              currentStep === 1 ? isStep1ButtonActive : isStep2ButtonActive
+            }
           >
             {currentStep === 1
               ? selectedReason === "재료 소진"

@@ -44,4 +44,5 @@ export const Button = styled.div`
   font-size: 20px;
   background-color: #5d60ef;
   color: #ffffff;
+  margin-top: 30px;
 `;

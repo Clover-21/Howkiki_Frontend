@@ -1,17 +1,17 @@
 import React from "react";
 import { StyledInput, StyledLabel, StyledP } from "../styles/checkBox.module";
 
-function Checkbox({ text, onClick, checked }) {
-  const handleClick = () => {
+function Checkbox({ text, onChange, checked }) {
+  const handleChange = () => {
     console.log(`${text} 클릭됨`);
-    onClick();
+    onChange();
   };
   return (
     <StyledLabel htmlFor={text}>
       <StyledInput
         type="checkbox"
         checked={checked}
-        onClick={handleClick}
+        onChange={handleChange}
         id={text}
         name={text}
       />

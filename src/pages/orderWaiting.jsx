@@ -38,13 +38,15 @@ export default function OrderWaitingPage() {
   const { isOpen, openModal, closeModal } = useModal();
   const [orderData, setOrderData] = useState(null);
   const [previousData, setPreviousData] = useState(getPreviousData);
+  const [canceldOrder, setCanceledOrder] = useState(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
   const intervalRef = useRef(null);
 
-  const handleCancelClick = () => {
+  const handleCancelClick = (order) => {
+    setCanceledOrder(order);
     setIsCancelModalOpen(true);
     setCurrentStep(1);
     setSelectedReason("");
@@ -163,7 +165,7 @@ export default function OrderWaitingPage() {
                     ))}
                 </MenuContainer>
                 <BtnContainer>
-                  <OrderCancelBtn onClick={handleCancelClick}>
+                  <OrderCancelBtn onClick={() => handleCancelClick(order)}>
                     취소
                   </OrderCancelBtn>
                   <OrderOkBtn onClick={handleAcceptClick}>수락</OrderOkBtn>
@@ -179,6 +181,7 @@ export default function OrderWaitingPage() {
         onNext={handleNextStep}
         selectedReason={selectedReason}
         onSelectReason={handleSelectReason}
+        canceledOrder={canceldOrder}
       />
       <NewOrderModal isOpen={isOpen} onClose={closeModal} />
       <AcceptModal

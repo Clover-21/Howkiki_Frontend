@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const CancelModalContainer = styled.div`
+  position: fixed;
   width: 100%;
   height: 100%;
-  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -77,6 +77,30 @@ export const SelectedTitle = styled.div`
 
 export const MenuContainer = styled.div`
   height: 240px;
+  max-height: 240px;
+  max-width: 550px;
+  overflow-y: auto;
   margin-top: 10px;
   background-color: #efefef;
 `;
+
+export const MenuContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+`;
+
+export const MenuContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 20px;
+`;
+
+export const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+`;
+
+export const MenuName = styled.div``;
