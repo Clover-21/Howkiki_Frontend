@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 import CancelModal from "../components/CancelModal";
 import NewOrderModal from "../components/NewOrderModal";
+import AcceptModal from "../components/AcceptModal";
 import {
   ListContainer,
   OrderContainer,
@@ -40,9 +41,41 @@ export default function OrderWaitingPage() {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
+  const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
   const intervalRef = useRef(null);
 
-  // 주문 목록을 가져오는 함수
+  const handleCancelClick = () => {
+    setIsCancelModalOpen(true);
+    setCurrentStep(1);
+    setSelectedReason("");
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 1) {
+      if (selectedReason !== "재료 소진") {
+        return;
+      }
+      setCurrentStep(2);
+    } else {
+      setIsCancelModalOpen(false);
+    }
+  };
+
+  const handleSelectReason = (reason) => {
+    setSelectedReason(reason);
+  };
+
+  const handleAcceptClick = () => {
+    setIsAcceptlModalOpen(true);
+    setCurrentStep(1);
+  };
+
+  const handleEtcClick = () => {
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    }
+  };
+
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(`${host}/stores/1/orders`);
@@ -110,27 +143,6 @@ export default function OrderWaitingPage() {
     console.log("모달 상태 변화:", isOpen);
   }, [isOpen]);
 
-  const handleCancelClick = () => {
-    setIsCancelModalOpen(true);
-    setCurrentStep(1);
-    setSelectedReason("");
-  };
-
-  const handleNextStep = () => {
-    if (currentStep === 1) {
-      if (selectedReason !== "재료 소진") {
-        return;
-      }
-      setCurrentStep(2);
-    } else {
-      setIsCancelModalOpen(false);
-    }
-  };
-
-  const handleSelectReason = (reason) => {
-    setSelectedReason(reason);
-  };
-
   return (
     <>
       <Header />
@@ -154,7 +166,7 @@ export default function OrderWaitingPage() {
                   <OrderCancelBtn onClick={handleCancelClick}>
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn>수락</OrderOkBtn>
+                  <OrderOkBtn onClick={handleAcceptClick}>수락</OrderOkBtn>
                 </BtnContainer>
               </OrderContent>
             ))}
@@ -169,6 +181,12 @@ export default function OrderWaitingPage() {
         onSelectReason={handleSelectReason}
       />
       <NewOrderModal isOpen={isOpen} onClose={closeModal} />
+      <AcceptModal
+        isOpen={isAcceptModalOpen}
+        onClose={() => setIsAcceptlModalOpen(false)}
+        currentStep={currentStep}
+        onNext={handleEtcClick}
+      />
     </>
   );
 }

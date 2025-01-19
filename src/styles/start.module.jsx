@@ -27,14 +27,22 @@ export const InputWrap = styled.div`
 `;
 
 export const StoreNameInput = styled.input`
-  width: 280px;
+  width: 300px;
   height: 50px;
-  padding: 20px;
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 650;
   border: none;
   border-radius: 30px;
   margin-top: 20px;
   outline: none;
+  text-align: center;
+  line-height: 50px;
+
+  &::placeholder {
+    font-size: 15px;
+    font-weight: 700;
+    color: #a8a8a8;
+  }
 `;
 
 export const BtnWrap = styled.div`

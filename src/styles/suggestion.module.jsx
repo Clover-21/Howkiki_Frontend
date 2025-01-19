@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const SuggestionContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 110px;
   padding: 40px;
 `;

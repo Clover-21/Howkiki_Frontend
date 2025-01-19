@@ -14,6 +14,7 @@ export const OrderContainer = styled.div`
   margin-left: 200px;
   width: calc(100% - 200px);
   gap: 30px;
+  padding-bottom: 30px;
 `;
 export const OrderContent = styled.div`
   position: relative;
@@ -25,7 +26,9 @@ export const OrderContent = styled.div`
 `;
 
 export const OrderTitle = styled.div``;
+
 export const MenuContainer = styled.div``;
+
 export const MenuContent = styled.div`
   display: flex;
   flex-direction: row;
