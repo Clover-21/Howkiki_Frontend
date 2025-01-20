@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./styles/globalStyles";
+import StartPage from "./pages/start";
 import OrderWaitingPage from "./pages/orderWaiting";
 import OrderPreparingPage from "./pages/orderPreparing";
 import ReadyCompletePage from "./pages/readyComplete";
@@ -15,7 +16,8 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/" element={<OrderWaitingPage />} />
+          <Route path="/" element={<StartPage />} />
+          <Route path="/waiting" element={<OrderWaitingPage />} />
           <Route path="/preparing" element={<OrderPreparingPage />} />
           <Route path="/readycomplete" element={<ReadyCompletePage />} />
           <Route path="/paycomplete" element={<PayCompletePage />} />
