@@ -23,19 +23,10 @@ export const OrderContent = styled.div`
   margin-top: 60px;
 `;
 
-export const OrderBox = styled.div`
-  width: 244px;
-  height: 304px;
-  border-radius: 17px;
-  background-color: #f2f2f5;
-  margin: 15px 0 166px 0;
-  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
-`;
-
 export const IconWrap = styled.div`
   width: 390px;
   display: flex;
-  flex-direction: flex-start;
+  justify-content: flex-start;
   padding-left: 40px;
 `;
 
