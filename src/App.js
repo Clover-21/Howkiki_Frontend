@@ -17,6 +17,7 @@ import PackagingPage from "./pages/packaging";
 import SuggestionPage from "./pages/suggestion";
 import ChatBotStart from "./pages/chatBotStart";
 import ChatBot from "./pages/chatBot";
+import OrderSummaryPage from "./pages/orderSummary";
 
 function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
         <Route path="/suggestion" element={<SuggestionPage />} />
         <Route path="/chatstart" element={<ChatBotStart />} />
         <Route path="/chatbot" element={<ChatBot />} />
+        <Route path="/ordersummary" element={<OrderSummaryPage />} />
       </Routes>
     </>
   );

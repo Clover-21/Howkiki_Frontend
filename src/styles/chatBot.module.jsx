@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const ChatContainer = styled.div`
-  width: 414px;
-  height: 896px;
+  width: 390px;
+  height: 844px;
   background-color: #f2f2f5;
   border-radius: 10px;
   display: flex;
@@ -32,6 +32,7 @@ export const Message = styled.div`
   padding: 15px;
   margin: 5px;
   border-radius: 20px;
+  font-size: 13px;
   color: ${({ sender }) => (sender === "bot" ? "#000000" : "#ffffff")};
   background-color: ${({ sender }) =>
     sender === "bot" ? "#ffffff" : "#5D60EF"};
@@ -39,9 +40,10 @@ export const Message = styled.div`
 `;
 
 export const ChatInput = styled.div`
-  height: 95px;
+  height: 80px;
   display: flex;
   padding: 20px;
+  margin-bottom: 30px;
   background-color: #f2f2f5;
 `;
 
@@ -51,7 +53,7 @@ export const InputField = styled.input`
   border-radius: 30px;
   border: none;
   outline: none;
-  font-size: 15px;
+  font-size: 11px;
 
   &::placeholder {
     color: #848484;
@@ -64,18 +66,23 @@ export const BtnWrap = styled.div`
 `;
 
 export const SendButton = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 31px;
+  height: 31px;
   background-color: #5d60ef;
   border: none;
   border-radius: 50%;
-  margin-left: -50px;
-  margin-top: 7.5px;
+  margin-left: -40px;
+  margin-top: 5px;
 `;
 
 export const SendIcon = styled.img`
-  width: 30px;
+  width: 25px;
   position: absolute;
-  top: 9.5px;
-  transform: translateX(-107%);
+  top: 6px;
+  transform: translateX(-103%);
+`;
+
+export const HsIcon = styled.img`
+  width: 38px;
+  margin-right: 13px;
 `;

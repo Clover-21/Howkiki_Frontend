@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const StartContainer = styled.div`
-  width: 414px;
-  height: 896px;
+  width: 390px;
+  height: 844px;
   background-color: rgba(83, 225, 185, 0.7);
   display: flex;
   justify-content: center;

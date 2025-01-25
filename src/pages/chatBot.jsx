@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ChatContainer,
   ChatTitle,
@@ -9,10 +10,14 @@ import {
   BtnWrap,
   SendButton,
   SendIcon,
+  HsIcon,
 } from "../styles/chatBot.module";
 import send from "../assets/icon/send.svg";
+import orderhs from "../assets/icon/orderhistory.svg";
 
-const ChatBot = () => {
+export default function ChatBot() {
+  const navigate = useNavigate();
+
   const [messages, setMessages] = useState([
     { sender: "bot", text: "호우섬에 오신 것을 환영합니다!" },
   ]);
@@ -55,6 +60,7 @@ const ChatBot = () => {
         ))}
       </ChatBox>
       <ChatInput>
+        <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
         <InputField
           type="text"
           value={input}
@@ -68,6 +74,4 @@ const ChatBot = () => {
       </ChatInput>
     </ChatContainer>
   );
-};
-
-export default ChatBot;
+}
