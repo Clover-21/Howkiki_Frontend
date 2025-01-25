@@ -8,7 +8,7 @@ import {
   TimeBox,
   TimeInput,
   FinishBtn,
-} from "../styles/acceptModal.module";
+} from "../styles/components/acceptModal.module";
 
 export default function AcceptModal({ isOpen, onClose, currentStep, onNext }) {
   const [time, setTime] = useState("");

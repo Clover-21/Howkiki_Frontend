@@ -6,8 +6,8 @@ import {
   Logo,
   BtnWrap,
   Btn,
-} from "../styles/chatBotStart.module";
-import logo from "../assets/icon/logo.svg";
+} from "../../styles/chatbot/chatBotStart.module";
+import logo from "../../assets/icon/logo.svg";
 
 export default function StartPage() {
   const navigate = useNavigate();

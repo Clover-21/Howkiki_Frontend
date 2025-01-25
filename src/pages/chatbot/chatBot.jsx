@@ -11,9 +11,9 @@ import {
   SendButton,
   SendIcon,
   HsIcon,
-} from "../styles/chatBot.module";
-import send from "../assets/icon/send.svg";
-import orderhs from "../assets/icon/orderhistory.svg";
+} from "../../styles/chatbot/chatBot.module";
+import send from "../../assets/icon/send.svg";
+import orderhs from "../../assets/icon/orderhistory.svg";
 
 export default function ChatBot() {
   const navigate = useNavigate();

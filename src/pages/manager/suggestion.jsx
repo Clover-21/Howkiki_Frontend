@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import {
   SuggestionContainer,
   SuggestionWrap,
@@ -7,7 +7,7 @@ import {
   Number,
   ContentContainer,
   ContentText,
-} from "../styles/suggestion.module";
+} from "../../styles/manager/suggestion.module";
 
 export default function SuggestionPage() {
   return (

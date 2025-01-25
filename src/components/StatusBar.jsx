@@ -5,7 +5,7 @@ import {
   Progress,
   Labels,
   Label,
-} from "../styles/statusBar.module";
+} from "../styles/components/statusBar.module";
 
 const StatusBar = () => {
   return (

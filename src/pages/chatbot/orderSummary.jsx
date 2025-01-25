@@ -7,9 +7,9 @@ import {
   OrderBox,
   IconWrap,
   ChatIcon,
-} from "../styles/orderSummary.module";
-import StatusBar from "../components/StatusBar";
-import chatbot from "../assets/icon/chatbot.svg";
+} from "../../styles/chatbot/orderSummary.module";
+import StatusBar from "../../components/StatusBar";
+import chatbot from "../../assets/icon/chatbot.svg";
 
 export default function OrderSummaryPage() {
   const navigate = useNavigate();

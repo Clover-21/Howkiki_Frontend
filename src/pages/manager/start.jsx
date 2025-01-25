@@ -9,9 +9,9 @@ import {
   BtnWrap,
   OkBtn,
   Arrow,
-} from "../styles/start.module";
-import logo from "../assets/icon/logo.svg";
-import arrow from "../assets/icon/arrow.svg";
+} from "../../styles/manager/start.module";
+import logo from "../../assets/icon/logo.svg";
+import arrow from "../../assets/icon/arrow.svg";
 
 export default function StartPage() {
   const navigate = useNavigate();

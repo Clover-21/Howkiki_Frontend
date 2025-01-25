@@ -5,7 +5,7 @@ import {
   ModalContent,
   ModalText,
   Button,
-} from "../styles/newOrderModal.module";
+} from "../styles/components/newOrderModal.module";
 
 export default function NewOrderModal({ isOpen, onClose }) {
   if (!isOpen) return null;

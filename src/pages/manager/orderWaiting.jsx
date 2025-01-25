@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Header from "../components/Header";
-import SideBar from "../components/SideBar";
-import CancelModal from "../components/CancelModal";
-import NewOrderModal from "../components/NewOrderModal";
-import AcceptModal from "../components/AcceptModal";
+import Header from "../../components/Header";
+import SideBar from "../../components/SideBar";
+import CancelModal from "../../components/CancelModal";
+import NewOrderModal from "../../components/NewOrderModal";
+import AcceptModal from "../../components/AcceptModal";
 import {
   ListContainer,
   OrderContainer,
@@ -17,8 +17,8 @@ import {
   BtnContainer,
   OrderOkBtn,
   OrderCancelBtn,
-} from "../styles/orderWaiting.module";
-import useModal from "../hooks/useModal";
+} from "../../styles/manager/orderWaiting.module";
+import useModal from "../../hooks/useModal";
 
 const host =
   window.location.hostname === "localhost"

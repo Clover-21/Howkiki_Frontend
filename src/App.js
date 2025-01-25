@@ -6,18 +6,18 @@ import {
   useLocation,
 } from "react-router-dom";
 import GlobalStyle from "./styles/globalStyles";
-import StartPage from "./pages/start";
-import OrderWaitingPage from "./pages/orderWaiting";
-import OrderPreparingPage from "./pages/orderPreparing";
-import ReadyCompletePage from "./pages/readyComplete";
-import PayCompletePage from "./pages/payComplete";
-import FullOrderPage from "./pages/fullOrder";
-import TableManagePage from "./pages/tableManage";
-import PackagingPage from "./pages/packaging";
-import SuggestionPage from "./pages/suggestion";
-import ChatBotStart from "./pages/chatBotStart";
-import ChatBot from "./pages/chatBot";
-import OrderSummaryPage from "./pages/orderSummary";
+import StartPage from "./pages/manager/start";
+import OrderWaitingPage from "./pages/manager/orderWaiting";
+import OrderPreparingPage from "./pages/manager/orderPreparing";
+import ReadyCompletePage from "./pages/manager/readyComplete";
+import PayCompletePage from "./pages/manager/payComplete";
+import FullOrderPage from "./pages/manager/fullOrder";
+import TableManagePage from "./pages/manager/tableManage";
+import PackagingPage from "./pages/manager/packaging";
+import SuggestionPage from "./pages/manager/suggestion";
+import ChatBotStart from "./pages/chatbot/chatBotStart";
+import ChatBot from "./pages/chatbot/chatBot";
+import OrderSummaryPage from "./pages/chatbot/orderSummary";
 
 function App() {
   const location = useLocation();

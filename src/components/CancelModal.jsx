@@ -14,7 +14,7 @@ import {
   MenuName,
   CheckboxWrapper,
   MenuContentWrapper,
-} from "../styles/cancelModal.module";
+} from "../styles/components/cancelModal.module";
 import Checkbox from "./CheckBox";
 import Line from "./Line";
 

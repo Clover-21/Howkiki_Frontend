@@ -5,7 +5,7 @@ import {
   SideBarWrap,
   SideBarLink,
   SideBarName,
-} from "../styles/sideBar.module";
+} from "../styles/components/sideBar.module";
 
 export default function SideBar() {
   const location = useLocation(); // 현재 경로 확인

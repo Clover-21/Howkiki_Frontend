@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { HeaderContainer, CategoryName } from "../styles/header.module";
+import {
+  HeaderContainer,
+  CategoryName,
+} from "../styles/components/header.module";
 
 export default function Header() {
   const location = useLocation();

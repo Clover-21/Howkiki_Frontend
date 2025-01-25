@@ -1,5 +1,9 @@
 import React from "react";
-import { StyledInput, StyledLabel, StyledP } from "../styles/checkBox.module";
+import {
+  StyledInput,
+  StyledLabel,
+  StyledP,
+} from "../styles/components/checkBox.module";
 
 function Checkbox({ text, onChange, checked }) {
   const handleChange = () => {
