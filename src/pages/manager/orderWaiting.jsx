@@ -87,9 +87,9 @@ export default function OrderWaitingPage() {
     const orderId = selectedOrderId;
     try {
       await axios.patch(
-        `/stores/1/orders/${orderId}/status`,
+        `${host}/stores/1/orders/${orderId}/status`,
         {
-          status,
+          status: status,
         },
         {
           headers: {
@@ -97,6 +97,7 @@ export default function OrderWaitingPage() {
           },
         }
       );
+
       navigate("/preparing");
     } catch (error) {
       console.error("상태 업데이트 중 에러 발생:", error);
@@ -105,7 +106,9 @@ export default function OrderWaitingPage() {
 
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/stores/1/orders?status=NOT_YET_SENT`);
+      const response = await axios.get(
+        `${host}/stores/1/orders?status=NOT_YET_SENT`
+      );
       const currentData = response.data;
 
       // localStorage에서 이전 데이터 가져오기
