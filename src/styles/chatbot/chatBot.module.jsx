@@ -29,7 +29,7 @@ export const ChatBox = styled.div`
 
 export const Message = styled.div`
   max-width: 300px;
-  padding: 15px;
+  padding: 14px;
   margin: 5px;
   border-radius: 20px;
   font-size: 13px;

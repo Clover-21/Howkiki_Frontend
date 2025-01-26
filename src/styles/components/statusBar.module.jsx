@@ -22,6 +22,24 @@ export const Progress = styled.div`
   background-color: rgba(83, 225, 185, 0.5);
   border-radius: 8px;
   width: ${(props) => props.width};
+  transition: width 0.3s ease;
+`;
+
+export const DotWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0px;
+  left: 50px;
+  width: 68.5%;
+`;
+
+export const Dot = styled.div`
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: ${(props) => (props.active ? "#53E1B9" : "#B5B5B5")};
+  transition: width 0.3s ease;
 `;
 
 export const Labels = styled.div`

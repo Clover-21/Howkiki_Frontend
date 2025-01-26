@@ -35,18 +35,20 @@ export const Line = styled.div`
 `;
 
 export const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100px;
 `;
 
 export const MenuContent = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 95%;
 `;
 
 export const MenuName = styled.div`
   font-size: 11.6px;
-  margin-left: 5px;
   margin-bottom: 10px;
 `;
 

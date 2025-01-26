@@ -16,7 +16,7 @@ import {
 } from "../styles/components/orderBox.module";
 
 const StatusBar = () => {
-  // API 연결하면, map 함수 사용할 예정
+  // API 연결하면, 변수와 map 함수 사용할 예정
   return (
     <OrderBoxContainer>
       <ContentWrap>
