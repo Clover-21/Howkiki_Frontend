@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
@@ -43,7 +44,9 @@ export default function OrderWaitingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const intervalRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -67,7 +70,9 @@ export default function OrderWaitingPage() {
     setSelectedReason(reason);
   };
 
-  const handleAcceptClick = () => {
+  const handleAcceptClick = (order) => {
+    const orderId = order.orderId;
+    setSelectedOrderId(orderId);
     setIsAcceptlModalOpen(true);
     setCurrentStep(1);
   };
@@ -78,9 +83,29 @@ export default function OrderWaitingPage() {
     }
   };
 
+  const handleFinish = async (status) => {
+    const orderId = selectedOrderId;
+    try {
+      await axios.patch(
+        `/stores/1/orders/${orderId}/status`,
+        {
+          status,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      navigate("/preparing");
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
+    }
+  };
+
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${host}/stores/1/orders`);
+      const response = await axios.get(`/stores/1/orders?status=NOT_YET_SENT`);
       const currentData = response.data;
 
       // localStorage에서 이전 데이터 가져오기
@@ -168,7 +193,9 @@ export default function OrderWaitingPage() {
                   <OrderCancelBtn onClick={() => handleCancelClick(order)}>
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={handleAcceptClick}>수락</OrderOkBtn>
+                  <OrderOkBtn onClick={() => handleAcceptClick(order)}>
+                    수락
+                  </OrderOkBtn>
                 </BtnContainer>
               </OrderContent>
             ))}
@@ -189,6 +216,7 @@ export default function OrderWaitingPage() {
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
+        onFinish={() => handleFinish("AWAITING_ACCEPTANCE")}
       />
     </>
   );
