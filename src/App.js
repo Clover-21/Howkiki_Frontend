@@ -29,6 +29,9 @@ function App() {
     if (location.pathname === "/chatstart") {
       setScreenSize();
     }
+    if (location.pathname === "/ordersummary") {
+      setScreenSize();
+    }
   }, [location]);
 
   function setScreenSize() {

@@ -4,11 +4,11 @@ import {
   SummaryContainer,
   SummaryContentWrap,
   OrderContent,
-  OrderBox,
   IconWrap,
   ChatIcon,
 } from "../../styles/chatbot/orderSummary.module";
 import StatusBar from "../../components/StatusBar";
+import OrderBox from "../../components/OrderBox";
 import chatbot from "../../assets/icon/chatbot.svg";
 
 export default function OrderSummaryPage() {
@@ -19,7 +19,7 @@ export default function OrderSummaryPage() {
       <SummaryContentWrap>
         <OrderContent>
           <StatusBar />
-          <OrderBox></OrderBox>
+          <OrderBox />
           <IconWrap>
             <ChatIcon src={chatbot} onClick={() => navigate("/chatbot")} />
           </IconWrap>
