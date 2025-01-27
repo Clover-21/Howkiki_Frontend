@@ -6,6 +6,7 @@ import SideBar from "../../components/SideBar";
 import CancelModal from "../../components/CancelModal";
 import NewOrderModal from "../../components/NewOrderModal";
 import AcceptModal from "../../components/AcceptModal";
+import useModal from "../../hooks/useModal";
 import {
   ListContainer,
   OrderContainer,
@@ -19,7 +20,6 @@ import {
   OrderOkBtn,
   OrderCancelBtn,
 } from "../../styles/manager/orderWaiting.module";
-import useModal from "../../hooks/useModal";
 
 const host =
   window.location.hostname === "localhost"
@@ -107,7 +107,7 @@ export default function OrderWaitingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(
-        `${host}/stores/1/orders?status=NOT_YET_SENT`
+        `${host}/stores/1/orders?status=AWAITING_ACCEPTANCE`
       );
       const currentData = response.data;
 
@@ -219,7 +219,7 @@ export default function OrderWaitingPage() {
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
-        onFinish={() => handleFinish("AWAITING_ACCEPTANCE")}
+        onFinish={() => handleFinish("IN_PROGRESS")}
       />
     </>
   );

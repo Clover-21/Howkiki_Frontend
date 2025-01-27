@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../../components/Header";
+import SideBar from "../../components/SideBar";
+import CancelModal from "../../components/CancelModal";
+import NewOrderModal from "../../components/NewOrderModal";
+import useModal from "../../hooks/useModal";
 import {
   ListContainer,
   OrderContainer,
@@ -13,9 +19,6 @@ import {
   OrderOkBtn,
   OrderCancelBtn,
 } from "../../styles/manager/orderWaiting.module";
-import Header from "../../components/Header";
-import SideBar from "../../components/SideBar";
-import CancelModal from "../../components/CancelModal";
 
 const host =
   window.location.hostname === "localhost"
@@ -87,7 +90,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(
-        `${host}/stores/1/orders?status=AWAITING_ACCEPTANCE`
+        `${host}/stores/1/orders?status=IN_PROGRESS`
       );
       const currentData = response.data;
 
