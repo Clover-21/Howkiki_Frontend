@@ -36,19 +36,13 @@ export default function PayCompletePage() {
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     } finally {
-      setIsLoading(false); // 로딩 상태 해제
+      setIsLoading(false);
     }
   };
 
-  // 컴포넌트가 마운트될 때 데이터 가져오기
   useEffect(() => {
     fetchOrderData();
   }, []);
-
-  // 데이터 로딩 상태 처리
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
