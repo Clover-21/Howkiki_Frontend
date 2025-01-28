@@ -18,7 +18,14 @@ export const TableBox = styled.div`
   font-weight: 600;
   background-color: #ffffff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const TableNum = styled.div``;
+
+export const PeopleNum = styled.div`
+  margin-top: 15px;
 `;
