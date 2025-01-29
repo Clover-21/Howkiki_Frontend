@@ -21,7 +21,7 @@ import {
   FinishBtn,
 } from "../styles/components/tableModal.module";
 
-export default function AcceptModal({ isOpen, onClose, table, menu }) {
+export default function TableModal({ isOpen, onClose, table, menu }) {
   if (!isOpen) return null;
 
   return (

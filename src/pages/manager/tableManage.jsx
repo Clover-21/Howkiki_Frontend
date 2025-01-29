@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import useModal from "../../hooks/useModal";
-import TableModal from "../../components/tableModal";
+import TableModal from "../../components/TableModal";
 import {
   TableBoxContainer,
   TableBox,
