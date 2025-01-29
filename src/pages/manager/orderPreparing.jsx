@@ -120,7 +120,7 @@ export default function OrderPreparingPage() {
                     취소
                   </OrderCancelBtn>
                   <OrderOkBtn onClick={() => handleFinish("COMPLETED")}>
-                    수락
+                    완료
                   </OrderOkBtn>
                 </BtnContainer>
               </OrderContent>
