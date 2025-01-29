@@ -20,7 +20,7 @@ export const Modal = styled.div`
   height: 420px;
   background-color: #ffffff;
   border-radius: 20px;
-  paddig: 30px;
+  padding: 30px;
 `;
 
 export const ModalContent = styled.div`

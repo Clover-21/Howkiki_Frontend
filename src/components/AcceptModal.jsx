@@ -10,7 +10,13 @@ import {
   FinishBtn,
 } from "../styles/components/acceptModal.module";
 
-export default function AcceptModal({ isOpen, onClose, currentStep, onNext }) {
+export default function AcceptModal({
+  isOpen,
+  onClose,
+  currentStep,
+  onNext,
+  onFinish,
+}) {
   const [time, setTime] = useState("");
 
   const handleInputChange = (e) => {
@@ -19,13 +25,13 @@ export default function AcceptModal({ isOpen, onClose, currentStep, onNext }) {
 
   const handleFinishClick = () => {
     if (time) {
-      onClose();
+      onFinish("AWAITING_ACCEPTANCE", time);
     }
   };
 
   const handleEnter = (e) => {
     if (e.key === "Enter" && time) {
-      onClose();
+      onFinish("AWAITING_ACCEPTANCE", time);
     }
   };
 
@@ -45,12 +51,18 @@ export default function AcceptModal({ isOpen, onClose, currentStep, onNext }) {
             <>
               <ModalText>준비 예상 시간을 선택해주세요.</ModalText>
               <TimeBoxWrap>
-                <TimeBox onClick={onClose}>5분</TimeBox>
-                <TimeBox onClick={onClose}>10분</TimeBox>
+                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
+                  5분
+                </TimeBox>
+                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
+                  10분
+                </TimeBox>
               </TimeBoxWrap>
               <TimeBoxWrap>
-                <TimeBox onClick={onClose}>15분</TimeBox>
-                <TimeBox onClick={onNext}>기타</TimeBox> {/* 기타 버튼 */}
+                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
+                  15분
+                </TimeBox>
+                <TimeBox onClick={onNext}>기타</TimeBox>
               </TimeBoxWrap>
             </>
           )}

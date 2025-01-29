@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
+import useModal from "../../hooks/useModal";
 import CancelModal from "../../components/CancelModal";
-import NewOrderModal from "../../components/NewOrderModal";
 import AcceptModal from "../../components/AcceptModal";
 import {
   ListContainer,
@@ -18,7 +19,6 @@ import {
   OrderOkBtn,
   OrderCancelBtn,
 } from "../../styles/manager/orderWaiting.module";
-import useModal from "../../hooks/useModal";
 
 const host =
   window.location.hostname === "localhost"
@@ -29,21 +29,17 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
-const getPreviousData = () => {
-  const storedData = localStorage.getItem("previousData");
-  return storedData ? JSON.parse(storedData) : null;
-};
-
 export default function OrderWaitingPage() {
-  const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen } = useModal();
   const [orderData, setOrderData] = useState(null);
-  const [previousData, setPreviousData] = useState(getPreviousData);
   const [canceldOrder, setCanceledOrder] = useState(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
-  const intervalRef = useRef(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -67,7 +63,9 @@ export default function OrderWaitingPage() {
     setSelectedReason(reason);
   };
 
-  const handleAcceptClick = () => {
+  const handleAcceptClick = (order) => {
+    const orderId = order.orderId;
+    setSelectedOrderId(orderId);
     setIsAcceptlModalOpen(true);
     setCurrentStep(1);
   };
@@ -78,68 +76,44 @@ export default function OrderWaitingPage() {
     }
   };
 
-  const fetchOrderData = async () => {
+  const handleFinish = async (status) => {
+    const orderId = selectedOrderId;
     try {
-      const response = await axios.get(`${host}/stores/1/orders`);
-      const currentData = response.data;
-
-      // localStorage에서 이전 데이터 가져오기
-      const storedPreviousData = localStorage.getItem("previousData");
-      const parsedPreviousData = storedPreviousData
-        ? JSON.parse(storedPreviousData)
-        : null;
-
-      if (!parsedPreviousData) {
-        console.log("이전 데이터가 없습니다. 첫 번째 호출입니다.");
-      } else {
-        const currentOrderIds = currentData.data.orders.map(
-          (order) => order.id
-        );
-        const previousOrderIds = parsedPreviousData.data.orders.map(
-          (order) => order.id
-        );
-
-        if (
-          currentOrderIds.length > previousOrderIds.length ||
-          !currentOrderIds.every((id) => previousOrderIds.includes(id))
-        ) {
-          console.log("새로운 주문이 감지됨: 모달 열림");
-          openModal();
+      await axios.patch(
+        `${host}/stores/1/orders/${orderId}/status`,
+        {
+          status: status,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-
-      // 주문 목록 최신순으로 정렬 (createdAt 기준)
-      const sortedOrders = [...currentData.data.orders].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
-      // 데이터 업데이트
-      setOrderData({
-        ...currentData,
-        data: { ...currentData.data, orders: sortedOrders },
-      });
-      setPreviousData(currentData); // 상태로도 업데이트
-      localStorage.setItem("previousData", JSON.stringify(currentData)); // localStorage 업데이트
+      navigate("/preparing");
     } catch (error) {
-      console.error("주문 데이터 가져오기 실패:", error);
+      console.error("상태 업데이트 중 에러 발생:", error);
     }
   };
 
-  // 주기적으로 데이터 가져오기
+  // 주문 데이터 가져오기 함수
+  const fetchOrderData = async () => {
+    try {
+      const response = await apiClient.get(
+        `${host}/stores/1/orders?status=COMPLETED`
+      );
+      setOrderData(response.data);
+    } catch (error) {
+      console.error("주문 데이터 가져오기 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchOrderData();
-    intervalRef.current = setInterval(fetchOrderData, 5000); // 5초마다 데이터 가져오기
-
-    return () => {
-      clearInterval(intervalRef.current);
-    };
   }, []);
-
-  useEffect(() => {
-    if (previousData) {
-      localStorage.setItem("previousData", JSON.stringify(previousData));
-    }
-  }, [previousData]);
 
   useEffect(() => {
     console.log("모달 상태 변화:", isOpen);
@@ -151,27 +125,31 @@ export default function OrderWaitingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders &&
+          {orderData?.data.orders?.length > 0 ? (
             orderData.data.orders.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary &&
-                    order.menuSummary.map((menu, i) => (
-                      <MenuContent key={i}>
-                        <MenuName>{menu.menuName}</MenuName>
-                        <MenuQuantity>{menu.quantity}</MenuQuantity>
-                      </MenuContent>
-                    ))}
+                  {order.menuSummary?.map((menu, i) => (
+                    <MenuContent key={i}>
+                      <MenuName>{menu.menuName}</MenuName>
+                      <MenuQuantity>{menu.quantity}</MenuQuantity>
+                    </MenuContent>
+                  ))}
                 </MenuContainer>
                 <BtnContainer>
                   <OrderCancelBtn onClick={() => handleCancelClick(order)}>
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={handleAcceptClick}>수락</OrderOkBtn>
+                  <OrderOkBtn onClick={() => handleAcceptClick(order)}>
+                    수락
+                  </OrderOkBtn>
                 </BtnContainer>
               </OrderContent>
-            ))}
+            ))
+          ) : (
+            <div>주문이 없습니다.</div>
+          )}
         </OrderContainer>
       </ListContainer>
       <CancelModal
@@ -183,12 +161,12 @@ export default function OrderWaitingPage() {
         onSelectReason={handleSelectReason}
         canceledOrder={canceldOrder}
       />
-      <NewOrderModal isOpen={isOpen} onClose={closeModal} />
       <AcceptModal
         isOpen={isAcceptModalOpen}
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
+        onFinish={() => handleFinish("IN_PROGRESS")}
       />
     </>
   );
