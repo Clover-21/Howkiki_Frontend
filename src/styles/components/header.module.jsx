@@ -18,9 +18,28 @@ export const HeaderContainer = styled.div`
   z-index: 1000;
 `;
 
+export const Category = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
 export const CategoryName = styled.div`
   color: white;
   font-size: 20px;
   font-weight: bold;
-  color: ${(props) => (props.selected ? "#fffff" : "rgba(255, 255, 255, 0.5)")};
+  flex: 0 0 auto;
+  color: ${(props) =>
+    props.selected ? "#ffffff" : "rgba(255, 255, 255, 0.5)"};
+`;
+
+export const Circle = styled.div`
+  position: absolute;
+  margin-top: 30px;
+  width: 7.28px;
+  height: 7.28px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  flex-grow: 0;
 `;

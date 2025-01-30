@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   HeaderContainer,
+  Category,
   CategoryName,
+  Circle,
 } from "../styles/components/header.module";
 
 export default function Header() {
@@ -17,7 +19,7 @@ export default function Header() {
   };
   return (
     <HeaderContainer>
-      <CategoryName
+      <Category
         selected={
           selectedBar === "/waiting" ||
           selectedBar === "/preparing" ||
@@ -27,26 +29,29 @@ export default function Header() {
         }
         onClick={() => handleClick("/waiting")}
       >
-        주문 접수
-      </CategoryName>
-      <CategoryName
-        selected={selectedBar === "/tablemanage"}
-        onClick={() => handleClick("/tablemanage")}
-      >
-        테이블
-      </CategoryName>
-      <CategoryName
-        selected={selectedBar === "/packaging"}
-        onClick={() => handleClick("/packaging")}
-      >
-        포장
-      </CategoryName>
-      <CategoryName
-        selected={selectedBar === "/suggestion"}
-        onClick={() => handleClick("/suggestion")}
-      >
-        건의 사항
-      </CategoryName>
+        <CategoryName selected={selectedBar === "/waiting"}>
+          주문 접수
+        </CategoryName>
+        {selectedBar === "/waiting" ? <Circle /> : null}
+      </Category>
+      <Category onClick={() => handleClick("/tablemanage")}>
+        <CategoryName selected={selectedBar === "/tablemanage"}>
+          테이블
+        </CategoryName>
+        {selectedBar === "/tablemanage" ? <Circle /> : null}
+      </Category>
+      <Category onClick={() => handleClick("/packaging")}>
+        <CategoryName selected={selectedBar === "/packaging"}>
+          포장
+        </CategoryName>
+        {selectedBar === "/packaging" ? <Circle /> : null}
+      </Category>
+      <Category onClick={() => handleClick("/suggestion")}>
+        <CategoryName selected={selectedBar === "/suggestion"}>
+          건의 사항
+        </CategoryName>
+        {selectedBar === "/suggestion" ? <Circle /> : null}
+      </Category>
     </HeaderContainer>
   );
 }
