@@ -132,7 +132,7 @@ export const FinishBtn = styled.div`
   height: 38.84px;
   color: #ffffff;
   font-weight: 600;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.$isEmpty ? "#7878F0" : "#D9D9D9")};
   border-radius: 7.28px;
 `;
 

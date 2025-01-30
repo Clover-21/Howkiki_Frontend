@@ -70,7 +70,9 @@ export default function TableModal({
           </PriceWrap>
         </PriceWrapper>
         <BtnContainer>
-          <FinishBtn onClick={onClose}>닫기</FinishBtn>
+          <FinishBtn onClick={onClose} $isEmpty={menu.length === 0}>
+            닫기
+          </FinishBtn>
           {menu.length > 0 && <PaidBtn>결제 완료</PaidBtn>}
         </BtnContainer>
       </Modal>
