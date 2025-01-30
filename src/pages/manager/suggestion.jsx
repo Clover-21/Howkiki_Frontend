@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import ContentBox from "../../components/ContentBox";
+import SuggestionModal from "../../components/SuggestionModal";
 import { Container } from "../../styles/manager/suggestion.module";
 import {
   PaginationContainer,
@@ -9,6 +10,7 @@ import {
 } from "../../styles/pagination.module";
 
 export default function SuggestionPage() {
+  const [isSugModalOpen, setIsSugModalOpen] = useState(false);
   // 임의로 지정
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const itemsPerPage = 4;
@@ -27,12 +29,16 @@ export default function SuggestionPage() {
     }
   };
 
+  const handleSuggestion = () => {
+    setIsSugModalOpen(true);
+  };
+
   return (
     <>
       <Header />
       <Container>
         {currentItems.map((num) => (
-          <ContentBox key={num} number={num} />
+          <ContentBox key={num} number={num} onClick={handleSuggestion} />
         ))}
       </Container>
       <PaginationContainer>
@@ -50,6 +56,10 @@ export default function SuggestionPage() {
           {">"}
         </PageButton>
       </PaginationContainer>
+      <SuggestionModal
+        isOpen={isSugModalOpen}
+        onClose={() => setIsSugModalOpen(false)}
+      />
     </>
   );
 }
