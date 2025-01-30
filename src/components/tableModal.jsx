@@ -10,6 +10,8 @@ import {
   MenuQuantity,
   MenuPrice,
   Line,
+  TextWrapper,
+  EmptyText,
   PriceWrapper,
   PriceWrap,
   Price,
@@ -21,7 +23,13 @@ import {
   FinishBtn,
 } from "../styles/components/tableModal.module";
 
-export default function TableModal({ isOpen, onClose, table, menu }) {
+export default function TableModal({
+  isOpen,
+  onClose,
+  table,
+  menu,
+  totalPrice,
+}) {
   if (!isOpen) return null;
 
   return (
@@ -29,35 +37,41 @@ export default function TableModal({ isOpen, onClose, table, menu }) {
       <Modal>
         <ModalTitle>{`${table?.name} 주문 현황`}</ModalTitle>
         <MenuContainer>
-          {menu.map((menu, index) => (
-            <MenuContentWrapper key={index}>
-              <MenuContent>
-                <MenuName>{menu.name}</MenuName>
-                <MenuQuantity>x{menu.quantity}</MenuQuantity>
-                <MenuPrice>{menu.price}</MenuPrice>
-              </MenuContent>
-              <Line />
-            </MenuContentWrapper>
-          ))}
+          {menu.length > 0 ? (
+            menu.map((order, index) => (
+              <MenuContentWrapper key={index}>
+                <MenuContent>
+                  <MenuName>{order.name}</MenuName>
+                  <MenuQuantity>x{order.quantity}</MenuQuantity>
+                  <MenuPrice>{order.price.toLocaleString()}원</MenuPrice>{" "}
+                </MenuContent>
+                <Line />
+              </MenuContentWrapper>
+            ))
+          ) : (
+            <TextWrapper>
+              <EmptyText>주문이 없습니다.</EmptyText>
+            </TextWrapper>
+          )}
         </MenuContainer>
         <PriceWrapper>
           <PriceWrap>
             <Text>주문 금액</Text>
-            <Price>30,500원</Price>
+            <Price>{totalPrice.toLocaleString()}원</Price>
           </PriceWrap>
           <PriceWrap>
             <Text>결제 완료된 금액</Text>
-            <Price>- 30,500원</Price>
+            <Price>- {totalPrice.toLocaleString()}원</Price>
           </PriceWrap>
           <Line2 />
           <PriceWrap>
             <Text2>주문 금액</Text2>
-            <Price>0원</Price>
+            <Price>{(totalPrice - totalPrice).toLocaleString()}원</Price>{" "}
           </PriceWrap>
         </PriceWrapper>
         <BtnContainer>
           <FinishBtn onClick={onClose}>닫기</FinishBtn>
-          <PaidBtn>결제 완료</PaidBtn>
+          {menu.length > 0 && <PaidBtn>결제 완료</PaidBtn>}
         </BtnContainer>
       </Modal>
     </ModalContainer>
