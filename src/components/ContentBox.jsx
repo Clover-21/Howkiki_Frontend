@@ -7,9 +7,9 @@ import {
   ContentText,
 } from "../styles/components/contentBox.module";
 
-export default function ContentBox({ number }) {
+export default function ContentBox({ number, onClick }) {
   return (
-    <SuggestionWrap>
+    <SuggestionWrap onClick={onClick}>
       <NumberContainer>
         <Number>{number}</Number>
       </NumberContainer>
