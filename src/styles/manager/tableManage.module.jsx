@@ -34,7 +34,7 @@ export const HasOrderBox = styled.div`
 export const TableNum = styled.div`
   font-weight: 600;
   color: ${(props) => (props.hasOrder ? "#000000" : "#bcbcbc")};
-  align-self: ${(props) => (props.hasOrder ? "flex-start" : "center")};
+  align-self: center;
 `;
 
 export const MenuWrap = styled.div`
