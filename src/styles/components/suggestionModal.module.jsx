@@ -18,7 +18,7 @@ export const Modal = styled.div`
   justify-content: center;
   align-items: center;
   width: 755.63px;
-  height: 411.19px;
+  height: 420px;
   background-color: #ffffff;
   border-radius: 20px;
 `;
@@ -34,7 +34,7 @@ export const BtnContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 35px;
 `;
 
 export const FinishBtn = styled.div`
