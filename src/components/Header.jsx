@@ -29,10 +29,24 @@ export default function Header() {
         }
         onClick={() => handleClick("/waiting")}
       >
-        <CategoryName selected={selectedBar === "/waiting"}>
+        <CategoryName
+          selected={
+            selectedBar === "/waiting" ||
+            selectedBar === "/preparing" ||
+            selectedBar === "/readycomplete" ||
+            selectedBar === "/paycomplete" ||
+            selectedBar === "/fullorder"
+          }
+        >
           주문 접수
         </CategoryName>
-        {selectedBar === "/waiting" ? <Circle /> : null}
+        {selectedBar === "/waiting" ||
+        selectedBar === "/preparing" ||
+        selectedBar === "/readycomplete" ||
+        selectedBar === "/paycomplete" ||
+        selectedBar === "/fullorder" ? (
+          <Circle />
+        ) : null}
       </Category>
       <Category onClick={() => handleClick("/tablemanage")}>
         <CategoryName selected={selectedBar === "/tablemanage"}>
