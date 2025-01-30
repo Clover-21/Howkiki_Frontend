@@ -37,13 +37,13 @@ export default function TableModal({
       <Modal>
         <ModalTitle>{`${table?.name} 주문 현황`}</ModalTitle>
         <MenuContainer>
-          {menu.length > 0 ? (
+          {menu.length ? (
             menu.map((order, index) => (
               <MenuContentWrapper key={index}>
                 <MenuContent>
                   <MenuName>{order.name}</MenuName>
                   <MenuQuantity>x{order.quantity}</MenuQuantity>
-                  <MenuPrice>{order.price.toLocaleString()}원</MenuPrice>{" "}
+                  <MenuPrice>{order.price.toLocaleString()}원</MenuPrice>
                 </MenuContent>
                 <Line />
               </MenuContentWrapper>
