@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../../components/Header";
-import ContentBox from "../../components/ContentBox";
-import SuggestionModal from "../../components/SuggestionModal";
+import Header from "../../components/manager/Header";
+import ContentBox from "../../components/manager/ContentBox";
+import SuggestionModal from "../../components/manager/SuggestionModal";
 import { Container } from "../../styles/manager/suggestion.module";
 import {
   PaginationContainer,

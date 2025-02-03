@@ -13,9 +13,9 @@ import {
   Price,
   BtnWrap,
   CancelBtn,
-} from "../styles/components/orderBox.module";
+} from "../../styles/components/orderBox.module";
 
-const StatusBar = () => {
+export default function OrderBox() {
   // API 연결하면, 변수와 map 함수 사용할 예정
   return (
     <OrderBoxContainer>
@@ -43,6 +43,4 @@ const StatusBar = () => {
       </ContentWrap>
     </OrderBoxContainer>
   );
-};
-
-export default StatusBar;
+}

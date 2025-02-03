@@ -12,7 +12,7 @@ import {
   Num,
   Icon,
   RequestText,
-} from "../styles/components/requestModal.module";
+} from "../../styles/components/requestModal.module";
 
 export default function RequestModal({ isOpen, onClose }) {
   if (!isOpen) return null;

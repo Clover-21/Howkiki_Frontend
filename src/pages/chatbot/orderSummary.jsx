@@ -7,8 +7,8 @@ import {
   IconWrap,
   ChatIcon,
 } from "../../styles/chatbot/orderSummary.module";
-import StatusBar from "../../components/StatusBar";
-import OrderBox from "../../components/OrderBox";
+import StatusBar from "../../components/chatbot/StatusBar";
+import OrderBox from "../../components/chatbot/OrderBox";
 import chatbot from "../../assets/icon/chatbot.svg";
 
 export default function OrderSummaryPage() {

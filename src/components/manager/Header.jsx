@@ -5,7 +5,7 @@ import {
   Category,
   CategoryName,
   Circle,
-} from "../styles/components/header.module";
+} from "../../styles/components/header.module";
 
 export default function Header() {
   const location = useLocation();

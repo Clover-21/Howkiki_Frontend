@@ -21,7 +21,7 @@ import {
   BtnContainer,
   PaidBtn,
   FinishBtn,
-} from "../styles/components/commonModal.module";
+} from "../../styles/components/commonModal.module";
 
 export default function TableModal({
   isOpen,

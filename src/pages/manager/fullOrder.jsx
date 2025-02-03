@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../components/Header";
-import SideBar from "../../components/SideBar";
-import Pagination from "../../components/Pagination";
+import Header from "../../components/manager/Header";
+import SideBar from "../../components/manager/SideBar";
+import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
 import {

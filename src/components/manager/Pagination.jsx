@@ -3,7 +3,7 @@ import {
   PaginationContainer,
   PageButton,
   PageNumber,
-} from "../styles/pagination.module";
+} from "../../styles/pagination.module";
 
 export default function Pagination({ currentPage, totalPages, goToPage }) {
   return (

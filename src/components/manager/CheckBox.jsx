@@ -3,7 +3,7 @@ import {
   StyledInput,
   StyledLabel,
   StyledP,
-} from "../styles/components/checkBox.module";
+} from "../../styles/components/checkBox.module";
 
 function Checkbox({ text, onChange, checked }) {
   const handleChange = () => {

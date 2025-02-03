@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "../../components/Header";
-import TableModal from "../../components/tableModal";
+import Header from "../../components/manager/Header";
+import TableModal from "../../components/manager/tableModal";
 import {
   TableBoxContainer,
   TableBox,

@@ -5,7 +5,7 @@ import {
   SuggestionContainer,
   BtnContainer,
   FinishBtn,
-} from "../styles/components/suggestionModal.module";
+} from "../../styles/components/suggestionModal.module";
 
 export default function PackageModal({ isOpen, onClose }) {
   if (!isOpen) return null;

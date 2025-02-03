@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "../../components/Header";
-import SideBar from "../../components/SideBar";
-import CancelModal from "../../components/CancelModal";
-import Pagination from "../../components/Pagination";
+import Header from "../../components/manager/Header";
+import SideBar from "../../components/manager/SideBar";
+import CancelModal from "../../components/manager/CancelModal";
+import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
 import {

@@ -8,7 +8,7 @@ import {
   TimeBox,
   TimeInput,
   FinishBtn,
-} from "../styles/components/acceptModal.module";
+} from "../../styles/components/acceptModal.module";
 
 export default function AcceptModal({
   isOpen,

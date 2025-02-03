@@ -7,7 +7,7 @@ import {
   Dot,
   Labels,
   Label,
-} from "../styles/components/statusBar.module";
+} from "../../styles/components/statusBar.module";
 
 export default function StatusBar() {
   const [orderStatus, setOrderStatus] = useState("NOT_YET_SENT");

@@ -19,7 +19,7 @@ import {
   BtnContainer,
   PaidBtn,
   FinishBtn,
-} from "../styles/components/commonModal.module";
+} from "../../styles/components/commonModal.module";
 
 export default function PackageModal({ isOpen, onClose, number }) {
   if (!isOpen) return null;

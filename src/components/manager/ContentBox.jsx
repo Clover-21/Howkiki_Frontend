@@ -5,7 +5,7 @@ import {
   Number,
   ContentContainer,
   ContentText,
-} from "../styles/components/contentBox.module";
+} from "../../styles/components/contentBox.module";
 
 export default function ContentBox({ number, onClick }) {
   return (
