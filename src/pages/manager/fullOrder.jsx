@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
 import Pagination from "../../components/Pagination";
 import usePagination from "../../hooks/usePagination";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   ListContainer,
   OrderContainer,
@@ -23,6 +24,13 @@ const host =
 export const apiClient = axios.create({
   baseURL: host,
 });
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "#7878F0",
+  borderWidth: "6px",
+};
 
 export default function PayCompletePage() {
   const [orderData, setOrderData] = useState(null);
@@ -56,7 +64,16 @@ export default function PayCompletePage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {numbers.length > 0 ? (
+          {isLoading ? (
+            <ClipLoader
+              color="#fff"
+              loading={isLoading}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
             currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
@@ -70,8 +87,6 @@ export default function PayCompletePage() {
                 </MenuContainer>
               </OrderContent>
             ))
-          ) : (
-            <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
       </ListContainer>

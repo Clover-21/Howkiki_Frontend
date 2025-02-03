@@ -8,6 +8,7 @@ import CancelModal from "../../components/CancelModal";
 import AcceptModal from "../../components/AcceptModal";
 import Pagination from "../../components/Pagination";
 import usePagination from "../../hooks/usePagination";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   ListContainer,
   OrderContainer,
@@ -30,6 +31,13 @@ const host =
 export const apiClient = axios.create({
   baseURL: host,
 });
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "#7878F0",
+  borderWidth: "6px",
+};
 
 export default function OrderWaitingPage() {
   const { isOpen } = useModal();
@@ -132,7 +140,16 @@ export default function OrderWaitingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {currentItems.length > 0 ? (
+          {isLoading ? (
+            <ClipLoader
+              color="#fff"
+              loading={isLoading}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
             currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
@@ -154,8 +171,6 @@ export default function OrderWaitingPage() {
                 </BtnContainer>
               </OrderContent>
             ))
-          ) : (
-            <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
         <Pagination
