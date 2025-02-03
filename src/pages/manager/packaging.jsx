@@ -13,7 +13,7 @@ export default function PackagingPage() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
 
-  const numbers = [1, 2, 3, 4, 5, 6];
+  const numbers = [1, 2, 3, 4, 5, 6].sort((a, b) => b - a);
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
     numbers,
     8

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const TableBoxContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 60px 0px;
+  gap: 60px 0;
   padding-top: 170px;
   justify-content: center;
   place-items: center;
