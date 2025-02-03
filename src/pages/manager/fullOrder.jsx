@@ -12,6 +12,11 @@ import {
   MenuName,
   MenuQuantity,
 } from "../../styles/manager/orderWaiting.module";
+import {
+  PaginationContainer,
+  PageButton,
+  PageNumber,
+} from "../../styles/pagination.module";
 
 const host =
   window.location.hostname === "localhost"
@@ -42,14 +47,32 @@ export default function PayCompletePage() {
     fetchOrderData();
   }, []);
 
+  // pagination 관련 변수
+  const itemsPerPage = 8;
+  const numbers = orderData?.data || [];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(numbers.length / itemsPerPage);
+
+  const currentItems = numbers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <>
       <Header />
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data?.length > 0 ? (
-            orderData.data.map((order, i) => (
+          {numbers.length > 0 ? (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
@@ -66,6 +89,21 @@ export default function PayCompletePage() {
             <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <PaginationContainer>
+          <PageButton
+            disabled={currentPage === 1}
+            onClick={() => goToPage(currentPage - 1)}
+          >
+            {"<"}
+          </PageButton>
+          <PageNumber>{currentPage}</PageNumber>
+          <PageButton
+            disabled={currentPage === totalPages}
+            onClick={() => goToPage(currentPage + 1)}
+          >
+            {">"}
+          </PageButton>
+        </PaginationContainer>
       </ListContainer>
     </>
   );
