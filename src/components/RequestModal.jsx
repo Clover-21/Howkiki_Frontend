@@ -8,9 +8,10 @@ import {
   TableWrap,
   Text,
   Num,
-} from "../styles/components/newOrderModal.module";
+  Icon,
+} from "../styles/components/requestModal.module";
 
-export default function NewOrderModal({ isOpen, onClose, num }) {
+export default function RequestModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
@@ -21,13 +22,14 @@ export default function NewOrderModal({ isOpen, onClose, num }) {
             <span>새로운 요청이</span> 도착하였습니다!
           </ModalText>
           <TableWrap>
+            <Icon>[</Icon>
             <Text>테이블</Text>
-            <Num>- {num}</Num>
+            <Num>- 5</Num>
+            <Icon>]</Icon>
           </TableWrap>
         </ModalContent>
         <Button onClick={onClose}>확인</Button>
       </Modal>
     </ModalContainer>
   );
-  ㄴ;
 }

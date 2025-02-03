@@ -102,12 +102,12 @@ export default function OrderPreparingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders?.length > 0 ? (
-            orderData.data.orders.map((order, i) => (
+          {orderData?.data?.length > 0 ? (
+            orderData.data.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary?.map((menu, i) => (
+                  {order.orderDetail?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>

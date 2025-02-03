@@ -80,7 +80,7 @@ export default function OrderWaitingPage() {
     const orderId = selectedOrderId;
     try {
       await axios.patch(
-        `${host}/stores/1/orders/${orderId}/status`,
+        `/stores/1/orders/${orderId}/status`,
         {
           status: status,
         },
@@ -101,8 +101,9 @@ export default function OrderWaitingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `${host}/stores/1/orders?status=COMPLETED`
+        `/stores/1/orders?status=AWAITING_ACCEPTANCE`
       );
+      console.log(response.data);
       setOrderData(response.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
@@ -125,12 +126,12 @@ export default function OrderWaitingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders?.length > 0 ? (
-            orderData.data.orders.map((order, i) => (
+          {orderData?.data?.length > 0 ? (
+            orderData.data.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary?.map((menu, i) => (
+                  {order.orderDetail?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
