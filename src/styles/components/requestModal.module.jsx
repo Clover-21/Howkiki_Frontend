@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const ModalContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,42 +13,78 @@ export const ModalContainer = styled.div`
 `;
 
 export const Modal = styled.div`
+  position: absolute;
+  width: 540.91px;
+  height: 339.47px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 45px;
+`;
+
+export const ModalContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 600px;
-  height: 400px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  paddig: 20px;
-`;
-
-export const ModalContent = styled.div`
   font-size: 30px;
-  font-weight: bold;
-  margin-bottom: 40px;
 `;
 
-export const ModalText = styled.span`
+export const ModalText = styled.div`
+  display: flex;
+  flex-direciton: row;
+  font-size: 21.85px;
+  font-weight: 600;
+  margin-bottom: 18px;
+`;
+
+export const HighlightText = styled.div`
   color: #f25b64;
+`;
+
+export const BtnWrap = styled.div`
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
-  height: 50px;
-  border-radius: 10px;
+  width: 106px;
+  height: 54px;
+  border-radius: 16px;
   font-size: 20px;
-  background-color: #5d60ef;
+  background-color: #7878f0;
   color: #ffffff;
-  margin-top: 30px;
 `;
 
-export const TableWrap = styled.span``;
+export const TableWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
+`;
 
-export const Text = styled.span``;
+export const TableText = styled.div`
+  font-size: 21.85px;
+`;
 
-export const Num = styled.span``;
+export const Num = styled.div`
+  font-size: 23.06px;
+`;
+
+export const Icon = styled.div`
+  font-size: 30px;
+  margin-left: 3px;
+  margin-right: 3px;
+`;
+
+export const RequestText = styled.div`
+  font-size: 26px;
+  font-weight: 700;
+`;

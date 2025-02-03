@@ -4,11 +4,14 @@ import {
   Modal,
   ModalContent,
   ModalText,
+  HighlightText,
+  BtnWrap,
   Button,
   TableWrap,
-  Text,
+  TableText,
   Num,
   Icon,
+  RequestText,
 } from "../styles/components/requestModal.module";
 
 export default function RequestModal({ isOpen, onClose }) {
@@ -19,16 +22,19 @@ export default function RequestModal({ isOpen, onClose }) {
       <Modal>
         <ModalContent>
           <ModalText>
-            <span>새로운 요청이</span> 도착하였습니다!
+            <HighlightText>새로운 요청</HighlightText>이 도착하였습니다!
           </ModalText>
           <TableWrap>
             <Icon>[</Icon>
-            <Text>테이블</Text>
-            <Num>- 5</Num>
+            <TableText>테이블</TableText>
+            <Num> -5</Num>
             <Icon>]</Icon>
           </TableWrap>
+          <RequestText>" 난방 온도 좀 낮춰주세요 "</RequestText>
         </ModalContent>
-        <Button onClick={onClose}>확인</Button>
+        <BtnWrap>
+          <Button onClick={onClose}>확인</Button>
+        </BtnWrap>
       </Modal>
     </ModalContainer>
   );
