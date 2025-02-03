@@ -4,6 +4,8 @@ import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
 import CancelModal from "../../components/CancelModal";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
 import {
   ListContainer,
   OrderContainer,
@@ -36,6 +38,12 @@ export default function OrderPreparingPage() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
+
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
     setIsCancelModalOpen(true);
@@ -61,8 +69,8 @@ export default function OrderPreparingPage() {
   const handleFinish = async (order) => {
     const orderId = order.orderId;
     try {
-      await axios.patch(
-        `${host}/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+      await apiClient.patch(
+        `/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
         {},
         {
           headers: {
@@ -80,7 +88,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `${host}/stores/1/orders?status=IN_PROGRESS`
+        `/stores/1/orders?status=IN_PROGRESS`
       );
       setOrderData(response.data);
     } catch (error) {
@@ -100,8 +108,8 @@ export default function OrderPreparingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data?.length > 0 ? (
-            orderData.data.map((order, i) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
@@ -126,6 +134,11 @@ export default function OrderPreparingPage() {
             <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
       <CancelModal
         isOpen={isCancelModalOpen}

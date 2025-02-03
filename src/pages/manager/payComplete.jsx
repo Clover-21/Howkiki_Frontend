@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
 import {
   ListContainer,
   OrderContainer,
@@ -25,6 +27,12 @@ export const apiClient = axios.create({
 export default function PayCompletePage() {
   const [orderData, setOrderData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
 
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
@@ -68,6 +76,11 @@ export default function PayCompletePage() {
             <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
     </>
   );

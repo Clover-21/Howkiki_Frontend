@@ -6,6 +6,8 @@ import SideBar from "../../components/SideBar";
 import useModal from "../../hooks/useModal";
 import CancelModal from "../../components/CancelModal";
 import AcceptModal from "../../components/AcceptModal";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
 import {
   ListContainer,
   OrderContainer,
@@ -40,6 +42,12 @@ export default function OrderWaitingPage() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -79,7 +87,7 @@ export default function OrderWaitingPage() {
   const handleFinish = async (status) => {
     const orderId = selectedOrderId;
     try {
-      await axios.patch(
+      await apiClient.patch(
         `/stores/1/orders/${orderId}/status?orderStatus=IN_PROGRESS`,
         {},
         {
@@ -124,8 +132,8 @@ export default function OrderWaitingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data?.length > 0 ? (
-            orderData.data.map((order, i) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
@@ -150,6 +158,11 @@ export default function OrderWaitingPage() {
             <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
       <CancelModal
         isOpen={isCancelModalOpen}

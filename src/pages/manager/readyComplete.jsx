@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
 import {
   ListContainer,
   OrderContainer,
@@ -26,12 +28,16 @@ export default function ReadyCompletePage() {
   const [orderData, setOrderData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
+
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(
-        `${host}/stores/1/orders?status=COMPLETED`
-      );
+      const response = await apiClient.get(`/stores/1/orders?status=COMPLETED`);
       setOrderData(response.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
@@ -68,6 +74,11 @@ export default function ReadyCompletePage() {
             <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
     </>
   );
