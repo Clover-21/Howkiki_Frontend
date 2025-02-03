@@ -26,9 +26,9 @@ export const SideBarName = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 170px;
-  height: 50px;
-  border-radius: 15px;
+  width: 211px;
+  height: 66px;
+  border-radius: 20px;
   font-size: 18px;
   font-weight: bold;
   background-color: ${(props) =>
