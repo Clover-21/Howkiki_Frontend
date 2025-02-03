@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
-import useModal from "../../hooks/useModal";
 import CancelModal from "../../components/CancelModal";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   ListContainer,
   OrderContainer,
@@ -28,6 +30,13 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "#7878F0",
+  borderWidth: "6px",
+};
+
 export default function OrderPreparingPage() {
   const [orderData, setOrderData] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -36,6 +45,12 @@ export default function OrderPreparingPage() {
   const [selectedReason, setSelectedReason] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -59,14 +74,12 @@ export default function OrderPreparingPage() {
     setSelectedReason(reason);
   };
 
-  const handleFinish = async (order, status) => {
+  const handleFinish = async (order) => {
     const orderId = order.orderId;
     try {
-      await axios.patch(
-        `${host}/stores/1/orders/${orderId}/status`,
-        {
-          status: status,
-        },
+      await apiClient.patch(
+        `/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +96,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `${host}/stores/1/orders?status=COMPLETED`
+        `/stores/1/orders?status=IN_PROGRESS`
       );
       setOrderData(response.data);
     } catch (error) {
@@ -103,12 +116,21 @@ export default function OrderPreparingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders?.length > 0 ? (
-            orderData.data.orders.map((order, i) => (
+          {isLoading ? (
+            <ClipLoader
+              color="#fff"
+              loading={isLoading}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary?.map((menu, i) => (
+                  {order.orderDetail?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
@@ -119,16 +141,19 @@ export default function OrderPreparingPage() {
                   <OrderCancelBtn onClick={() => handleCancelClick(order)}>
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleFinish("COMPLETED")}>
-                    수락
+                  <OrderOkBtn onClick={() => handleFinish(order, "COMPLETED")}>
+                    완료
                   </OrderOkBtn>
                 </BtnContainer>
               </OrderContent>
             ))
-          ) : (
-            <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
       <CancelModal
         isOpen={isCancelModalOpen}

@@ -6,6 +6,9 @@ import SideBar from "../../components/SideBar";
 import useModal from "../../hooks/useModal";
 import CancelModal from "../../components/CancelModal";
 import AcceptModal from "../../components/AcceptModal";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   ListContainer,
   OrderContainer,
@@ -29,6 +32,13 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "#7878F0",
+  borderWidth: "6px",
+};
+
 export default function OrderWaitingPage() {
   const { isOpen } = useModal();
   const [orderData, setOrderData] = useState(null);
@@ -40,6 +50,12 @@ export default function OrderWaitingPage() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -79,11 +95,9 @@ export default function OrderWaitingPage() {
   const handleFinish = async (status) => {
     const orderId = selectedOrderId;
     try {
-      await axios.patch(
-        `${host}/stores/1/orders/${orderId}/status`,
-        {
-          status: status,
-        },
+      await apiClient.patch(
+        `/stores/1/orders/${orderId}/status?orderStatus=IN_PROGRESS`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -101,8 +115,9 @@ export default function OrderWaitingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `${host}/stores/1/orders?status=COMPLETED`
+        `/stores/1/orders?status=AWAITING_ACCEPTANCE`
       );
+      console.log(response.data);
       setOrderData(response.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
@@ -125,12 +140,21 @@ export default function OrderWaitingPage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders?.length > 0 ? (
-            orderData.data.orders.map((order, i) => (
+          {isLoading ? (
+            <ClipLoader
+              color="#fff"
+              loading={isLoading}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary?.map((menu, i) => (
+                  {order.orderDetail?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
@@ -147,10 +171,13 @@ export default function OrderWaitingPage() {
                 </BtnContainer>
               </OrderContent>
             ))
-          ) : (
-            <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </ListContainer>
       <CancelModal
         isOpen={isCancelModalOpen}

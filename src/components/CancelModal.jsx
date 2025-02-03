@@ -100,7 +100,7 @@ export default function CancelModal({
             <>
               <SelectedTitle>재료 소진된 메뉴를 골라주세요.</SelectedTitle>
               <MenuContainer>
-                {canceledOrder?.menuSummary.map((menu, index) => (
+                {canceledOrder?.orderDetail.map((menu, index) => (
                   <MenuContentWrapper key={index}>
                     <MenuContent>
                       <CheckboxWrapper>

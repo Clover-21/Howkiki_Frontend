@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/usePagination";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   ListContainer,
   OrderContainer,
@@ -22,16 +25,27 @@ export const apiClient = axios.create({
   baseURL: host,
 });
 
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "#7878F0",
+  borderWidth: "6px",
+};
+
 export default function PayCompletePage() {
   const [orderData, setOrderData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const numbers = orderData?.data || [];
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    numbers,
+    8
+  );
+
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(
-        `${host}/stores/1/orders?status=PAID`
-      );
+      const response = await apiClient.get(`/stores/1/orders?status=PAID`);
       setOrderData(response.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
@@ -50,12 +64,21 @@ export default function PayCompletePage() {
       <ListContainer>
         <SideBar />
         <OrderContainer>
-          {orderData?.data.orders?.length > 0 ? (
-            orderData.data.orders.map((order, i) => (
+          {isLoading ? (
+            <ClipLoader
+              color="#fff"
+              loading={isLoading}
+              cssOverride={override}
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            currentItems.map((order, i) => (
               <OrderContent key={i}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.menuSummary?.map((menu, i) => (
+                  {order.orderDetail?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
@@ -64,11 +87,14 @@ export default function PayCompletePage() {
                 </MenuContainer>
               </OrderContent>
             ))
-          ) : (
-            <div>주문이 없습니다.</div>
           )}
         </OrderContainer>
       </ListContainer>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        goToPage={goToPage}
+      />
     </>
   );
 }

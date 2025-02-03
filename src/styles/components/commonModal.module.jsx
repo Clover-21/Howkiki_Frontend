@@ -43,7 +43,7 @@ export const MenuContainer = styled.div`
 export const MenuContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 60px;
+  height: 65px;
   background-color: #efefef;
   justify-content: center;
 `;
@@ -52,18 +52,18 @@ export const MenuContent = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  padding: 22px;
+  font-size: 14.56px;
 `;
 
 export const MenuName = styled.div`
   flex-grow: 1;
   font-size: 16px;
-  font-weight: 500;
 `;
 
 export const MenuQuantity = styled.div`
   width: 50px;
   text-align: center;
-  font-size: 14px;
 `;
 
 export const MenuPrice = styled.div`
@@ -83,7 +83,7 @@ export const PriceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 40px;
 `;
 
 export const PriceWrap = styled.div`
@@ -132,7 +132,7 @@ export const FinishBtn = styled.div`
   height: 38.84px;
   color: #ffffff;
   font-weight: 600;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.$isEmpty ? "#7878F0" : "#D9D9D9")};
   border-radius: 7.28px;
 `;
 
@@ -147,3 +147,9 @@ export const PaidBtn = styled.div`
   background-color: #7878f0;
   border-radius: 7.28px;
 `;
+
+export const TextWrapper = styled.div`
+  width: 628.68px;
+  padding: 20px;
+`;
+export const EmptyText = styled.div``;
