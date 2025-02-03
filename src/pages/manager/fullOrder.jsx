@@ -37,7 +37,7 @@ export default function PayCompletePage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`${host}/stores/1/orders/all`);
+      const response = await apiClient.get(`/stores/1/orders/all`);
       setOrderData(response.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
