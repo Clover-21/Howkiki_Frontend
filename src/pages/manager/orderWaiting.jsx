@@ -80,10 +80,8 @@ export default function OrderWaitingPage() {
     const orderId = selectedOrderId;
     try {
       await axios.patch(
-        `/stores/1/orders/${orderId}/status`,
-        {
-          status: status,
-        },
+        `/stores/1/orders/${orderId}/status?orderStatus=IN_PROGRESS`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",

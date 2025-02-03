@@ -58,14 +58,12 @@ export default function OrderPreparingPage() {
     setSelectedReason(reason);
   };
 
-  const handleFinish = async (order, status) => {
+  const handleFinish = async (order) => {
     const orderId = order.orderId;
     try {
       await axios.patch(
-        `${host}/stores/1/orders/${orderId}/status`,
-        {
-          status: status,
-        },
+        `${host}/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -82,7 +80,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `${host}/stores/1/orders?status=COMPLETED`
+        `${host}/stores/1/orders?status=IN_PROGRESS`
       );
       setOrderData(response.data);
     } catch (error) {
@@ -118,7 +116,7 @@ export default function OrderPreparingPage() {
                   <OrderCancelBtn onClick={() => handleCancelClick(order)}>
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleFinish("COMPLETED")}>
+                  <OrderOkBtn onClick={() => handleFinish(order, "COMPLETED")}>
                     완료
                   </OrderOkBtn>
                 </BtnContainer>
