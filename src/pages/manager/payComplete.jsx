@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
+import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -34,6 +35,8 @@ const override = {
 
 export default function PayCompletePage() {
   const [orderData, setOrderData] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const numbers = orderData?.data || [];
@@ -52,6 +55,11 @@ export default function PayCompletePage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleOrderClick = (order) => {
+    setSelectedOrder(order);
+    setIsDetailModalOpen(true);
   };
 
   useEffect(() => {
@@ -75,7 +83,7 @@ export default function PayCompletePage() {
             />
           ) : (
             currentItems.map((order, i) => (
-              <OrderContent key={i}>
+              <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
                   {order.orderDetail?.map((menu, i) => (
@@ -94,6 +102,11 @@ export default function PayCompletePage() {
         currentPage={currentPage}
         totalPages={totalPages}
         goToPage={goToPage}
+      />
+      <OrderDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        selectedOrder={selectedOrder}
       />
     </>
   );
