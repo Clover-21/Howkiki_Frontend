@@ -88,7 +88,7 @@ export default function OrderPreparingPage() {
       );
       navigate("/readycomplete");
     } catch (error) {
-      console.error("상태 업데이트 중 에러 발생:", error);
+      console.error(error);
     }
   };
 
