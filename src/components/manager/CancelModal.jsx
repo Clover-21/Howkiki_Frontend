@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Checkbox from "./CheckBox";
+import Line from "./Line";
 import {
   CancelModalContainer,
   CancelModalWrap,
@@ -11,12 +14,18 @@ import {
   SelectedTitle,
   MenuContainer,
   MenuContent,
-  MenuName,
   CheckboxWrapper,
   MenuContentWrapper,
 } from "../../styles/components/cancelModal.module";
-import Checkbox from "./CheckBox";
-import Line from "./Line";
+
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
 
 export default function CancelModal({
   isOpen,
@@ -48,6 +57,7 @@ export default function CancelModal({
   };
 
   const handleMenuSelect = (menuName) => {
+    console.log("클릭된 메뉴:", menuName);
     setSelectedMenus((prevSelectedMenus) => {
       if (prevSelectedMenus.includes(menuName)) {
         // 이미 선택된 메뉴라면 해제
@@ -62,11 +72,49 @@ export default function CancelModal({
   const isStep1ButtonActive = selectedReason;
   const isStep2ButtonActive = selectedMenus.length > 0;
 
-  const handleNext = () => {
-    if (selectedReason === "재료 소진" && currentStep === 1) {
-      onNext();
-    } else {
-      onClose();
+  const handleNext = async () => {
+    if (currentStep === 1) {
+      if (selectedReason === "재료 소진") {
+        onNext();
+      } else if (
+        selectedReason === "라스트오더 종료" ||
+        selectedReason === "기타"
+      ) {
+        const cancelReason =
+          selectedReason === "라스트오더 종료" ? "LAST_ORDER_ENDED" : "ETC";
+
+        try {
+          await apiClient.patch(
+            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            {
+              cancelReason,
+              soldOutMenu: null,
+            }
+          );
+
+          onClose();
+        } catch (error) {
+          console.error("주문 취소 오류:", error);
+        }
+      }
+    } else if (currentStep === 2) {
+      if (selectedReason === "재료 소진") {
+        const soldOutMenu = selectedMenus.join(", ");
+
+        try {
+          await apiClient.patch(
+            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            {
+              cancelReason: "OUT_OF_STOCK",
+              soldOutMenu,
+            }
+          );
+
+          onClose();
+        } catch (error) {
+          console.error("주문 취소 오류:", error);
+        }
+      }
     }
   };
 
@@ -105,11 +153,11 @@ export default function CancelModal({
                     <MenuContent>
                       <CheckboxWrapper>
                         <Checkbox
+                          text={menu.menuName}
                           onChange={() => handleMenuSelect(menu.menuName)}
                           checked={selectedMenus.includes(menu.menuName)}
                         />
                       </CheckboxWrapper>
-                      <MenuName>{menu.menuName}</MenuName>
                     </MenuContent>
                     <Line />
                   </MenuContentWrapper>

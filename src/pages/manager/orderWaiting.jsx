@@ -92,7 +92,7 @@ export default function OrderWaitingPage() {
     }
   };
 
-  const handleFinish = async (status) => {
+  const handleFinish = async () => {
     const orderId = selectedOrderId;
     try {
       await apiClient.patch(
@@ -111,7 +111,6 @@ export default function OrderWaitingPage() {
     }
   };
 
-  // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(

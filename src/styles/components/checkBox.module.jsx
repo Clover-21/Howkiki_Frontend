@@ -23,7 +23,6 @@ export const StyledLabel = styled.label`
 `;
 
 export const StyledP = styled.div`
-  font-weight: 700;
   margin-left: 20px;
   font-size: 18px;
 `;

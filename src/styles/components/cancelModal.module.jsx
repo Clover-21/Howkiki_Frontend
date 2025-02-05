@@ -28,7 +28,7 @@ export const CancelModalContent = styled.div`
 
 export const CancelText = styled.div`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 43px;
   margin-left: 47px;
 `;
@@ -72,7 +72,7 @@ export const CancelBtn = styled.div`
 
 export const SelectedTitle = styled.div`
   font-size: 17px;
-  font-weight: bold;
+  font-weight: 600;
 `;
 
 export const MenuContainer = styled.div`
