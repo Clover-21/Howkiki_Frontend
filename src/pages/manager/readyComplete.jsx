@@ -49,7 +49,10 @@ export default function ReadyCompletePage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(`/stores/1/orders?status=COMPLETED`);
-      setOrderData(response.data);
+      const sortedOrders = response.data.data.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setOrderData({ ...response.data, data: sortedOrders });
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     } finally {

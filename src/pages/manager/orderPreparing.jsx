@@ -13,7 +13,6 @@ import {
   OrderContainer,
   OrderContent,
   MenuContainer,
-  TableDataWrap,
   MenuContent,
   TableNum,
   MenuName,
@@ -107,7 +106,10 @@ export default function OrderPreparingPage() {
       const response = await apiClient.get(
         `/stores/1/orders?status=IN_PROGRESS`
       );
-      setOrderData(response.data);
+      const sortedOrders = response.data.data.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setOrderData({ ...response.data, data: sortedOrders });
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     } finally {
