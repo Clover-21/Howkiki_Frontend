@@ -13,6 +13,7 @@ import {
   OrderContainer,
   OrderContent,
   MenuContainer,
+  TableDataWrap,
   MenuContent,
   TableNum,
   MenuName,
@@ -146,7 +147,12 @@ export default function OrderPreparingPage() {
                   ))}
                 </MenuContainer>
                 <BtnContainer>
-                  <OrderCancelBtn onClick={() => handleCancelClick(order)}>
+                  <OrderCancelBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCancelClick(order);
+                    }}
+                  >
                     취소
                   </OrderCancelBtn>
                   <OrderOkBtn onClick={() => handleFinish(order, "COMPLETED")}>

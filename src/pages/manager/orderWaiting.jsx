@@ -22,6 +22,7 @@ import {
   BtnContainer,
   OrderOkBtn,
   OrderCancelBtn,
+  TableDataWrap,
 } from "../../styles/manager/orderWaiting.module";
 
 const host =
@@ -169,10 +170,20 @@ export default function OrderWaitingPage() {
                   ))}
                 </MenuContainer>
                 <BtnContainer>
-                  <OrderCancelBtn onClick={() => handleCancelClick(order)}>
+                  <OrderCancelBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCancelClick(order);
+                    }}
+                  >
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleAcceptClick(order)}>
+                  <OrderOkBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAcceptClick(order);
+                    }}
+                  >
                     수락
                   </OrderOkBtn>
                 </BtnContainer>
