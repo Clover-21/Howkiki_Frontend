@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import CancelModal from "../../components/manager/CancelModal";
+import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -39,7 +40,9 @@ const override = {
 
 export default function OrderPreparingPage() {
   const [orderData, setOrderData] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
@@ -51,6 +54,11 @@ export default function OrderPreparingPage() {
     numbers,
     8
   );
+
+  const handleOrderClick = (order) => {
+    setSelectedOrder(order);
+    setIsDetailModalOpen(true);
+  };
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -127,7 +135,7 @@ export default function OrderPreparingPage() {
             />
           ) : (
             currentItems.map((order, i) => (
-              <OrderContent key={i}>
+              <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
                   {order.orderDetail?.map((menu, i) => (
@@ -155,6 +163,11 @@ export default function OrderPreparingPage() {
           goToPage={goToPage}
         />
       </ListContainer>
+      <OrderDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        selectedOrder={selectedOrder}
+      />
       <CancelModal
         isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}
