@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import useModal from "../../hooks/useModal";
+import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import CancelModal from "../../components/manager/CancelModal";
 import AcceptModal from "../../components/manager/AcceptModal";
 import Pagination from "../../components/manager/Pagination";
@@ -42,7 +43,9 @@ const override = {
 export default function OrderWaitingPage() {
   const { isOpen } = useModal();
   const [orderData, setOrderData] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
@@ -56,6 +59,11 @@ export default function OrderWaitingPage() {
     numbers,
     8
   );
+
+  const handleOrderClick = (order) => {
+    setSelectedOrder(order);
+    setIsDetailModalOpen(true);
+  };
 
   const handleCancelClick = (order) => {
     setCanceledOrder(order);
@@ -92,7 +100,7 @@ export default function OrderWaitingPage() {
     }
   };
 
-  const handleFinish = async (status) => {
+  const handleFinish = async () => {
     const orderId = selectedOrderId;
     try {
       await apiClient.patch(
@@ -111,14 +119,15 @@ export default function OrderWaitingPage() {
     }
   };
 
-  // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
         `/stores/1/orders?status=AWAITING_ACCEPTANCE`
       );
-      console.log(response.data);
-      setOrderData(response.data);
+      const sortedOrders = response.data.data.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setOrderData({ ...response.data, data: sortedOrders });
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
     } finally {
@@ -151,7 +160,7 @@ export default function OrderWaitingPage() {
             />
           ) : (
             currentItems.map((order, i) => (
-              <OrderContent key={i}>
+              <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
                   {order.orderDetail?.map((menu, i) => (
@@ -162,10 +171,20 @@ export default function OrderWaitingPage() {
                   ))}
                 </MenuContainer>
                 <BtnContainer>
-                  <OrderCancelBtn onClick={() => handleCancelClick(order)}>
+                  <OrderCancelBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCancelClick(order);
+                    }}
+                  >
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleAcceptClick(order)}>
+                  <OrderOkBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAcceptClick(order);
+                    }}
+                  >
                     수락
                   </OrderOkBtn>
                 </BtnContainer>
@@ -179,6 +198,11 @@ export default function OrderWaitingPage() {
           goToPage={goToPage}
         />
       </ListContainer>
+      <OrderDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        selectedOrder={selectedOrder}
+      />
       <CancelModal
         isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}
