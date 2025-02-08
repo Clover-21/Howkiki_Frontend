@@ -8,6 +8,7 @@ import {
   OrderContent,
   IconWrap,
   ChatIcon,
+  SwiperContainer,
 } from "../../styles/chatbot/orderSummary.module";
 import StatusBar from "../../components/chatbot/StatusBar";
 import OrderBox from "../../components/chatbot/OrderBox";
@@ -25,7 +26,7 @@ export default function OrderSummaryPage() {
       <SummaryContentWrap>
         <OrderContent>
           <StatusBar />
-          <div
+          <SwiperContainer
             style={{
               width: "100%",
               height: "100%",
@@ -55,7 +56,7 @@ export default function OrderSummaryPage() {
                 <OrderBox />
               </SwiperSlide>
             </Swiper>
-          </div>
+          </SwiperContainer>
           <IconWrap>
             <ChatIcon src={chatbot} onClick={() => navigate("/chatbot")} />
           </IconWrap>
