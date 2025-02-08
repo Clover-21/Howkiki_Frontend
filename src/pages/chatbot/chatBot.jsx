@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
+import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import {
   ChatContainer,
   ChatTitle,
@@ -19,6 +21,8 @@ import orderhs from "../../assets/icon/orderhistory.svg";
 export default function ChatBot() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [messages, setMessages] = useState([
@@ -77,35 +81,49 @@ export default function ChatBot() {
     }
   };
 
+  const handleCancelModal = () => {
+    setIsCancelModalOpen(true);
+  };
+
   return (
-    <ChatContainer>
-      <ChatTitle>키키 chat</ChatTitle>
-      <ChatBox>
-        {messages.map((msg, index) => (
-          <Message key={index} sender={msg.sender}>
-            <p>{msg.text}</p>
-          </Message>
-        ))}
-        {loading && (
-          <Message sender="bot">
-            <p>응답 중...</p>
-          </Message>
-        )}
-      </ChatBox>
-      <ChatInput>
-        <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
-        <InputField
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="메시지를 입력해주세요"
-          disabled={loading}
-        />
-        <BtnWrap>
-          <SendButton onClick={handleSendMessage} />
-          <SendIcon src={send} onClick={handleSendMessage} />
-        </BtnWrap>
-      </ChatInput>
-    </ChatContainer>
+    <>
+      <ChatContainer>
+        <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
+        <ChatBox>
+          {messages.map((msg, index) => (
+            <Message key={index} sender={msg.sender}>
+              <p>{msg.text}</p>
+            </Message>
+          ))}
+          {loading && (
+            <Message sender="bot">
+              <p>응답 중...</p>
+            </Message>
+          )}
+        </ChatBox>
+        <ChatInput>
+          <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
+          <InputField
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="메시지를 입력해주세요"
+            disabled={loading}
+          />
+          <BtnWrap>
+            <SendButton onClick={handleSendMessage} />
+            <SendIcon src={send} onClick={handleSendMessage} />
+          </BtnWrap>
+        </ChatInput>
+      </ChatContainer>
+      <RequestFinishModal
+        isOpen={isRequestModalOpen}
+        onClose={() => setIsRequestModalOpen(false)}
+      />
+      <OrderCancelModal
+        isOpen={isCancelModalOpen}
+        onClose={() => setIsCancelModalOpen(false)}
+      />
+    </>
   );
 }
