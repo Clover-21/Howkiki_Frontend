@@ -21,24 +21,25 @@ import {
   FinishBtn,
 } from "../../styles/components/commonModal.module";
 
-export default function PackageModal({ isOpen, onClose, number }) {
+export default function PackageModal({ isOpen, onClose, data }) {
   if (!isOpen) return null;
 
-  const formattedNumber = String(number).padStart(3, "0");
+  const formattedNumber = String(data.orderId).padStart(3, "0");
 
   return (
     <ModalContainer>
       <Modal>
         <ModalTitle>포장 {formattedNumber}</ModalTitle>
         <MenuContainer>
-          <MenuContentWrapper>
-            <MenuContent>
-              <MenuName></MenuName>
-              <MenuQuantity></MenuQuantity>
-              <MenuPrice></MenuPrice>
-            </MenuContent>
-            <Line />
-          </MenuContentWrapper>
+          {data.orderDetail.map((order, i) => (
+            <MenuContentWrapper key={i}>
+              <MenuContent>
+                <MenuName>{order.menuName}</MenuName>
+                <MenuQuantity>{order.quantity}</MenuQuantity>
+              </MenuContent>
+              <Line />
+            </MenuContentWrapper>
+          ))}
         </MenuContainer>
         <PriceWrapper>
           <PriceWrap>

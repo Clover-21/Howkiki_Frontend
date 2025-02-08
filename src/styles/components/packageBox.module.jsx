@@ -32,4 +32,19 @@ export const Number = styled.div`
   font-weight: 600;
 `;
 
-export const ContentText = styled.div``;
+export const ContentText = styled.div`
+  width: 100%;
+  height: 233px;
+  margin-top: 51px;
+`;
+
+export const MenuContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.56px;
+  margin-bottom: 10px;
+`;
+
+export const MenuName = styled.div``;
+
+export const MenuQuantity = styled.div``;
