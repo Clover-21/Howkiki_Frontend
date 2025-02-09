@@ -36,6 +36,23 @@ export const apiClient = axios.create({
 export default function TableModal({ isOpen, onClose, table }) {
   const [orderData, setOrderData] = useState(null);
 
+  const handlePaid = async () => {
+    try {
+      await apiClient.patch(
+        `/stores/1/orders/tables/${table.id}/status-paid`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      onClose();
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
+    }
+  };
+
   useEffect(() => {
     if (!isOpen || !table) return;
 
@@ -108,7 +125,7 @@ export default function TableModal({ isOpen, onClose, table }) {
             닫기
           </FinishBtn>
           {orderData && orderData.orderList.length > 0 && (
-            <PaidBtn>결제 완료</PaidBtn>
+            <PaidBtn onClick={handlePaid}>결제 완료</PaidBtn>
           )}
         </BtnContainer>
       </Modal>
