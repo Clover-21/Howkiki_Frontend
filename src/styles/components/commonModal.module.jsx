@@ -32,8 +32,8 @@ export const ModalTitle = styled.div`
 `;
 
 export const MenuContainer = styled.div`
-  height: 194.43px;
-  max-height: 194.43px;
+  height: 196px;
+  max-height: 196px;
   max-width: 628.68px;
   overflow-y: auto;
   margin-top: 10px;
