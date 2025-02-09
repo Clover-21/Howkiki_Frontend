@@ -7,6 +7,7 @@ import {
   TableBox,
   TableNum,
   PeopleNum,
+  MoreOrders,
   HasOrderBox,
   MenuWrap,
   MenuName,
@@ -73,12 +74,19 @@ export default function TableManagePage() {
                 <>
                   <HasOrderBox>
                     <TableNum>테이블 {table.id}</TableNum>
-                    {matchingOrder.orderDetail.map((order, index) => (
-                      <MenuWrap key={index}>
-                        <MenuName>{order.name}</MenuName>
-                        <Quantity>{order.quantity}</Quantity>
-                      </MenuWrap>
-                    ))}
+                    {matchingOrder.orderDetail
+                      .slice(0, 2)
+                      .map((order, index) => (
+                        <MenuWrap key={index}>
+                          <MenuName>{order.name}</MenuName>
+                          <Quantity>{order.quantity}</Quantity>
+                        </MenuWrap>
+                      ))}
+                    {matchingOrder.orderDetail.length > 2 && (
+                      <MoreOrders>
+                        +외 {matchingOrder.orderDetail.length - 2}개
+                      </MoreOrders>
+                    )}
                   </HasOrderBox>
                   <Line />
                   <TotalPriceWrapper>

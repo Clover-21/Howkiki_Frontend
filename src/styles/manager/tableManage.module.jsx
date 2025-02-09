@@ -24,6 +24,11 @@ export const TableBox = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
+export const MoreOrders = styled.div`
+  font-size: 13.35px;
+  color: #888888;
+`;
+
 export const HasOrderBox = styled.div`
   display: flex;
   flex-direction: column;
