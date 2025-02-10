@@ -73,6 +73,7 @@ export const InputField = styled.textarea`
   font-size: 12.5px;
   line-height: 18px;
   box-sizing: border-box;
+  backgrount-color: #ffffff;
 
   &::placeholder {
     color: #848484;

@@ -64,6 +64,12 @@ export default function ChatBot() {
 
       setInput("");
 
+      const inputField = document.getElementById("inputfield");
+      if (inputField) {
+        inputField.style.height = "40px";
+        inputField.style.backgroundColor = "#ffffff";
+      }
+
       const botReply = await chatBotMsg(userMessage);
 
       setMessages((prevMessages) => [
@@ -79,16 +85,15 @@ export default function ChatBot() {
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    e.target.style.height = "40px"; // 기본 높이
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 84)}px`; // 최대 3줄까지만 확장
+    e.target.style.height = "40px";
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 78)}px`;
   };
 
-  // 자동으로 최신 메시지로 스크롤
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [messages]); // 메시지가 변경될 때마다 스크롤을 맨 아래로
+  }, [messages]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -124,6 +129,7 @@ export default function ChatBot() {
           <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
           <InputContainer>
             <InputField
+              id="inputfield"
               value={input}
               onChange={handleChange}
               placeholder="메시지를 입력해주세요"
