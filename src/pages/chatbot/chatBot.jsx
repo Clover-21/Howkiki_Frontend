@@ -18,7 +18,6 @@ import {
   SendIcon,
   HsIcon,
 } from "../../styles/chatbot/chatBot.module";
-import { BtnContainer } from "../../styles/components/chatbotModal.module";
 
 const host =
   window.location.hostname === "localhost" ? "http://3.34.149.35:5000" : "api";

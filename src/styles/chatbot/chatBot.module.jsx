@@ -61,7 +61,7 @@ export const InputContainer = styled.div`
 export const InputField = styled.textarea`
   flex: 1;
   height: 40px;
-  min-height: 40px;
+  min-height: 42px;
   max-height: 78px;
   overflow-y: auto;
   resize: none;
@@ -79,6 +79,10 @@ export const InputField = styled.textarea`
     color: #848484;
     font-size: 12.5px;
     font-weight: 600;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
