@@ -18,6 +18,13 @@ import {
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 
+const host =
+  window.location.hostname === "localhost" ? "http://3.34.149.35:5000" : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function ChatBot() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
@@ -28,6 +35,45 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([
     { sender: "bot", text: "호우섬에 오신 것을 환영합니다!" },
   ]);
+
+  const chatBotMsg = async (question) => {
+    setLoading(true);
+    try {
+      const response = await apiClient.post(`/api/chat`, {
+        question: question,
+      });
+      return response.data.response;
+    } catch (error) {
+      console.error("챗봇 API 호출 오류:", error);
+      return "죄송합니다, 답변을 가져올 수 없습니다.";
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (input.trim()) {
+      const userMessage = input.trim();
+
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "user", text: userMessage },
+      ]);
+
+      setInput("");
+
+      const botReply = await chatBotMsg(userMessage);
+
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "bot", text: botReply },
+      ]);
+    }
+  };
+
+  const handleCancelModal = () => {
+    setIsCancelModalOpen(true);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -42,48 +88,6 @@ export default function ChatBot() {
 
     return () => clearTimeout(timer);
   }, []);
-
-  const chatBotMsg = async (userMessage) => {
-    setLoading(true);
-    try {
-      const response = await axios.post("https:~", {
-        // 여기에 실제 api 주소 작성 예정
-        message: userMessage,
-      });
-
-      return response.data.reply; // 임의로 작성
-    } catch (error) {
-      console.error("챗봇 API 호출 오류:", error);
-      return "죄송합니다, 답변을 가져올 수 없습니다.";
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSendMessage = async () => {
-    if (input.trim()) {
-      const userMessage = input.trim();
-
-      // 사용자 메시지
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "user", text: userMessage },
-      ]);
-
-      setInput("");
-
-      // API 호출 후 챗봇 답변
-      const botReply = await chatBotMsg(userMessage);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "bot", text: botReply },
-      ]);
-    }
-  };
-
-  const handleCancelModal = () => {
-    setIsCancelModalOpen(true);
-  };
 
   return (
     <>
