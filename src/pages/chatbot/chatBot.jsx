@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
+import send from "../../assets/icon/send.svg";
+import orderhs from "../../assets/icon/orderhistory.svg";
 import {
   ChatContainer,
   ChatTitle,
   ChatBox,
   Message,
   ChatInput,
+  InputContainer,
   InputField,
   BtnWrap,
   SendButton,
   SendIcon,
   HsIcon,
 } from "../../styles/chatbot/chatBot.module";
-import send from "../../assets/icon/send.svg";
-import orderhs from "../../assets/icon/orderhistory.svg";
+import { BtnContainer } from "../../styles/components/chatbotModal.module";
 
 const host =
   window.location.hostname === "localhost" ? "http://3.34.149.35:5000" : "api";
@@ -31,10 +33,10 @@ export default function ChatBot() {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [messages, setMessages] = useState([
     { sender: "bot", text: "호우섬에 오신 것을 환영합니다!" },
   ]);
+  const chatBoxRef = useRef(null);
 
   const chatBotMsg = async (question) => {
     setLoading(true);
@@ -75,6 +77,19 @@ export default function ChatBot() {
     setIsCancelModalOpen(true);
   };
 
+  const handleChange = (e) => {
+    setInput(e.target.value);
+    e.target.style.height = "40px"; // 기본 높이
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 84)}px`; // 최대 3줄까지만 확장
+  };
+
+  // 자동으로 최신 메시지로 스크롤
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]); // 메시지가 변경될 때마다 스크롤을 맨 아래로
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setMessages((prevMessages) => [
@@ -93,7 +108,7 @@ export default function ChatBot() {
     <>
       <ChatContainer>
         <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
-        <ChatBox>
+        <ChatBox ref={chatBoxRef}>
           {messages.map((msg, index) => (
             <Message key={index} sender={msg.sender}>
               <p>{msg.text}</p>
@@ -101,23 +116,24 @@ export default function ChatBot() {
           ))}
           {loading && (
             <Message sender="bot">
-              <p>응답 중...</p>
+              <p>. . .</p>
             </Message>
           )}
         </ChatBox>
         <ChatInput>
           <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
-          <InputField
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="메시지를 입력해주세요"
-            disabled={loading}
-          />
-          <BtnWrap>
-            <SendButton onClick={handleSendMessage} />
-            <SendIcon src={send} onClick={handleSendMessage} />
-          </BtnWrap>
+          <InputContainer>
+            <InputField
+              value={input}
+              onChange={handleChange}
+              placeholder="메시지를 입력해주세요"
+              disabled={loading}
+            />
+            <BtnWrap>
+              <SendButton onClick={handleSendMessage} />
+              <SendIcon src={send} onClick={handleSendMessage} />
+            </BtnWrap>
+          </InputContainer>
         </ChatInput>
       </ChatContainer>
       <RequestFinishModal
