@@ -30,16 +30,17 @@ export const ChatBox = styled.div`
 export const Message = styled.div`
   max-width: 300px;
   padding: 14px;
-  margin: 5px;
   border-radius: 20px;
   font-size: 13px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 18px;
   color: ${({ sender }) => (sender === "bot" ? "#000000" : "#ffffff")};
   background-color: ${({ sender }) =>
     sender === "bot" ? "#ffffff" : "#5D60EF"};
   align-self: ${({ sender }) => (sender === "bot" ? "flex-start" : "flex-end")};
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  line-height: 18px;
+  margin-bottom: ${({ sender }) => (sender === "bot" ? "5px" : "15px")};
+  margin-top: ${({ sender }) => (sender === "user" ? "15px" : "5px")};
 `;
 
 export const ChatInput = styled.div`
