@@ -5,11 +5,14 @@ import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
+import botIcon from "../../assets/icon/boticon.svg";
 import {
   ChatContainer,
   ChatTitle,
   ChatBox,
   Message,
+  MessageWrapper,
+  BotIcon,
   ChatInput,
   InputContainer,
   InputField,
@@ -113,17 +116,31 @@ export default function ChatBot() {
       <ChatContainer>
         <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
         <ChatBox ref={chatBoxRef}>
-          {messages.map((msg, index) => (
-            <Message key={index} sender={msg.sender}>
-              <p>{msg.text}</p>
-            </Message>
-          ))}
+          {messages.map((msg, index) => {
+            const isFirstBotMessage =
+              index === 0 || messages[index - 1]?.sender !== "bot";
+
+            return (
+              <MessageWrapper key={index} sender={msg.sender}>
+                {isFirstBotMessage && msg.sender === "bot" && (
+                  <BotIcon src={botIcon} alt="Bot Icon" />
+                )}
+                <Message sender={msg.sender}>
+                  <p>{msg.text}</p>
+                </Message>
+              </MessageWrapper>
+            );
+          })}
           {loading && (
-            <Message sender="bot">
-              <p>. . .</p>
-            </Message>
+            <MessageWrapper>
+              <BotIcon src={botIcon} alt="Bot Icon" />
+              <Message sender="bot">
+                <p>. . .</p>
+              </Message>
+            </MessageWrapper>
           )}
         </ChatBox>
+
         <ChatInput>
           <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
           <InputContainer>

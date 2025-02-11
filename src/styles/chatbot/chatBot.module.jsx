@@ -20,6 +20,7 @@ export const ChatTitle = styled.div`
 `;
 
 export const ChatBox = styled.div`
+  display: flex;
   flex: 1;
   padding: 10px;
   overflow-y: auto;
@@ -28,19 +29,36 @@ export const ChatBox = styled.div`
 `;
 
 export const Message = styled.div`
-  max-width: 300px;
+  width: fit-content;
+  max-width: 80%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
   padding: 14px;
   border-radius: 20px;
   font-size: 13px;
-  word-wrap: break-word;
-  white-space: pre-wrap;
   line-height: 18px;
   color: ${({ sender }) => (sender === "bot" ? "#000000" : "#ffffff")};
   background-color: ${({ sender }) =>
     sender === "bot" ? "#ffffff" : "#5D60EF"};
-  align-self: ${({ sender }) => (sender === "bot" ? "flex-start" : "flex-end")};
   margin-bottom: ${({ sender }) => (sender === "bot" ? "5px" : "15px")};
   margin-top: ${({ sender }) => (sender === "user" ? "15px" : "5px")};
+  align-self: ${({ sender }) =>
+    sender === "user" ? "flex-end" : "flex-start"};
+`;
+
+export const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${({ sender }) =>
+    sender === "user" ? "flex-end" : "flex-start"};
+  margin-left: ${({ sender }) => (sender === "bot" ? "8px" : "")};
+  margin-right: ${({ sender }) => (sender === "bot" ? "" : "8px")};
+`;
+
+export const BotIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
 `;
 
 export const ChatInput = styled.div`
