@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   ModalContainer,
   Modal,
@@ -10,12 +11,21 @@ import {
   FinishBtn,
 } from "../../styles/components/acceptModal.module";
 
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function AcceptModal({
   isOpen,
   onClose,
   currentStep,
   onNext,
-  onFinish,
+  selectedOrder,
 }) {
   const [time, setTime] = useState("");
 
@@ -25,13 +35,28 @@ export default function AcceptModal({
 
   const handleFinishClick = () => {
     if (time) {
-      onFinish("AWAITING_ACCEPTANCE", time);
+      handleAccept(time);
     }
   };
 
   const handleEnter = (e) => {
     if (e.key === "Enter" && time) {
-      onFinish("AWAITING_ACCEPTANCE", time);
+      handleAccept(time);
+    }
+  };
+
+  const handleAccept = async (expectedPrepMin) => {
+    try {
+      await apiClient.patch(
+        `/stores/1/orders/${selectedOrder.orderId}/status/order-acceptance`,
+        { expectedPrepMin },
+        {
+          headers: {},
+        }
+      );
+      onClose();
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
     }
   };
 
@@ -51,17 +76,11 @@ export default function AcceptModal({
             <>
               <ModalText>준비 예상 시간을 선택해주세요.</ModalText>
               <TimeBoxWrap>
-                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
-                  5분
-                </TimeBox>
-                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
-                  10분
-                </TimeBox>
+                <TimeBox onClick={() => handleAccept("5")}>5분</TimeBox>
+                <TimeBox onClick={() => handleAccept("10")}>10분</TimeBox>
               </TimeBoxWrap>
               <TimeBoxWrap>
-                <TimeBox onClick={() => onFinish("AWAITING_ACCEPTANCE", "5분")}>
-                  15분
-                </TimeBox>
+                <TimeBox onClick={() => handleAccept("15")}>15분</TimeBox>
                 <TimeBox onClick={onNext}>기타</TimeBox>
               </TimeBoxWrap>
             </>

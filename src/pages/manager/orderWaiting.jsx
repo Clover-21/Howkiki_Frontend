@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -52,7 +51,6 @@ export default function OrderWaitingPage() {
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   const numbers = orderData?.data || [];
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
@@ -97,25 +95,6 @@ export default function OrderWaitingPage() {
   const handleEtcClick = () => {
     if (currentStep === 1) {
       setCurrentStep(2);
-    }
-  };
-
-  const handleFinish = async () => {
-    const orderId = selectedOrderId;
-    try {
-      await apiClient.patch(
-        `/stores/1/orders/${orderId}/status?orderStatus=IN_PROGRESS`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      navigate("/preparing");
-    } catch (error) {
-      console.error("상태 업데이트 중 에러 발생:", error);
     }
   };
 
@@ -217,7 +196,7 @@ export default function OrderWaitingPage() {
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
-        onFinish={() => handleFinish("IN_PROGRESS")}
+        selectedOrder={selectedOrder}
       />
     </>
   );
