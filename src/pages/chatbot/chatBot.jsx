@@ -7,7 +7,9 @@ import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
 import {
+  Container,
   ChatContainer,
+  ModalWrapper,
   ChatTitle,
   ChatBox,
   Message,
@@ -112,8 +114,23 @@ export default function ChatBot() {
   }, []);
 
   return (
-    <>
+    <Container>
       <ChatContainer>
+        <ModalWrapper>
+          {isRequestModalOpen && (
+            <RequestFinishModal
+              isOpen={isRequestModalOpen}
+              onClose={() => setIsRequestModalOpen(false)}
+            />
+          )}
+          {isCancelModalOpen && (
+            <OrderCancelModal
+              isOpen={isCancelModalOpen}
+              onClose={() => setIsCancelModalOpen(false)}
+            />
+          )}
+        </ModalWrapper>
+
         <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
         <ChatBox ref={chatBoxRef}>
           {messages.map((msg, index) => {
@@ -157,14 +174,6 @@ export default function ChatBot() {
           </InputContainer>
         </ChatInput>
       </ChatContainer>
-      <RequestFinishModal
-        isOpen={isRequestModalOpen}
-        onClose={() => setIsRequestModalOpen(false)}
-      />
-      <OrderCancelModal
-        isOpen={isCancelModalOpen}
-        onClose={() => setIsCancelModalOpen(false)}
-      />
-    </>
+    </Container>
   );
 }

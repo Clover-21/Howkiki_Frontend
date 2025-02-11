@@ -1,13 +1,33 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+`;
+
 export const ChatContainer = styled.div`
   width: 390px;
   height: 844px;
   background-color: #f2f2f5;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
+`;
+
+export const ModalWrapper = styled.div`
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
 `;
 
 export const ChatTitle = styled.div`
