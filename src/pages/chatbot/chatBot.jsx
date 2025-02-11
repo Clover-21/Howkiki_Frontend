@@ -140,7 +140,6 @@ export default function ChatBot() {
             </MessageWrapper>
           )}
         </ChatBox>
-
         <ChatInput>
           <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
           <InputContainer>

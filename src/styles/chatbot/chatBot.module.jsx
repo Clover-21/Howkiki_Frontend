@@ -26,6 +26,10 @@ export const ChatBox = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Message = styled.div`
