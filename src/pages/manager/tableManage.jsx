@@ -41,7 +41,6 @@ export default function TableManagePage() {
     const fetchTables = () => {
       const baseTables = Array.from({ length: 7 }, (_, index) => ({
         id: index + 1,
-        peoplenum: [2, 4, 4, 2, 2, 4, 2][index], //임의로 작성
       }));
       setTables(baseTables);
     };
@@ -96,7 +95,6 @@ export default function TableManagePage() {
               ) : (
                 <>
                   <TableNum>{table.id}번</TableNum>
-                  <PeopleNum>{table.peoplenum}</PeopleNum>
                 </>
               )}
             </TableBox>
