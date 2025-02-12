@@ -30,7 +30,9 @@ export const ModalContent = styled.div`
   margin-bottom: 40px;
 `;
 
-export const ModalText = styled.span`
+export const ModalText = styled.div``;
+
+export const HighlightText = styled.div`
   color: #f25b64;
 `;
 
@@ -45,4 +47,30 @@ export const Button = styled.div`
   background-color: #5d60ef;
   color: #ffffff;
   margin-top: 30px;
+`;
+
+export const TableWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+export const TableText = styled.div`
+  font-size: 21.85px;
+`;
+
+export const Num = styled.div`
+  font-size: 23.06px;
+`;
+
+export const Icon = styled.div`
+  font-size: 30px;
+  margin-left: 3px;
+  margin-right: 3px;
+`;
+
+export const RequestText = styled.div`
+  font-size: 26px;
+  font-weight: 700;
 `;
