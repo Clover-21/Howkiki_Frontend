@@ -8,14 +8,10 @@ import {
   MenuContent,
   MenuName,
   MenuQuantity,
-  MenuPrice,
   Line,
-  PriceWrapper,
   PriceWrap,
   Price,
   Text,
-  Line2,
-  Text2,
   BtnContainer,
   PaidBtn,
   FinishBtn,
@@ -41,21 +37,10 @@ export default function PackageModal({ isOpen, onClose, data }) {
             </MenuContentWrapper>
           ))}
         </MenuContainer>
-        <PriceWrapper>
-          <PriceWrap>
-            <Text>주문 금액</Text>
-            <Price>0원</Price>
-          </PriceWrap>
-          <PriceWrap>
-            <Text>결제 완료된 금액</Text>
-            <Price>- 0원</Price>
-          </PriceWrap>
-          <Line2 />
-          <PriceWrap>
-            <Text2>주문 금액</Text2>
-            <Price>0원</Price>
-          </PriceWrap>
-        </PriceWrapper>
+        <PriceWrap>
+          <Text>총 주문 금액</Text>
+          <Price>{`${data.orderPrice}원`}</Price>
+        </PriceWrap>
         <BtnContainer>
           <FinishBtn onClick={onClose}>닫기</FinishBtn>
           <PaidBtn>결제 완료</PaidBtn>

@@ -6,7 +6,6 @@ import {
   TableBoxContainer,
   TableBox,
   TableNum,
-  PeopleNum,
   MoreOrders,
   HasOrderBox,
   MenuWrap,
@@ -67,17 +66,18 @@ export default function TableManagePage() {
           const matchingOrder = orders.find(
             (order) => order.tableNumber === table.id
           );
+          console.log(matchingOrder);
           return (
             <TableBox key={table.id} onClick={() => handleTableOrder(table)}>
               {matchingOrder ? (
                 <>
                   <HasOrderBox>
-                    <TableNum>테이블 {table.id}</TableNum>
+                    <TableNum>{table.id}번</TableNum>
                     {matchingOrder.orderDetail
                       .slice(0, 2)
                       .map((order, index) => (
                         <MenuWrap key={index}>
-                          <MenuName>{order.name}</MenuName>
+                          <MenuName>{order.menuName}</MenuName>
                           <Quantity>{order.quantity}</Quantity>
                         </MenuWrap>
                       ))}

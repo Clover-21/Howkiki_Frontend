@@ -18,7 +18,6 @@ export const TableBox = styled.div`
   height: 231.33px;
   border-radius: 24.27px;
   font-size: 20.63px;
-  font-weight: ${(props) => (props.hasOrder ? "normal" : "600")};
   padding-top: ${(props) => (props.hasOrder ? "30px" : "0px")};
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -45,8 +44,9 @@ export const TableNum = styled.div`
 export const MenuWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  font-weight: normal;
   font-size: 14.56px;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 export const MenuName = styled.div``;

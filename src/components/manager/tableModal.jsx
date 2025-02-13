@@ -13,12 +13,9 @@ import {
   Line,
   TextWrapper,
   EmptyText,
-  PriceWrapper,
   PriceWrap,
   Price,
   Text,
-  Line2,
-  Text2,
   BtnContainer,
   PaidBtn,
   FinishBtn,
@@ -94,29 +91,14 @@ export default function TableModal({ isOpen, onClose, table }) {
             </TextWrapper>
           )}
         </MenuContainer>
-        <PriceWrapper>
-          <PriceWrap>
-            <Text>주문 금액</Text>
-            <Price>
-              {orderData?.tableTotalPrice
-                ? `${orderData.tableTotalPrice}원`
-                : "0원"}
-            </Price>
-          </PriceWrap>
-          <PriceWrap>
-            <Text>결제 완료된 금액</Text>
-            <Price>- 0원</Price>
-          </PriceWrap>
-          <Line2 />
-          <PriceWrap>
-            <Text2>주문 금액</Text2>
-            <Price>
-              {orderData?.tableTotalPrice
-                ? `${orderData.tableTotalPrice}원`
-                : "0원"}
-            </Price>
-          </PriceWrap>
-        </PriceWrapper>
+        <PriceWrap>
+          <Text>총 주문 금액</Text>
+          <Price>
+            {orderData?.tableTotalPrice
+              ? `${orderData.tableTotalPrice}원`
+              : "0원"}
+          </Price>
+        </PriceWrap>
         <BtnContainer>
           <FinishBtn
             onClick={onClose}
