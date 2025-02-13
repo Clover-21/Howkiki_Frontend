@@ -86,8 +86,8 @@ export default function OrderWaitingPage() {
   };
 
   const handleAcceptClick = (order) => {
-    const orderId = order.orderId;
-    setSelectedOrderId(orderId);
+    setSelectedOrder(order);
+    setSelectedOrderId(order.orderId);
     setIsAcceptlModalOpen(true);
     setCurrentStep(1);
   };

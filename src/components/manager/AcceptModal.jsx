@@ -27,6 +27,7 @@ export default function AcceptModal({
   onNext,
   selectedOrder,
 }) {
+  console.log(selectedOrder);
   const [time, setTime] = useState("");
 
   const handleInputChange = (e) => {
@@ -48,12 +49,13 @@ export default function AcceptModal({
   const handleAccept = async (expectedPrepMin) => {
     try {
       await apiClient.patch(
-        `/stores/1/orders/${selectedOrder.orderId}/status/order-acceptance`,
+        `/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
         { expectedPrepMin },
         {
           headers: {},
         }
       );
+
       onClose();
     } catch (error) {
       console.error("상태 업데이트 중 에러 발생:", error);
