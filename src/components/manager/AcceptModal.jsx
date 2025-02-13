@@ -26,6 +26,7 @@ export default function AcceptModal({
   currentStep,
   onNext,
   selectedOrder,
+  setOrderData,
 }) {
   console.log(selectedOrder);
   const [time, setTime] = useState("");
@@ -55,6 +56,13 @@ export default function AcceptModal({
           headers: {},
         }
       );
+
+      setOrderData((prevData) => {
+        const updatedOrders = prevData.data.filter(
+          (order) => order.orderId !== selectedOrder.orderId
+        );
+        return { ...prevData, data: updatedOrders };
+      });
 
       onClose();
     } catch (error) {

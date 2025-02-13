@@ -197,6 +197,7 @@ export default function OrderWaitingPage() {
         currentStep={currentStep}
         onNext={handleEtcClick}
         selectedOrder={selectedOrder}
+        setOrderData={setOrderData}
       />
     </>
   );
