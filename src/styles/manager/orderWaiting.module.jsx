@@ -87,3 +87,8 @@ export const OrderOkBtn = styled.div`
   background-color: #53e1b9;
   border-bottom-right-radius: 28.41px;
 `;
+
+export const MoreOrders = styled.div`
+  font-size: 14px;
+  color: #888888;
+`;

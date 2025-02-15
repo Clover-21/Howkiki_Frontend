@@ -15,6 +15,7 @@ import {
   TableNum,
   MenuName,
   MenuQuantity,
+  MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
 const host =
@@ -95,6 +96,11 @@ export default function ReadyCompletePage() {
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
+                  {order.orderDetail.length > 4 && (
+                    <MoreOrders>
+                      +외 {order.orderDetail.length - 4}개
+                    </MoreOrders>
+                  )}
                 </MenuContainer>
               </OrderContent>
             ))
