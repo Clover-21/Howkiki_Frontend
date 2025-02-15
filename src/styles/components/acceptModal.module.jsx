@@ -71,7 +71,7 @@ export const TimeInput = styled.input`
   text-align: center;
   line-height: 50px;
   margin-top: 20px;
-  margin-bottom: 170px;
+  margin-bottom: 180px;
 `;
 
 export const FinishBtn = styled.div`
@@ -83,12 +83,14 @@ export const FinishBtn = styled.div`
   color: white;
   font-weight: bold;
   border-radius: 8px;
-  margin-top: 20px;
+  margin-top: 40px;
   background-color: ${({ disabled }) => (disabled ? "#A8A8A8" : "#5D60EF")};
 `;
 
-export const BackButton = styled.div`
+export const BackButton = styled.img`
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 30px;
+  left: 30px;
+  width: 22px;
+  height: 16px;
 `;
