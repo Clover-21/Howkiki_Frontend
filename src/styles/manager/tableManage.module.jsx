@@ -12,13 +12,12 @@ export const TableBoxContainer = styled.div`
 export const TableBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${(props) => (props.hasOrder ? "normal" : "center")};
+  justify-content: center;
   align-items: center;
   width: 253.66px;
   height: 231.33px;
   border-radius: 24.27px;
   font-size: 20.63px;
-  padding-top: ${(props) => (props.hasOrder ? "30px" : "0px")};
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -36,9 +35,15 @@ export const HasOrderBox = styled.div`
   height: 145px;
 `;
 
+export const HasOrderTableNum = styled.div`
+  font-weight: 600;
+  color: #000000;
+  align-self: center;
+`;
+
 export const TableNum = styled.div`
   font-weight: 600;
-  color: ${(props) => (props.hasOrder ? "#000000" : "#bcbcbc")};
+  color: #bcbcbc;
   align-self: center;
 `;
 

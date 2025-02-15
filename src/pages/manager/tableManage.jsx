@@ -5,6 +5,7 @@ import TableModal from "../../components/manager/tableModal";
 import {
   TableBoxContainer,
   TableBox,
+  HasOrderTableNum,
   TableNum,
   MoreOrders,
   HasOrderBox,
@@ -72,7 +73,7 @@ export default function TableManagePage() {
               {matchingOrder ? (
                 <>
                   <HasOrderBox>
-                    <TableNum>{table.id}번</TableNum>
+                    <HasOrderTableNum>{table.id}번</HasOrderTableNum>
                     {matchingOrder.orderDetail
                       .slice(0, 2)
                       .map((order, index) => (
