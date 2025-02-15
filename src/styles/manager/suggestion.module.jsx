@@ -13,9 +13,9 @@ export const Container = styled.div`
 
 export const PckContainer = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 150px;
+  height: calc(100% - 120px);
+  margin-top: 80px;
+  padding: 80px;
 `;
 
 export const PckContent = styled.div`

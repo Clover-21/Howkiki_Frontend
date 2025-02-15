@@ -5,8 +5,9 @@ import TableModal from "../../components/manager/tableModal";
 import {
   TableBoxContainer,
   TableBox,
+  HasOrderTableNum,
   TableNum,
-  PeopleNum,
+  MoreOrders,
   HasOrderBox,
   MenuWrap,
   MenuName,
@@ -40,7 +41,6 @@ export default function TableManagePage() {
     const fetchTables = () => {
       const baseTables = Array.from({ length: 7 }, (_, index) => ({
         id: index + 1,
-        peoplenum: [2, 4, 4, 2, 2, 4, 2][index], //임의로 작성
       }));
       setTables(baseTables);
     };
@@ -67,18 +67,26 @@ export default function TableManagePage() {
           const matchingOrder = orders.find(
             (order) => order.tableNumber === table.id
           );
+          console.log(matchingOrder);
           return (
             <TableBox key={table.id} onClick={() => handleTableOrder(table)}>
               {matchingOrder ? (
                 <>
                   <HasOrderBox>
-                    <TableNum>테이블 {table.id}</TableNum>
-                    {matchingOrder.orderDetail.map((order, index) => (
-                      <MenuWrap key={index}>
-                        <MenuName>{order.name}</MenuName>
-                        <Quantity>{order.quantity}</Quantity>
-                      </MenuWrap>
-                    ))}
+                    <HasOrderTableNum>{table.id}번</HasOrderTableNum>
+                    {matchingOrder.orderDetail
+                      .slice(0, 2)
+                      .map((order, index) => (
+                        <MenuWrap key={index}>
+                          <MenuName>{order.menuName}</MenuName>
+                          <Quantity>{order.quantity}</Quantity>
+                        </MenuWrap>
+                      ))}
+                    {matchingOrder.orderDetail.length > 2 && (
+                      <MoreOrders>
+                        +외 {matchingOrder.orderDetail.length - 2}개
+                      </MoreOrders>
+                    )}
                   </HasOrderBox>
                   <Line />
                   <TotalPriceWrapper>
@@ -88,7 +96,6 @@ export default function TableManagePage() {
               ) : (
                 <>
                   <TableNum>{table.id}번</TableNum>
-                  <PeopleNum>{table.peoplenum}</PeopleNum>
                 </>
               )}
             </TableBox>

@@ -20,6 +20,7 @@ import {
   BtnContainer,
   OrderOkBtn,
   OrderCancelBtn,
+  MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
 const host =
@@ -141,12 +142,17 @@ export default function OrderPreparingPage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.map((menu, i) => (
+                  {order.orderDetail?.slice(0, 4).map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
+                  {order.orderDetail.length > 4 && (
+                    <MoreOrders>
+                      +외 {order.orderDetail.length - 4}개
+                    </MoreOrders>
+                  )}
                 </MenuContainer>
                 <BtnContainer>
                   <OrderCancelBtn

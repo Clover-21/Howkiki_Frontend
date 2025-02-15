@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -22,6 +21,7 @@ import {
   BtnContainer,
   OrderOkBtn,
   OrderCancelBtn,
+  MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
 const host =
@@ -52,7 +52,6 @@ export default function OrderWaitingPage() {
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   const numbers = orderData?.data || [];
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
@@ -88,8 +87,8 @@ export default function OrderWaitingPage() {
   };
 
   const handleAcceptClick = (order) => {
-    const orderId = order.orderId;
-    setSelectedOrderId(orderId);
+    setSelectedOrder(order);
+    setSelectedOrderId(order.orderId);
     setIsAcceptlModalOpen(true);
     setCurrentStep(1);
   };
@@ -100,23 +99,8 @@ export default function OrderWaitingPage() {
     }
   };
 
-  const handleFinish = async () => {
-    const orderId = selectedOrderId;
-    try {
-      await apiClient.patch(
-        `/stores/1/orders/${orderId}/status?orderStatus=IN_PROGRESS`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      navigate("/preparing");
-    } catch (error) {
-      console.error("상태 업데이트 중 에러 발생:", error);
-    }
+  const handleBackStep = () => {
+    setCurrentStep(1);
   };
 
   const fetchOrderData = async () => {
@@ -163,12 +147,17 @@ export default function OrderWaitingPage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.map((menu, i) => (
+                  {order.orderDetail?.slice(0, 4).map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
+                  {order.orderDetail.length > 4 && (
+                    <MoreOrders>
+                      +외 {order.orderDetail.length - 4}개
+                    </MoreOrders>
+                  )}
                 </MenuContainer>
                 <BtnContainer>
                   <OrderCancelBtn
@@ -217,7 +206,9 @@ export default function OrderWaitingPage() {
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
-        onFinish={() => handleFinish("IN_PROGRESS")}
+        onBack={handleBackStep}
+        selectedOrder={selectedOrder}
+        setOrderData={setOrderData}
       />
     </>
   );

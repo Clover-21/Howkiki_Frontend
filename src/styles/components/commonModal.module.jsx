@@ -32,8 +32,8 @@ export const ModalTitle = styled.div`
 `;
 
 export const MenuContainer = styled.div`
-  height: 194.43px;
-  max-height: 194.43px;
+  height: 260px;
+  max-height: 260px;
   max-width: 628.68px;
   overflow-y: auto;
   margin-top: 10px;
@@ -78,29 +78,18 @@ export const Line = styled.div`
   height: 1px;
 `;
 
-export const PriceWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 40px;
-`;
-
 export const PriceWrap = styled.div`
   display: flex;
   justify-content: space-between;
   width: 83%;
+  margin-top: 25px;
   margin-bottom: 5px;
+  font-weight: 600;
 `;
 
 export const Price = styled.div`
   white-space: nowrap;
-`;
-
-export const Text = styled.div`
-  flex-grow: 1;
-  font-size: 14.56px;
-  font-weight: 700;
+  font-size: 18px;
 `;
 
 export const Line2 = styled.div`
@@ -111,7 +100,7 @@ export const Line2 = styled.div`
   margin-bottom: 15px;
 `;
 
-export const Text2 = styled.div`
+export const Text = styled.div`
   flex-grow: 1;
   font-size: 17px;
   font-weight: 700;
@@ -121,7 +110,7 @@ export const BtnContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 15px;
-  margin-top: 40px;
+  margin-top: 60px;
 `;
 
 export const FinishBtn = styled.div`
