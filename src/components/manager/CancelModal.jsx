@@ -119,8 +119,8 @@ export default function CancelModal({
   };
 
   return (
-    <CancelModalContainer>
-      <CancelModalWrap>
+    <CancelModalContainer onClick={onClose}>
+      <CancelModalWrap onClick={(e) => e.stopPropagation()}>
         <CancelModalContent>
           {currentStep === 1 && (
             <>
