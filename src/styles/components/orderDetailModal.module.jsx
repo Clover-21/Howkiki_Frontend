@@ -38,7 +38,7 @@ export const MenuContainer = styled.div`
   width: 550px;
   margin-top: 10px;
   background-color: #efefef;
-  overflow: auto; // 스크롤을 활성화
+  overflow: auto;
 
   ::-webkit-scrollbar {
     display: none;
