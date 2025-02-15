@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Back from "../../assets/icon/back";
+import Back from "../../assets/icon/back.svg";
 import {
   ModalContainer,
   Modal,
@@ -10,6 +10,7 @@ import {
   TimeBox,
   TimeInput,
   FinishBtn,
+  BackButton,
 } from "../../styles/components/acceptModal.module";
 
 const host =
