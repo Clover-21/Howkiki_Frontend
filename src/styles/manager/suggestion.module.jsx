@@ -14,8 +14,8 @@ export const Container = styled.div`
 export const PckContainer = styled.div`
   width: 100%;
   height: calc(100% - 120px);
-  margin-top: 80px;
-  padding: 80px;
+  margin-top: 60px;
+  padding: 90px;
 `;
 
 export const PckContent = styled.div`
