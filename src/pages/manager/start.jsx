@@ -44,6 +44,9 @@ export default function StartPage() {
 
       const token = response.data.data;
       setTokenData(token);
+
+      localStorage.setItem("adminToken", token);
+
       navigate("/waiting");
     } catch (error) {
       console.error("실패:", error);

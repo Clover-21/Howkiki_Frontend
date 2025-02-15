@@ -6,6 +6,8 @@ import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
+import useSSE from "../../hooks/useSSE";
+import NotificationModal from "../../components/NotificationModal";
 import {
   ListContainer,
   OrderContainer,
@@ -39,12 +41,15 @@ export default function PayCompletePage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   const numbers = orderData?.data || [];
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
     numbers,
     8
   );
+
+  const { notice, isOpen, setIsOpen } = useSSE(token);
 
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
@@ -66,8 +71,17 @@ export default function PayCompletePage() {
     setIsDetailModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     fetchOrderData();
+
+    const storedToken = localStorage.getItem("adminToken");
+    if (storedToken) {
+      setToken(storedToken);
+    }
   }, []);
 
   return (
@@ -116,6 +130,11 @@ export default function PayCompletePage() {
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
         selectedOrder={selectedOrder}
+      />
+      <NotificationModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        notice={notice}
       />
     </>
   );

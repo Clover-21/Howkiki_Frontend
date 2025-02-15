@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
-import useModal from "../../hooks/useModal";
 import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import CancelModal from "../../components/manager/CancelModal";
 import AcceptModal from "../../components/manager/AcceptModal";
@@ -41,7 +40,6 @@ const override = {
 };
 
 export default function OrderWaitingPage() {
-  const { isOpen } = useModal();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -122,10 +120,6 @@ export default function OrderWaitingPage() {
   useEffect(() => {
     fetchOrderData();
   }, []);
-
-  useEffect(() => {
-    console.log("모달 상태 변화:", isOpen);
-  }, [isOpen]);
 
   return (
     <>

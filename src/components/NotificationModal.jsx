@@ -15,12 +15,10 @@ import {
 export default function NotificationModal({ isOpen, onClose, notice }) {
   if (!isOpen || !notice) return null;
 
-  const processedNotice = notice.data ?? notice;
-
   const messageMap = {
     "운영자의 주문 취소 알림": (
       <>
-        주문이 <HighlightText>{processedNotice.explanation}</HighlightText> 으로
+        주문이 <HighlightText>{notice.explanation}</HighlightText> 으로
         <br />
         취소되었습니다.
       </>
@@ -36,21 +34,19 @@ export default function NotificationModal({ isOpen, onClose, notice }) {
         <TableWrap>
           <Icon>[</Icon>
           <TableText>
-            {processedNotice.isTakeOut
-              ? `포장 - ${processedNotice.orderId ?? "-"}`
-              : `테이블 - ${processedNotice.tableNumber ?? "-"}`}
+            {notice.isTakeOut
+              ? `포장 - ${notice.orderId ?? "-"}`
+              : `테이블 - ${notice.tableNumber ?? "-"}`}
           </TableText>
           <Icon>]</Icon>
         </TableWrap>
-        <RequestText>
-          " {processedNotice.content ?? "요청 내용 없음"} "
-        </RequestText>
+        <RequestText>" {notice.content ?? "요청 내용 없음"} "</RequestText>
       </>
     ),
   };
 
   const renderMessage = () =>
-    messageMap[processedNotice.noticeName] ?? <>알 수 없는 알림입니다.</>;
+    messageMap[notice.noticeName] ?? <>알 수 없는 알림입니다.</>;
 
   return (
     <ModalContainer>
