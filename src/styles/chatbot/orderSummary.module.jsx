@@ -23,6 +23,22 @@ export const OrderContent = styled.div`
   margin-top: 60px;
 `;
 
+export const SwiperContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  margin-bottom: 70px;
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: #a9a9a9;
+
+    &.swiper-pagination-bullet-active {
+      background-color: #5d60ef;
+    }
+  }
+`;
+
 export const IconWrap = styled.div`
   width: 390px;
   display: flex;

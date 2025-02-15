@@ -6,7 +6,7 @@ export const OrderBoxContainer = styled.div`
   padding: 18px;
   border-radius: 17px;
   background-color: #f2f2f5;
-  margin: 15px 0 166px 0;
+  margin: 15px 0 100px 0;
   box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
 `;
 
