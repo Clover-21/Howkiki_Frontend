@@ -49,7 +49,6 @@ export default function TableManagePage() {
       try {
         const response = await apiClient.get("/stores/1/orders/tables/all");
         setOrders(response.data.data);
-        console.log(orders);
       } catch (error) {
         console.error("주문 데이터 가져오기 실패:", error);
       }
@@ -67,7 +66,6 @@ export default function TableManagePage() {
           const matchingOrder = orders.find(
             (order) => order.tableNumber === table.id
           );
-          console.log(matchingOrder);
           return (
             <TableBox key={table.id} onClick={() => handleTableOrder(table)}>
               {matchingOrder ? (
