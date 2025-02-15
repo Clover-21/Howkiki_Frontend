@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Back from "../../assets/icon/back";
 import {
   ModalContainer,
   Modal,
@@ -25,6 +26,7 @@ export default function AcceptModal({
   onClose,
   currentStep,
   onNext,
+  onBack,
   selectedOrder,
   setOrderData,
 }) {
@@ -79,8 +81,8 @@ export default function AcceptModal({
   if (!isOpen) return null;
 
   return (
-    <ModalContainer>
-      <Modal>
+    <ModalContainer onClick={onClose}>
+      <Modal onClick={(e) => e.stopPropagation()}>
         <ModalContent>
           {currentStep === 1 && (
             <>
@@ -97,6 +99,9 @@ export default function AcceptModal({
           )}
           {currentStep === 2 && (
             <>
+              <BackButton>
+                <Back onClick={onBack} />
+              </BackButton>
               <ModalText>준비 예상 시간을 입력해주세요.</ModalText>
               <TimeInput
                 value={time}

@@ -13,6 +13,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const Modal = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,4 +85,10 @@ export const FinishBtn = styled.div`
   border-radius: 8px;
   margin-top: 20px;
   background-color: ${({ disabled }) => (disabled ? "#A8A8A8" : "#5D60EF")};
+`;
+
+export const BackButton = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 20px;
 `;

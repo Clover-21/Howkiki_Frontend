@@ -98,6 +98,10 @@ export default function OrderWaitingPage() {
     }
   };
 
+  const handleBackStep = () => {
+    setCurrentStep(1);
+  };
+
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
@@ -196,6 +200,7 @@ export default function OrderWaitingPage() {
         onClose={() => setIsAcceptlModalOpen(false)}
         currentStep={currentStep}
         onNext={handleEtcClick}
+        onBack={handleBackStep}
         selectedOrder={selectedOrder}
         setOrderData={setOrderData}
       />
