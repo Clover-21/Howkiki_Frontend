@@ -141,15 +141,15 @@ export default function OrderWaitingPage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.slice(0, 4).map((menu, i) => (
+                  {order.orderDetail?.slice(0, 3).map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
-                  {order.orderDetail.length > 4 && (
+                  {order.orderDetail.length > 3 && (
                     <MoreOrders>
-                      +외 {order.orderDetail.length - 4}개
+                      +외 {order.orderDetail.length - 3}개
                     </MoreOrders>
                   )}
                 </MenuContainer>

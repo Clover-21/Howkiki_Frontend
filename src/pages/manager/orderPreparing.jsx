@@ -142,7 +142,7 @@ export default function OrderPreparingPage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.slice(0, 4).map((menu, i) => (
+                  {order.orderDetail?.slice(0, 3).map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>

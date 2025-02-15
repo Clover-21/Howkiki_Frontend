@@ -35,13 +35,13 @@ export const MenuContainer = styled.div``;
 export const MenuContent = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 `;
 
 export const TableNum = styled.div`
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 `;
 export const OrderedMenu = styled.div``;
 
