@@ -26,6 +26,7 @@ export const TableBox = styled.div`
 export const MoreOrders = styled.div`
   font-size: 13.35px;
   color: #888888;
+  margin-top: 10px;
 `;
 
 export const HasOrderBox = styled.div`
