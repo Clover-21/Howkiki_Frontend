@@ -17,8 +17,8 @@ export const Modal = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 600px;
-  height: 400px;
+  width: ${(props) => (props.isCancelNotice ? "300px" : "600px")};
+  height: ${(props) => (props.isCancelNotice ? "165px" : "400px")};
   background-color: #ffffff;
   border-radius: 20px;
   paddig: 20px;

@@ -15,6 +15,8 @@ import {
 export default function NotificationModal({ isOpen, onClose, notice }) {
   if (!isOpen || !notice) return null;
 
+  const isCancelNotice = notice.noticeName === "운영자의 주문 취소 알림";
+
   const messageMap = {
     "운영자의 주문 취소 알림": (
       <>
@@ -50,7 +52,7 @@ export default function NotificationModal({ isOpen, onClose, notice }) {
 
   return (
     <ModalContainer>
-      <Modal>
+      <Modal isCancelNotice={isCancelNotice}>
         <ModalContent>
           <ModalText>{renderMessage()}</ModalText>
         </ModalContent>
