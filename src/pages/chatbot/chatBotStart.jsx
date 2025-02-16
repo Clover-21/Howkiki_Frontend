@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   StartContainer,
   StartContent,
@@ -22,6 +22,7 @@ export const apiClient = axios.create({
 
 export default function StartPage() {
   const navigate = useNavigate();
+  const { tableNumber } = useParams();
   const [tokenData, setTokenData] = useState(null);
 
   const handleStart = async () => {
@@ -29,9 +30,8 @@ export default function StartPage() {
       const response = await apiClient.get(`/session-tokens`);
       const token = response.data.data;
       setTokenData(token);
-      localStorage.setItem("chatbot_token", token);
-
-      navigate("/chatbot");
+      localStorage.setItem(`chatbot_token_${tableNumber}`, token);
+      navigate(`/chatbot/${tableNumber}`);
     } catch (error) {
       console.error("토큰 발급 실패:", error);
     }
