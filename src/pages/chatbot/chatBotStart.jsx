@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   StartContainer,
@@ -10,8 +11,55 @@ import {
 import { Container } from "../../styles/chatbot/chatBot.module";
 import logo from "../../assets/icon/logo.svg";
 
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function StartPage() {
   const navigate = useNavigate();
+  const [tokenData, setTokenData] = useState(null);
+
+  const handleStart = async () => {
+    try {
+      const response = await apiClient.get(`/session-tokens`);
+      const token = response.data.data;
+      setTokenData(token);
+      localStorage.setItem("chatbot_token", token);
+
+      navigate("/chatbot");
+    } catch (error) {
+      console.error("토큰 발급 실패:", error);
+    }
+  };
+
+  const requestSubscribe = async (token) => {
+    if (!token) return;
+
+    try {
+      console.log("SSE 구독 요청 보냄, 토큰:", token);
+
+      await apiClient.get(`/notification/subscribe`, {
+        headers: {
+          sessionToken: token,
+          Accept: "text/event-stream",
+          "Cache-Control": "no-cache",
+        },
+      });
+    } catch (error) {
+      console.error("SSE 구독 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (tokenData) {
+      requestSubscribe(tokenData);
+    }
+  }, [tokenData]);
 
   return (
     <Container>
@@ -19,7 +67,7 @@ export default function StartPage() {
         <StartContent>
           <Logo src={logo} />
           <BtnWrap>
-            <Btn onClick={() => navigate("/chatbot")}>시작하기</Btn>
+            <Btn onClick={handleStart}>시작하기</Btn>
           </BtnWrap>
         </StartContent>
       </StartContainer>
