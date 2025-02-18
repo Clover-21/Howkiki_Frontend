@@ -23,14 +23,7 @@ import {
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 const override = {
   display: "block",
@@ -86,8 +79,8 @@ export default function OrderPreparingPage() {
   const handleFinish = async (order) => {
     const orderId = order.orderId;
     try {
-      await apiClient.patch(
-        `/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+      await axios.patch(
+        `${API_URL}/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
         {},
         {
           headers: {
@@ -104,8 +97,8 @@ export default function OrderPreparingPage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(
-        `/stores/1/orders?status=IN_PROGRESS`
+      const response = await axios.get(
+        `${API_URL}/stores/1/orders?status=IN_PROGRESS`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);

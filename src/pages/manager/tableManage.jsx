@@ -17,14 +17,7 @@ import {
   TotalPrice,
 } from "../../styles/manager/tableManage.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function TableManagePage() {
   const [tables, setTables] = useState([]);
@@ -47,7 +40,9 @@ export default function TableManagePage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await apiClient.get("/stores/1/orders/tables/all");
+        const response = await axios.get(
+          `${API_URL}/stores/1/orders/tables/all`
+        );
         setOrders(response.data.data);
         console.log(response.data.data);
       } catch (error) {

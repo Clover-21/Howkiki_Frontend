@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function useSSE(token) {
   const [notice, setNotice] = useState(null);
@@ -15,7 +12,7 @@ export default function useSSE(token) {
 
     const fetchSSE = () => {
       const eventSource = new EventSourcePolyfill(
-        `http://15.164.233.144:8080/notification/subscribe`,
+        `${API_URL}/notification/subscribe`,
         {
           headers: {
             sessionToken: "1111",

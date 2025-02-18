@@ -14,15 +14,6 @@ import {
   Arrow,
 } from "../../styles/manager/start.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function StartPage() {
   const navigate = useNavigate();
   const [storeName, setStoreName] = useState("");

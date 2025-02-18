@@ -11,14 +11,7 @@ import {
 import { Container } from "../../styles/chatbot/chatBot.module";
 import logo from "../../assets/icon/logo.svg";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function StartPage() {
   const navigate = useNavigate();
@@ -27,7 +20,7 @@ export default function StartPage() {
 
   const handleStart = async () => {
     try {
-      const response = await apiClient.get(`/session-tokens`);
+      const response = await axios.get(`${API_URL}/session-tokens`);
       const token = response.data.data;
       setTokenData(token);
       localStorage.setItem(`chatbot_token_${tableNumber}`, token);
@@ -43,7 +36,7 @@ export default function StartPage() {
     try {
       console.log("SSE 구독 요청 보냄, 토큰:", token);
 
-      await apiClient.get(`/notification/subscribe`, {
+      await axios.get(`${API_URL}/notification/subscribe`, {
         headers: {
           sessionToken: token,
           Accept: "text/event-stream",

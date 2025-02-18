@@ -13,14 +13,7 @@ import {
   BackButton,
 } from "../../styles/components/acceptModal.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function AcceptModal({
   isOpen,
@@ -51,8 +44,8 @@ export default function AcceptModal({
 
   const handleAccept = async (expectedPrepMin) => {
     try {
-      await apiClient.patch(
-        `/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
+      await axios.patch(
+        `${API_URL}/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
         { expectedPrepMin },
         {
           headers: {},

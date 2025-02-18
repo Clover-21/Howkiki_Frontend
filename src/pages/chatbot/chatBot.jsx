@@ -24,12 +24,7 @@ import {
   HsIcon,
 } from "../../styles/chatbot/chatBot.module";
 
-const host =
-  window.location.hostname === "localhost" ? "http://3.34.149.35:5000" : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function ChatBot() {
   const navigate = useNavigate();
@@ -45,7 +40,7 @@ export default function ChatBot() {
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
-      const response = await apiClient.post(`/api/chat`, {
+      const response = await axios.post(`${API_URL}/api/chat`, {
         question: question,
       });
       return response.data.response;

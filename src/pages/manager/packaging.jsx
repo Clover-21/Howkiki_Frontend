@@ -10,14 +10,7 @@ import {
   PckContent,
 } from "../../styles/manager/suggestion.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function PackagingPage() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
@@ -26,7 +19,7 @@ export default function PackagingPage() {
 
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/take-out`);
+      const response = await axios.get(`${API_URL}/stores/1/orders/take-out`);
       setOrderData(response.data.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);

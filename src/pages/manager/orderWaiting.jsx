@@ -23,14 +23,7 @@ import {
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 const override = {
   display: "block",
@@ -48,7 +41,6 @@ export default function OrderWaitingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const numbers = orderData?.data || [];
@@ -86,7 +78,6 @@ export default function OrderWaitingPage() {
 
   const handleAcceptClick = (order) => {
     setSelectedOrder(order);
-    setSelectedOrderId(order.orderId);
     setIsAcceptlModalOpen(true);
     setCurrentStep(1);
   };
@@ -103,8 +94,8 @@ export default function OrderWaitingPage() {
 
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(
-        `/stores/1/orders?status=AWAITING_ACCEPTANCE`
+      const response = await axios.get(
+        `${API_URL}/stores/1/orders?status=AWAITING_ACCEPTANCE`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);

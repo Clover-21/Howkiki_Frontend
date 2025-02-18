@@ -21,22 +21,15 @@ import {
   FinishBtn,
 } from "../../styles/components/commonModal.module";
 
-const host =
-  window.location.hostname === "localhost"
-    ? "http://15.164.233.144:8080"
-    : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default function TableModal({ isOpen, onClose, table }) {
   const [orderData, setOrderData] = useState(null);
 
   const handlePaid = async () => {
     try {
-      await apiClient.patch(
-        `/stores/1/orders/tables/${table.id}/status-paid`,
+      await axios.patch(
+        `${API_URL}/stores/1/orders/tables/${table.id}/status-paid`,
         {},
         {
           headers: {
@@ -55,8 +48,8 @@ export default function TableModal({ isOpen, onClose, table }) {
 
     const fetchTableOrder = async () => {
       try {
-        const response = await apiClient.get(
-          `/stores/1/orders/tables/${table.id}`
+        const response = await axios.get(
+          `${API_URL}/stores/1/orders/tables/${table.id}`
         );
         setOrderData(response.data.data);
       } catch (error) {
