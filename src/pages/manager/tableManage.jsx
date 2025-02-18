@@ -49,6 +49,7 @@ export default function TableManagePage() {
       try {
         const response = await apiClient.get("/stores/1/orders/tables/all");
         setOrders(response.data.data);
+        console.log(response.data.data);
       } catch (error) {
         console.error("주문 데이터 가져오기 실패:", error);
       }

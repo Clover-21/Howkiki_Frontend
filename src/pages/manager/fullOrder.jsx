@@ -41,7 +41,6 @@ export default function PayCompletePage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useState(null);
 
   const numbers = orderData?.data || [];
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
@@ -49,7 +48,7 @@ export default function PayCompletePage() {
     8
   );
 
-  const { notice, isOpen, setIsOpen } = useSSE(token);
+  const { notice, isOpen, setIsOpen } = useSSE("1111");
 
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
@@ -77,11 +76,6 @@ export default function PayCompletePage() {
 
   useEffect(() => {
     fetchOrderData();
-
-    const storedToken = localStorage.getItem("adminToken");
-    if (storedToken) {
-      setToken(storedToken);
-    }
   }, []);
 
   return (

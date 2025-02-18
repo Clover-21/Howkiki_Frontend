@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 const host =
   window.location.hostname === "localhost"
@@ -12,30 +13,40 @@ export default function useSSE(token) {
   useEffect(() => {
     if (!token) return;
 
-    const eventSource = new EventSource(`${host}/notification/subscribe`, {
-      headers: { sessionToken: token },
-    });
+    const fetchSSE = () => {
+      const eventSource = new EventSourcePolyfill(
+        `http://15.164.233.144:8080/notification/subscribe`,
+        {
+          headers: {
+            sessionToken: "1111",
+            Accept: "text/event-stream",
+            "Cache-Control": "no-cache",
+          },
+          heartbeatTimeout: 30000,
+        }
+      );
 
-    eventSource.onmessage = (event) => {
-      console.log("새로운 알림:", event.data);
-      try {
-        const newNotice = JSON.parse(event.data);
-        setNotice(newNotice);
-        setIsOpen(true);
-        console.log("모달 오픈");
-      } catch (error) {
-        console.error("알림 오류:", error);
-      }
-    };
+      eventSource.onopen = () => {
+        console.log("SSE 연결 성공! 이제 알림을 받을 준비가 되었습니다.");
+      };
 
-    eventSource.onerror = (error) => {
-      console.error("SSE 연결 오류:", error);
-      eventSource.close();
-    };
+      eventSource.addEventListener("notification", (event) => {
+        console.log("알림 : ", event.data);
+        try {
+          const newNotice = JSON.parse(event.data);
+          setNotice(newNotice);
+          setIsOpen(true);
+        } catch (error) {
+          console.error("알림 오류:", error);
+        }
+      });
 
-    return () => {
-      eventSource.close();
+      eventSource.onerror = (error) => {
+        console.error("SSE 알림 연결 오류:", error);
+        eventSource.close();
+      };
     };
+    fetchSSE();
   }, [token]);
 
   return { notice, isOpen, setIsOpen };
