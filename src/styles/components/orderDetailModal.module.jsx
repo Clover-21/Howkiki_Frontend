@@ -36,9 +36,16 @@ export const MenuContainer = styled.div`
   height: 248px;
   max-height: 248px;
   width: 550px;
-  overflow-y: auto;
   margin-top: 10px;
   background-color: #efefef;
+  overflow: auto;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
 `;
 
 export const MenuContentWrapper = styled.div`

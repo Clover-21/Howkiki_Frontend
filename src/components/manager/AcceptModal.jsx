@@ -31,7 +31,6 @@ export default function AcceptModal({
   selectedOrder,
   setOrderData,
 }) {
-  console.log(selectedOrder);
   const [time, setTime] = useState("");
 
   const handleInputChange = (e) => {

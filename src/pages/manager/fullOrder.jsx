@@ -6,6 +6,8 @@ import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
+import useSSE from "../../hooks/useSSE";
+import NotificationModal from "../../components/NotificationModal";
 import {
   ListContainer,
   OrderContainer,
@@ -46,6 +48,8 @@ export default function PayCompletePage() {
     8
   );
 
+  const { notice, isOpen, setIsOpen } = useSSE("1111");
+
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
@@ -64,6 +68,10 @@ export default function PayCompletePage() {
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
     setIsDetailModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -90,15 +98,15 @@ export default function PayCompletePage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.map((menu, i) => (
+                  {order.orderDetail.slice(0, 5)?.map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
-                  {order.orderDetail.length > 4 && (
+                  {order.orderDetail.length > 5 && (
                     <MoreOrders>
-                      +외 {order.orderDetail.length - 4}개
+                      +외 {order.orderDetail.length - 5}개
                     </MoreOrders>
                   )}
                 </MenuContainer>
@@ -116,6 +124,11 @@ export default function PayCompletePage() {
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
         selectedOrder={selectedOrder}
+      />
+      <NotificationModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        notice={notice}
       />
     </>
   );

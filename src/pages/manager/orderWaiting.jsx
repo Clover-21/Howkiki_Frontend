@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
-import useModal from "../../hooks/useModal";
 import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import CancelModal from "../../components/manager/CancelModal";
 import AcceptModal from "../../components/manager/AcceptModal";
@@ -41,7 +40,6 @@ const override = {
 };
 
 export default function OrderWaitingPage() {
-  const { isOpen } = useModal();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -123,10 +121,6 @@ export default function OrderWaitingPage() {
     fetchOrderData();
   }, []);
 
-  useEffect(() => {
-    console.log("모달 상태 변화:", isOpen);
-  }, [isOpen]);
-
   return (
     <>
       <Header />
@@ -147,15 +141,15 @@ export default function OrderWaitingPage() {
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
                 <TableNum>{order.tableNumber}번</TableNum>
                 <MenuContainer>
-                  {order.orderDetail?.slice(0, 4).map((menu, i) => (
+                  {order.orderDetail?.slice(0, 3).map((menu, i) => (
                     <MenuContent key={i}>
                       <MenuName>{menu.menuName}</MenuName>
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
-                  {order.orderDetail.length > 4 && (
+                  {order.orderDetail.length > 3 && (
                     <MoreOrders>
-                      +외 {order.orderDetail.length - 4}개
+                      +외 {order.orderDetail.length - 3}개
                     </MoreOrders>
                   )}
                 </MenuContainer>
