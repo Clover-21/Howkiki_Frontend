@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
@@ -34,6 +34,7 @@ export const apiClient = axios.create({
 
 export default function ChatBot() {
   const navigate = useNavigate();
+  const { tableNumber } = useParams();
   const [input, setInput] = useState("");
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -159,7 +160,10 @@ export default function ChatBot() {
           )}
         </ChatBox>
         <ChatInput>
-          <HsIcon src={orderhs} onClick={() => navigate("/ordersummary")} />
+          <HsIcon
+            src={orderhs}
+            onClick={() => navigate(`/ordersummary/${tableNumber}`)}
+          />
           <InputContainer>
             <InputField
               id="inputfield"
