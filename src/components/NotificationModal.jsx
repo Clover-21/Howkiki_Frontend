@@ -30,6 +30,7 @@ export default function NotificationModal({ isOpen, onClose, notice }) {
         <HighlightText>새로운 주문</HighlightText>이 도착하였습니다!
       </>
     ),
+
     "요청 사항 알림": (
       <>
         <HighlightText>새로운 요청</HighlightText>이 도착하였습니다!
