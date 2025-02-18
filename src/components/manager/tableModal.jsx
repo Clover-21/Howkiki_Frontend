@@ -44,6 +44,7 @@ export default function TableModal({ isOpen, onClose, table }) {
         }
       );
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("상태 업데이트 중 에러 발생:", error);
     }

@@ -92,6 +92,7 @@ export default function CancelModal({
           );
 
           onClose();
+          window.location.reload();
         } catch (error) {
           console.error("주문 취소 오류:", error);
         }
@@ -110,6 +111,7 @@ export default function CancelModal({
           );
 
           onClose();
+          window.location.reload();
         } catch (error) {
           console.error("주문 취소 오류:", error);
         }
