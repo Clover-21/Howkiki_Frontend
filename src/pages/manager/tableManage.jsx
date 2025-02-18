@@ -1,109 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "../../components/manager/Header";
 import TableModal from "../../components/manager/tableModal";
 import {
   TableBoxContainer,
   TableBox,
+  HasOrderTableNum,
   TableNum,
-  PeopleNum,
+  MoreOrders,
   HasOrderBox,
   MenuWrap,
   MenuName,
   Quantity,
   Line,
-  TextWrapper,
-  EmptyText,
   TotalPriceWrapper,
   TotalPrice,
 } from "../../styles/manager/tableManage.module";
 
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function TableManagePage() {
+  const [tables, setTables] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isTableModalOpen, setIsTablelModalOpen] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
-
-  // 임의로 작성
-  const tables = Array.from({ length: 7 }, (_, index) => ({
-    id: index + 1,
-    name: `${index + 1}번`,
-    peoplenum: [2, 4, 4, 2, 2, 4, 2][index],
-    orders:
-      index === 0
-        ? [
-            { id: 1, name: "라구짜장과 계란튀김", quantity: 1, price: 15000 },
-            { id: 2, name: "소롱포", quantity: 1, price: 7500 },
-            { id: 3, name: "블랙하가우", quantity: 1, price: 9500 },
-            { id: 4, name: "코카콜라", quantity: 2, price: 8000 },
-          ]
-        : index === 2
-        ? [
-            { id: 3, name: "블랙하가우", quantity: 2, price: 9500 },
-            { id: 4, name: "코카콜라", quantity: 1, price: 8000 },
-          ]
-        : [],
-  }));
 
   const handleTableOrder = (table) => {
     setSelectedTable(table);
     setIsTablelModalOpen(true);
   };
 
-  const calculateTotalPrice = (orders) => {
-    if (!orders || orders.length === 0) return 0;
-    return orders.reduce(
-      // 값을 누적하는 함수
-      (total, item) => total + item.quantity * item.price,
-      0
-    );
-  };
+  useEffect(() => {
+    const fetchTables = () => {
+      const baseTables = Array.from({ length: 7 }, (_, index) => ({
+        id: index + 1,
+      }));
+      setTables(baseTables);
+    };
 
-  const getTableData = (table) => {
-    const hasOrder = table.orders.length > 0;
-    const visibleMenu = table.orders.slice(0, 2);
-    const remainingMenuCount = table.orders.length - visibleMenu.length;
-    const totalPrice = calculateTotalPrice(table.orders);
+    const fetchOrders = async () => {
+      try {
+        const response = await apiClient.get("/stores/1/orders/tables/all");
+        setOrders(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error("주문 데이터 가져오기 실패:", error);
+      }
+    };
 
-    return { hasOrder, visibleMenu, remainingMenuCount, totalPrice };
-  };
+    fetchTables();
+    fetchOrders();
+  }, []);
 
   return (
     <>
       <Header />
       <TableBoxContainer>
         {tables.map((table) => {
-          const { hasOrder, visibleMenu, remainingMenuCount, totalPrice } =
-            getTableData(table);
-
+          const matchingOrder = orders.find(
+            (order) => order.tableNumber === table.id
+          );
           return (
-            <TableBox
-              hasOrder={hasOrder}
-              key={table.id}
-              onClick={() => handleTableOrder(table)}
-            >
-              {hasOrder ? (
+            <TableBox key={table.id} onClick={() => handleTableOrder(table)}>
+              {matchingOrder ? (
                 <>
                   <HasOrderBox>
-                    <TableNum hasOrder={hasOrder}>{table.name}</TableNum>
-                    {visibleMenu.map((order, index) => (
-                      <MenuWrap key={index}>
-                        <MenuName>{order.name}</MenuName>
-                        <Quantity>{order.quantity}</Quantity>
-                      </MenuWrap>
-                    ))}
-                    {remainingMenuCount > 0 && (
-                      <TextWrapper>
-                        <EmptyText>+ 외 {remainingMenuCount}개</EmptyText>
-                      </TextWrapper>
+                    <HasOrderTableNum>{table.id}번</HasOrderTableNum>
+                    {matchingOrder.orderDetail
+                      .slice(0, 2)
+                      .map((order, index) => (
+                        <MenuWrap key={index}>
+                          <MenuName>{order.menuName}</MenuName>
+                          <Quantity>{order.quantity}</Quantity>
+                        </MenuWrap>
+                      ))}
+                    {matchingOrder.orderDetail.length > 2 && (
+                      <MoreOrders>
+                        +외 {matchingOrder.orderDetail.length - 2}개
+                      </MoreOrders>
                     )}
                   </HasOrderBox>
                   <Line />
                   <TotalPriceWrapper>
-                    <TotalPrice>{totalPrice.toLocaleString()}원</TotalPrice>
+                    <TotalPrice>{matchingOrder.orderPrice}원</TotalPrice>
                   </TotalPriceWrapper>
                 </>
               ) : (
                 <>
-                  <TableNum>{table.name}</TableNum>
-                  <PeopleNum>{table.peoplenum}</PeopleNum>
+                  <TableNum>{table.id}번</TableNum>
                 </>
               )}
             </TableBox>
@@ -114,8 +105,6 @@ export default function TableManagePage() {
         isOpen={isTableModalOpen}
         onClose={() => setIsTablelModalOpen(false)}
         table={selectedTable}
-        menu={selectedTable?.orders || []}
-        totalPrice={calculateTotalPrice(selectedTable?.orders || [])}
       />
     </>
   );

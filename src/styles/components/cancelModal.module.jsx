@@ -13,6 +13,7 @@ export const CancelModalContainer = styled.div`
 `;
 
 export const CancelModalWrap = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 590px;
@@ -28,7 +29,7 @@ export const CancelModalContent = styled.div`
 
 export const CancelText = styled.div`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 43px;
   margin-left: 47px;
 `;
@@ -39,6 +40,10 @@ export const CheckBoxWrap = styled.div`
 `;
 
 export const CancelBtnContainer = styled.div`
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -72,7 +77,7 @@ export const CancelBtn = styled.div`
 
 export const SelectedTitle = styled.div`
   font-size: 17px;
-  font-weight: bold;
+  font-weight: 600;
 `;
 
 export const MenuContainer = styled.div`

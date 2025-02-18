@@ -35,13 +35,13 @@ export const MenuContainer = styled.div``;
 export const MenuContent = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 `;
 
 export const TableNum = styled.div`
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 `;
 export const OrderedMenu = styled.div``;
 
@@ -86,4 +86,9 @@ export const OrderOkBtn = styled.div`
   font-weight: bold;
   background-color: #53e1b9;
   border-bottom-right-radius: 28.41px;
+`;
+
+export const MoreOrders = styled.div`
+  font-size: 14px;
+  color: #888888;
 `;

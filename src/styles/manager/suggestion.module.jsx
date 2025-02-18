@@ -10,3 +10,18 @@ export const Container = styled.div`
   overflow-y: auto;
   box-sizing: border-box;
 `;
+
+export const PckContainer = styled.div`
+  width: 100%;
+  height: calc(100% - 120px);
+  margin-top: 60px;
+  padding: 90px;
+`;
+
+export const PckContent = styled.div`
+  max-width: 1300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 40px 85px;
+`;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../../components/manager/Header";
-import ContentBox from "../../components/manager/ContentBox";
+import ContentBox from "../../components/manager/SuggestionBox";
 import SuggestionModal from "../../components/manager/SuggestionModal";
 import { Container } from "../../styles/manager/suggestion.module";
 import {

@@ -1,72 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "../../components/manager/Header";
-import ContentBox from "../../components/manager/ContentBox";
+import ContentBox from "../../components/manager/PackageBox";
 import PackageModal from "../../components/manager/PackageModal";
-import { Container } from "../../styles/manager/suggestion.module";
+import Pagination from "../../components/manager/Pagination";
+import usePagination from "../../hooks/usePagination";
 import {
-  PaginationContainer,
-  PageButton,
-  PageNumber,
-} from "../../styles/pagination.module";
+  PckContainer,
+  PckContent,
+} from "../../styles/manager/suggestion.module";
+
+const host =
+  window.location.hostname === "localhost"
+    ? "http://15.164.233.144:8080"
+    : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
 
 export default function PackagingPage() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
-  const [selectedNumber, setSelectedNumber] = useState(null); // 선택된 번호 상태 추가
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [orderData, setOrderData] = useState([]);
 
-  // 임의로 지정된 번호
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const itemsPerPage = 4;
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(numbers.length / itemsPerPage);
-
-  const currentItems = numbers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+  const fetchOrderData = async () => {
+    try {
+      const response = await apiClient.get(`/stores/1/orders/take-out`);
+      setOrderData(response.data.data);
+    } catch (error) {
+      console.error("주문 데이터 가져오기 실패:", error);
     }
   };
 
-  const handlePackageOrder = (number) => {
-    setSelectedNumber(number); // 클릭된 번호를 상태에 저장
-    setIsPackageModalOpen(true); // 모달 열기
+  useEffect(() => {
+    fetchOrderData();
+  }, []);
+
+  const { currentPage, totalPages, currentItems, goToPage } = usePagination(
+    orderData,
+    8
+  );
+
+  const handlePackageOrder = (order) => {
+    setSelectedPackage(order);
+    console.log(selectedPackage);
+    setIsPackageModalOpen(true);
   };
 
   return (
     <>
       <Header />
-      <Container>
-        {currentItems.map((num) => (
-          <ContentBox
-            key={num}
-            number={num}
-            onClick={() => handlePackageOrder(num)} // 클릭 시 해당 번호 전달
-          />
-        ))}
-      </Container>
-      <PaginationContainer>
-        <PageButton
-          disabled={currentPage === 1}
-          onClick={() => goToPage(currentPage - 1)}
-        >
-          {"<"}
-        </PageButton>
-        <PageNumber>{currentPage}</PageNumber>
-        <PageButton
-          disabled={currentPage === totalPages}
-          onClick={() => goToPage(currentPage + 1)}
-        >
-          {">"}
-        </PageButton>
-      </PaginationContainer>
+      <PckContainer>
+        <PckContent>
+          {currentItems.map((order) => (
+            <ContentBox
+              key={order.orderId}
+              number={order.orderId}
+              onClick={() => handlePackageOrder(order)}
+              data={order.orderDetail}
+            />
+          ))}
+        </PckContent>
+      </PckContainer>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        goToPage={goToPage}
+      />
       <PackageModal
         isOpen={isPackageModalOpen}
         onClose={() => setIsPackageModalOpen(false)}
-        number={selectedNumber} // 선택된 번호를 PackageModal로 전달
+        data={selectedPackage}
       />
     </>
   );
