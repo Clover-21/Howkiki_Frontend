@@ -12,6 +12,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function PackagingPage() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -19,7 +25,7 @@ export default function PackagingPage() {
 
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/stores/1/orders/take-out`);
+      const response = await apiClient.get(`/stores/1/orders/take-out`);
       setOrderData(response.data.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);

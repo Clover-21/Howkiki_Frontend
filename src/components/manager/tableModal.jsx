@@ -23,13 +23,19 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function TableModal({ isOpen, onClose, table }) {
   const [orderData, setOrderData] = useState(null);
 
   const handlePaid = async () => {
     try {
-      await axios.patch(
-        `${API_URL}/stores/1/orders/tables/${table.id}/status-paid`,
+      await apiClient.patch(
+        `/stores/1/orders/tables/${table.id}/status-paid`,
         {},
         {
           headers: {
@@ -48,8 +54,8 @@ export default function TableModal({ isOpen, onClose, table }) {
 
     const fetchTableOrder = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/stores/1/orders/tables/${table.id}`
+        const response = await apiClient.get(
+          `/stores/1/orders/tables/${table.id}`
         );
         setOrderData(response.data.data);
       } catch (error) {

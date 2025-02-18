@@ -22,6 +22,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 const override = {
   display: "block",
   margin: "0 auto",
@@ -46,7 +52,7 @@ export default function PayCompletePage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/stores/1/orders/all`);
+      const response = await apiClient.get(`/stores/1/orders/all`);
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });

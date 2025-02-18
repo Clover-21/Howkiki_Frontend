@@ -19,6 +19,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function TableManagePage() {
   const [tables, setTables] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -40,9 +46,7 @@ export default function TableManagePage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/stores/1/orders/tables/all`
-        );
+        const response = await apiClient.get(`/stores/1/orders/tables/all`);
         setOrders(response.data.data);
         console.log(response.data.data);
       } catch (error) {

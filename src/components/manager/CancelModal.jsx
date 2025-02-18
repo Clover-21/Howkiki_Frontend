@@ -20,6 +20,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function CancelModal({
   isOpen,
   onClose,
@@ -77,8 +83,8 @@ export default function CancelModal({
           selectedReason === "라스트오더 종료" ? "LAST_ORDER_ENDED" : "ETC";
 
         try {
-          await axios.patch(
-            `${API_URL}/stores/1/orders/${canceledOrder.orderId}/admin`,
+          await apiClient.patch(
+            `/stores/1/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason,
               soldOutMenu: null,
@@ -95,8 +101,8 @@ export default function CancelModal({
         const soldOutMenu = selectedMenus.join(", ");
 
         try {
-          await axios.patch(
-            `${API_URL}/stores/1/orders/${canceledOrder.orderId}/admin`,
+          await apiClient.patch(
+            `/stores/1/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason: "OUT_OF_STOCK",
               soldOutMenu,

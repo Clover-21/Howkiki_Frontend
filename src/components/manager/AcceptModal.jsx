@@ -15,6 +15,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function AcceptModal({
   isOpen,
   onClose,
@@ -44,12 +50,9 @@ export default function AcceptModal({
 
   const handleAccept = async (expectedPrepMin) => {
     try {
-      await axios.patch(
-        `${API_URL}/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
-        { expectedPrepMin },
-        {
-          headers: {},
-        }
+      await apiClient.patch(
+        `/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
+        { expectedPrepMin }
       );
 
       setOrderData((prevData) => {

@@ -26,6 +26,12 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function ChatBot() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
@@ -40,7 +46,7 @@ export default function ChatBot() {
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/api/chat`, {
+      const response = await apiClient.post(`/api/chat`, {
         question: question,
       });
       return response.data.response;
