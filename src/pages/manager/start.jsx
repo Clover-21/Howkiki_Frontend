@@ -1,6 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import logo from "../../assets/icon/logo.svg";
 import arrow from "../../assets/icon/arrow.svg";
 import {
@@ -17,7 +16,6 @@ import {
 export default function StartPage() {
   const navigate = useNavigate();
   const [storeName, setStoreName] = useState("");
-  const isProcessing = useRef(false); // 중복 실행 방지용 ref
 
   const handleInputChange = (e) => {
     setStoreName(e.target.value);
