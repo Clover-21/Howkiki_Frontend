@@ -7,14 +7,16 @@ import {
   ContentText,
 } from "../../styles/components/suggestionBox.module";
 
-export default function ContentBox({ number, onClick }) {
+export default function SuggestionBox({ data, onClick }) {
+  const sugData = data.suggestionList;
+
   return (
     <SuggestionWrap onClick={onClick}>
       <NumberContainer>
-        <Number>{number}</Number>
+        <Number>{sugData.suggestionId}</Number>
       </NumberContainer>
       <ContentContainer>
-        <ContentText></ContentText>
+        <ContentText>{sugData.content}</ContentText>
       </ContentContainer>
     </SuggestionWrap>
   );

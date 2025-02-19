@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/manager/Header";
-import ContentBox from "../../components/manager/SuggestionBox";
+import SuggestionBox from "../../components/manager/SuggestionBox";
 import SuggestionModal from "../../components/manager/SuggestionModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
@@ -46,7 +46,11 @@ export default function SuggestionPage() {
       <Header />
       <Container>
         {currentItems.map((num) => (
-          <ContentBox key={num} number={num} onClick={handleSuggestion} />
+          <SuggestionBox
+            key={num}
+            data={suggestionData}
+            onClick={handleSuggestion}
+          />
         ))}
       </Container>
       <Pagination
@@ -57,6 +61,7 @@ export default function SuggestionPage() {
       <SuggestionModal
         isOpen={isSugModalOpen}
         onClose={() => setIsSugModalOpen(false)}
+        data={suggestionData}
       />
     </>
   );
