@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../../components/manager/Header";
-import ContentBox from "../../components/manager/PackageBox";
+import PackageBox from "../../components/manager/PackageBox";
 import PackageModal from "../../components/manager/PackageModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
@@ -53,7 +53,7 @@ export default function PackagingPage() {
       <PckContainer>
         <PckContent>
           {currentItems.map((order) => (
-            <ContentBox
+            <PackageBox
               key={order.orderId}
               number={order.orderId}
               onClick={() => handlePackageOrder(order)}

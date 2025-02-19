@@ -48,3 +48,8 @@ export const MenuContainer = styled.div`
 export const MenuName = styled.div``;
 
 export const MenuQuantity = styled.div``;
+
+export const MoreOrders = styled.div`
+  font-size: 14px;
+  color: #888888;
+`;
