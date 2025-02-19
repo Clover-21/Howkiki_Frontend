@@ -88,7 +88,9 @@ export default function TableManagePage() {
                   </HasOrderBox>
                   <Line />
                   <TotalPriceWrapper>
-                    <TotalPrice>{matchingOrder.orderPrice}원</TotalPrice>
+                    <TotalPrice>
+                      {matchingOrder.orderPrice.toLocaleString()}원
+                    </TotalPrice>
                   </TotalPriceWrapper>
                 </>
               ) : (

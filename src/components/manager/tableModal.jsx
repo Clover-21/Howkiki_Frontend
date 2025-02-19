@@ -80,7 +80,7 @@ export default function TableModal({ isOpen, onClose, table }) {
                 <MenuContent>
                   <MenuName>{order.menuName}</MenuName>
                   <MenuQuantity>x{order.quantity}</MenuQuantity>
-                  <MenuPrice>{order.totalPrice}원</MenuPrice>
+                  <MenuPrice>{order.totalPrice.toLocaleString()}원</MenuPrice>
                 </MenuContent>
                 <Line />
               </MenuContentWrapper>
@@ -95,7 +95,7 @@ export default function TableModal({ isOpen, onClose, table }) {
           <Text>총 주문 금액</Text>
           <Price>
             {orderData?.tableTotalPrice
-              ? `${orderData.tableTotalPrice}원`
+              ? `${orderData.tableTotalPrice.toLocaleString()}원`
               : "0원"}
           </Price>
         </PriceWrap>

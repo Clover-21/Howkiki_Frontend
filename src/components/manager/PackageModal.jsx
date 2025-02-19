@@ -9,6 +9,7 @@ import {
   MenuContent,
   MenuName,
   MenuQuantity,
+  MenuPrice,
   Line,
   PriceWrap,
   Price,
@@ -58,7 +59,8 @@ export default function PackageModal({ isOpen, onClose, data }) {
             <MenuContentWrapper key={i}>
               <MenuContent>
                 <MenuName>{order.menuName}</MenuName>
-                <MenuQuantity>{order.quantity}</MenuQuantity>
+                <MenuQuantity>x{order.quantity}</MenuQuantity>
+                <MenuPrice>{order.totalPrice.toLocaleString()}원</MenuPrice>
               </MenuContent>
               <Line />
             </MenuContentWrapper>
@@ -66,7 +68,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
         </MenuContainer>
         <PriceWrap>
           <Text>총 주문 금액</Text>
-          <Price>{`${data.orderPrice}원`}</Price>
+          <Price>{`${data.orderPrice.toLocaleString()}원`}</Price>
         </PriceWrap>
         <BtnContainer>
           <FinishBtn onClick={onClose}>닫기</FinishBtn>
