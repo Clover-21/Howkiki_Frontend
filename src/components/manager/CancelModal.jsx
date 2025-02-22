@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Checkbox from "./CheckBox";
-import Line from "./Line";
 import {
   CancelModalContainer,
   CancelModalWrap,
@@ -10,12 +9,13 @@ import {
   CancelBtnContainer,
   CloseBtn,
   CancelBtn,
+  CheckBoxContainer,
   CheckBoxWrap,
-  SelectedTitle,
   MenuContainer,
   MenuContent,
   CheckboxWrapper,
   MenuContentWrapper,
+  Line,
 } from "../../styles/components/cancelModal.module";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -126,28 +126,32 @@ export default function CancelModal({
           {currentStep === 1 && (
             <>
               <CancelText>취소하시려는 이유를 골라주세요.</CancelText>
-              <CheckBoxWrap>
-                <Checkbox
-                  text="재료 소진"
-                  onChange={() => handleReasonSelect("재료 소진")}
-                  checked={selectedReason === "재료 소진"}
-                />
-                <Checkbox
-                  text="라스트오더 종료"
-                  onChange={() => handleReasonSelect("라스트오더 종료")}
-                  checked={selectedReason === "라스트오더 종료"}
-                />
-                <Checkbox
-                  text="기타"
-                  onChange={() => handleReasonSelect("기타")}
-                  checked={selectedReason === "기타"}
-                />
-              </CheckBoxWrap>
+              <CheckBoxContainer>
+                <CheckBoxWrap>
+                  <Checkbox
+                    text="재료 소진"
+                    onChange={() => handleReasonSelect("재료 소진")}
+                    checked={selectedReason === "재료 소진"}
+                  />
+                  <Line />
+                  <Checkbox
+                    text="라스트오더 종료"
+                    onChange={() => handleReasonSelect("라스트오더 종료")}
+                    checked={selectedReason === "라스트오더 종료"}
+                  />
+                  <Line />
+                  <Checkbox
+                    text="기타"
+                    onChange={() => handleReasonSelect("기타")}
+                    checked={selectedReason === "기타"}
+                  />
+                </CheckBoxWrap>
+              </CheckBoxContainer>
             </>
           )}
           {currentStep === 2 && selectedReason === "재료 소진" && (
             <>
-              <SelectedTitle>재료 소진된 메뉴를 골라주세요.</SelectedTitle>
+              <CancelText>재료 소진된 메뉴를 골라주세요.</CancelText>
               <MenuContainer>
                 {canceledOrder?.orderDetail.map((menu, index) => (
                   <MenuContentWrapper key={index}>
