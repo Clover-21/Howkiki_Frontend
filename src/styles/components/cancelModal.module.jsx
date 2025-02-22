@@ -94,15 +94,20 @@ export const CancelBtn = styled.div`
 `;
 
 export const MenuContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-export const MenuContentWrapper = styled.div`
   height: 210px;
   max-height: 210px;
   width: 440px;
   overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+`;
+
+export const MenuContentWrapper = styled.div`
   background-color: #efefef;
 `;
 
@@ -114,6 +119,7 @@ export const MenuContent = styled.div`
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
+  padding: 1px;
 `;
 
 export const MenuName = styled.div``;
