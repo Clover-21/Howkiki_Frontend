@@ -176,7 +176,11 @@ export default function CancelModal({
           <CancelBtn
             onClick={handleNext}
             active={
-              currentStep === 1 ? isStep1ButtonActive : isStep2ButtonActive
+              currentStep === 1
+                ? isStep1ButtonActive
+                : isStep2ButtonActive
+                ? "true"
+                : undefined
             }
           >
             {currentStep === 1

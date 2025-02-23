@@ -97,6 +97,7 @@ export const MenuContainer = styled.div`
   height: 210px;
   max-height: 210px;
   width: 440px;
+  background-color: #efefef;
   overflow-y: auto;
 
   ::-webkit-scrollbar {
