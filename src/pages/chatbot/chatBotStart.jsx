@@ -29,7 +29,7 @@ export default function StartPage() {
       const response = await apiClient.get(`/session-tokens`);
       const token = response.data.data;
       setTokenData(token);
-      localStorage.setItem(`chatbot_token_${tableNumber}`, token);
+      sessionStorage.setItem(`chatbot_token_${tableNumber}`, token);
       navigate(`/chatbot/${tableNumber}`);
     } catch (error) {
       console.error("토큰 발급 실패:", error);

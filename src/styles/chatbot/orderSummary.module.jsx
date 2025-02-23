@@ -17,6 +17,12 @@ export const SummaryContainer = styled.div`
 
 export const SummaryContentWrap = styled.div``;
 
+export const NotYetOrder = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+`;
+
 export const SummaryTop = styled.div`
   display: flex;
   align-items: center;
@@ -111,10 +117,10 @@ export const Status = styled.div`
 export const CancelBtn = styled.div`
   border-radius: 12px;
   padding: 8px 12px 8px 12px;
-  border: 2px solid #5d60ef;
+  border: 2px solid ${({ disabled }) => (disabled ? "#cdcdcd" : "#5d60ef")};
   font-size: 11px;
   font-weight: 800;
-  color: #5d60ef;
+  color: ${({ disabled }) => (disabled ? "#cdcdcd" : "#5d60ef")};
 `;
 
 export const OrderNum = styled.div`
