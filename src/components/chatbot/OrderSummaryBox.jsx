@@ -20,6 +20,14 @@ import {
   OrderPrice,
 } from "../../styles/chatbot/orderSummary.module";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
+export const apiClient = axios.create({
+  baseURL: host,
+});
+
 export default function OrderSummaryBox({ status, orderId, orderData }) {
   const getStatusText = (status) => {
     switch (status) {
@@ -37,12 +45,31 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
     }
   };
 
+  const handleCancel = async () => {
+    if (status !== "NOT_YET_SENT") {
+      return;
+    }
+    try {
+      const response = await apiClient.patch(
+        `/stores/1/orders/${orderData.orderId}/user`
+      );
+      console.log("주문 취소 성공:", response.data);
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
+    }
+  };
+
   return (
     <OrderWrap>
       <OrderBox>
         <StatusWrap>
           <Status>{getStatusText(status)}</Status>
-          <CancelBtn disabled={status !== "NOT_YET_SENT"}>주문취소</CancelBtn>
+          <CancelBtn
+            disabled={status !== "NOT_YET_SENT"}
+            onClick={handleCancel}
+          >
+            주문취소
+          </CancelBtn>
         </StatusWrap>
         <OrderNum>주문 번호 {orderId}</OrderNum>
         {orderData.orderDetail.map((orderItem) => (
