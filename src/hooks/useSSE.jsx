@@ -3,18 +3,19 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const host = window.location.hostname === "localhost" ? API_URL : "api";
+
 export default function useSSE(token) {
   const [notice, setNotice] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   console.log(token);
-  console.log(process.env.REACT_APP_API_URL);
 
   useEffect(() => {
     if (!token) return;
 
     const eventSource = new EventSourcePolyfill(
-      `${process.env.REACT_APP_API_URL}/notification/subscribe`,
+      `${host}/notification/subscribe`,
       {
         headers: {
           sessionToken: token,
