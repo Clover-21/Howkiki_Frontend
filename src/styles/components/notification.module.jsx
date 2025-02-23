@@ -17,11 +17,13 @@ export const Modal = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: ${(props) => (props.isCancelNotice ? "300px" : "600px")};
-  height: ${(props) => (props.isCancelNotice ? "165px" : "400px")};
+  width: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "300px" : "600px"};
+  height: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "165px" : "400px"};
   background-color: #ffffff;
   border-radius: 20px;
-  paddig: 20px;
+  padding: 20px;
 `;
 
 export const ModalContent = styled.div`
@@ -30,7 +32,10 @@ export const ModalContent = styled.div`
   margin-bottom: 40px;
 `;
 
-export const ModalText = styled.div``;
+export const ModalText = styled.div`
+  font-size: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "15.85px" : "24px"};
+`;
 
 export const HighlightText = styled.div`
   color: #f25b64;
@@ -40,10 +45,13 @@ export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
-  height: 50px;
+  width: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "64px" : "106px"};
+  height: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "38px" : "54px"};
   border-radius: 10px;
-  font-size: 20px;
+  font-size: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "12.68px" : "18px"};
   background-color: #5d60ef;
   color: #ffffff;
   margin-top: 30px;

@@ -6,8 +6,6 @@ import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
-import useSSE from "../../hooks/useSSE";
-import NotificationModal from "../../components/NotificationModal";
 import {
   ListContainer,
   OrderContainer,
@@ -35,7 +33,7 @@ const override = {
   borderWidth: "6px",
 };
 
-export default function PayCompletePage() {
+export default function FullOrderPage() {
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -46,8 +44,6 @@ export default function PayCompletePage() {
     numbers,
     8
   );
-
-  const { notice, isOpen, setIsOpen } = useSSE("1111");
 
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
@@ -67,10 +63,6 @@ export default function PayCompletePage() {
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
     setIsDetailModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -123,11 +115,6 @@ export default function PayCompletePage() {
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
         selectedOrder={selectedOrder}
-      />
-      <NotificationModal
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        notice={notice}
       />
     </>
   );
