@@ -7,9 +7,6 @@ export default function useSSE(token) {
   const [notice, setNotice] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(token);
-  console.log(API_URL);
-
   useEffect(() => {
     if (!token) return;
 
