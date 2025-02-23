@@ -8,13 +8,13 @@ export default function useSSE(token) {
   const [isOpen, setIsOpen] = useState(false);
 
   console.log(token);
-  console.log(API_URL);
+  console.log(process.env.REACT_APP_API_URL);
 
   useEffect(() => {
     if (!token) return;
 
     const eventSource = new EventSourcePolyfill(
-      `${API_URL}/notification/subscribe`,
+      `${process.env.REACT_APP_API_URL}/notification/subscribe`,
       {
         headers: {
           sessionToken: token,
