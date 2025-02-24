@@ -89,10 +89,18 @@ function App() {
 
   const isNotificationVisible = useMemo(() => {
     return (
-      (isManagerPage && notice?.noticeName !== "운영자의 주문 취소 알림") ||
-      (isChatBotPage && notice?.noticeName === "운영자의 주문 취소 알림")
+      (isManagerPage &&
+        notice?.noticeName.trim() !== "운영자의 주문 취소 알림") ||
+      (isChatBotPage && notice?.noticeName.trim() === "운영자의 주문 취소 알림")
     );
   }, [isManagerPage, isChatBotPage, notice]);
+
+  useEffect(() => {
+    console.log("isManagerPage:", isManagerPage);
+    console.log("isChatBotPage:", isChatBotPage);
+    console.log("현재 알림 notice:", notice);
+    console.log("isNotificationVisible:", isNotificationVisible);
+  }, [isNotificationVisible, notice]);
 
   return (
     <>
