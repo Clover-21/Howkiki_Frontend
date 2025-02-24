@@ -89,8 +89,8 @@ export default function TableManagePage() {
                   <Line />
                   <TotalPriceWrapper>
                     <TotalPrice>
-                      {matchingOrder?.orderPrice
-                        ? matchingOrder.orderPrice.toLocaleString()
+                      {matchingOrder?.totalPrice
+                        ? matchingOrder.totalPrice.toLocaleString()
                         : "0"}
                       원
                     </TotalPrice>
