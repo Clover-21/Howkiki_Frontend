@@ -3,53 +3,58 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const activeSSEConnections = new Map();
+
+export function closeSSEConnection(token) {
+  if (activeSSEConnections.has(token)) {
+    console.log(`SSE 연결 종료 (토큰: ${token})`);
+    activeSSEConnections.get(token).close();
+    activeSSEConnections.delete(token);
+  }
+}
+
 export default function useSSE(token) {
   const [notice, setNotice] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token || activeSSEConnections.has(token)) return;
 
-    let eventSource;
+    const eventSource = new EventSourcePolyfill(
+      `${API_URL}/notification/subscribe`,
+      {
+        headers: {
+          sessionToken: token,
+          Accept: "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+        },
+        heartbeatTimeout: 45000,
+      }
+    );
 
-    const connectSSE = () => {
-      eventSource = new EventSourcePolyfill(
-        `${API_URL}/notification/subscribe`,
-        {
-          headers: {
-            sessionToken: token,
-            Accept: "text/event-stream",
-            "Cache-Control": "no-cache",
-            Connection: "keep-alive",
-          },
-          heartbeatTimeout: 45000,
-        }
-      );
-
-      eventSource.onopen = () => console.log("SSE 연결 성공!");
-
-      eventSource.addEventListener("notification", (event) => {
-        try {
-          const newNotice = JSON.parse(event.data);
-          setNotice(newNotice);
-          setIsOpen(true);
-        } catch (error) {
-          console.error("알림 오류:", error);
-        }
-      });
-
-      eventSource.onerror = (error) => {
-        console.error("SSE 연결 오류:", error);
-        eventSource.close();
-        setTimeout(connectSSE, 5000); // 5초 후 다시 연결 시도
-      };
+    eventSource.onopen = () => {
+      console.log(`SSE 연결 성공! (토큰: ${token})`);
+      activeSSEConnections.set(token, eventSource);
     };
 
-    connectSSE();
+    eventSource.addEventListener("notification", (event) => {
+      try {
+        const newNotice = JSON.parse(event.data);
+        setNotice(newNotice);
+        setIsOpen(true);
+      } catch (error) {
+        console.error("알림 오류:", error);
+      }
+    });
+
+    eventSource.onerror = (error) => {
+      console.error("SSE 연결 오류:", error);
+      closeSSEConnection(token);
+    };
 
     return () => {
-      console.log("SSE 연결 해제");
-      eventSource?.close();
+      closeSSEConnection(token);
     };
   }, [token]);
 

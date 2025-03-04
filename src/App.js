@@ -95,13 +95,6 @@ function App() {
     );
   }, [isManagerPage, isChatBotPage, notice]);
 
-  useEffect(() => {
-    console.log("isManagerPage:", isManagerPage);
-    console.log("isChatBotPage:", isChatBotPage);
-    console.log("현재 알림 notice:", notice);
-    console.log("isNotificationVisible:", isNotificationVisible);
-  }, [isNotificationVisible, notice]);
-
   return (
     <>
       <GlobalStyle />

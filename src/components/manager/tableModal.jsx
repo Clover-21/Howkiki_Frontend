@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { closeSSEConnection } from "../../hooks/useSSE";
 import {
   ModalContainer,
   Modal,
@@ -34,7 +35,7 @@ export default function TableModal({ isOpen, onClose, table }) {
 
   const handlePaid = async () => {
     try {
-      await apiClient.patch(
+      const response = await apiClient.patch(
         `/stores/1/orders/tables/${table.id}/status-paid`,
         {},
         {
@@ -43,6 +44,13 @@ export default function TableModal({ isOpen, onClose, table }) {
           },
         }
       );
+
+      const orderTokens = response.data.data.orderList
+        .map((order) => order.userSessionToken)
+        .filter((token) => token);
+
+      orderTokens.forEach(closeSSEConnection);
+
       onClose();
       window.location.reload();
     } catch (error) {

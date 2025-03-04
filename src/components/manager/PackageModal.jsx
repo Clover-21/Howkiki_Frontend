@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { closeSSEConnection } from "../../hooks/useSSE";
 import {
   ModalContainer,
   Modal,
@@ -30,19 +31,27 @@ export const apiClient = axios.create({
 export default function PackageModal({ isOpen, onClose, data }) {
   if (!isOpen) return null;
 
+  console.log(data);
+
   const formattedNumber = String(data.orderId).padStart(3, "0");
 
   const handlePaid = async () => {
     try {
-      await apiClient.patch(
-        `/stores/1/orders/tables/${data.tableNumber}/status-paid`,
-        {},
+      const response = await apiClient.patch(
+        `/stores/1/orders/${data.orderId}/take-out/status-paid`,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+
+      const userSessionToken = response.data?.data?.userSessionToken;
+
+      if (userSessionToken) {
+        closeSSEConnection(userSessionToken);
+      }
+
       onClose();
       window.location.reload();
     } catch (error) {
