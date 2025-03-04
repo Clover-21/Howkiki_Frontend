@@ -10,13 +10,16 @@ import {
   Icon,
   RequestText,
   HighlightText,
+  TextWrap,
 } from "../styles/components/notification.module";
 
 const renderCancelNotice = (notice) => (
   <>
-    주문이 <HighlightText>{notice.explanation}</HighlightText> 으로
+    주문이
+    <HighlightText> {notice.explanation || "소롱포-재료소진"}</HighlightText>
+    으로
     <br />
-    취소되었습니다.
+    <TextWrap noticeName={notice.noticeName}>취소되었습니다.</TextWrap>
   </>
 );
 
@@ -29,16 +32,18 @@ const renderNewOrderNotice = () => (
 const renderRequestNotice = (notice) => (
   <>
     <HighlightText>새로운 요청</HighlightText>이 도착하였습니다!
-    <TableWrap>
-      <Icon>[</Icon>
-      <TableText>
-        {notice.isTakeOut
-          ? `포장 - ${notice.orderId ?? "-"}`
-          : `테이블 - ${notice.tableNumber ?? "-"}`}
-      </TableText>
-      <Icon>]</Icon>
-    </TableWrap>
-    <RequestText>" {notice.content ?? "요청 내용 없음"} "</RequestText>
+    <TextWrap>
+      <TableWrap>
+        <Icon>[</Icon>
+        <TableText>
+          {notice.isTakeOut
+            ? `포장 - ${notice.orderId ?? "-"}`
+            : `테이블 - ${notice.tableNumber ?? "-"}`}
+        </TableText>
+        <Icon>]</Icon>
+      </TableWrap>
+      <RequestText>" {notice.content ?? "요청 내용 없음"} "</RequestText>
+    </TextWrap>
   </>
 );
 
@@ -57,10 +62,14 @@ export default function NotificationModal({ isOpen, onClose, notice }) {
   return (
     <ModalContainer>
       <Modal noticeName={notice.noticeName}>
-        <ModalContent>
-          <ModalText>{renderMessage(notice)}</ModalText>
+        <ModalContent noticeName={notice.noticeName}>
+          <ModalText noticeName={notice.noticeName}>
+            {renderMessage(notice)}
+          </ModalText>
         </ModalContent>
-        <Button onClick={onClose}>확인</Button>
+        <Button noticeName={notice.noticeName} onClick={onClose}>
+          확인
+        </Button>
       </Modal>
     </ModalContainer>
   );
