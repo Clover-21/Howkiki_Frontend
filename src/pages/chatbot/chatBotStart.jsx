@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -27,38 +27,17 @@ export default function StartPage() {
   const handleStart = async () => {
     try {
       const response = await apiClient.get(`/session-tokens`);
-      const token = response.data.data;
-      setTokenData(token);
-      localStorage.setItem(`chatbot_token_${tableNumber}`, token);
+      const newToken = response.data.data;
+
+      setTokenData(newToken);
+
+      sessionStorage.setItem(`chatbot_token_${tableNumber}`, newToken);
+
       navigate(`/chatbot/${tableNumber}`);
     } catch (error) {
       console.error("토큰 발급 실패:", error);
     }
   };
-
-  const requestSubscribe = async (token) => {
-    if (!token) return;
-
-    try {
-      console.log("SSE 구독 요청 보냄, 토큰:", token);
-
-      await apiClient.get(`/notification/subscribe`, {
-        headers: {
-          sessionToken: token,
-          Accept: "text/event-stream",
-          "Cache-Control": "no-cache",
-        },
-      });
-    } catch (error) {
-      console.error("SSE 구독 실패:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (tokenData) {
-      requestSubscribe(tokenData);
-    }
-  }, [tokenData]);
 
   return (
     <Container>
