@@ -30,7 +30,7 @@ export const apiClient = axios.create({
 
 export default function OrderSummaryPage() {
   const navigate = useNavigate();
-  const { tableNumber } = useParams();
+  const { storeId, tableNumber } = useParams();
   const [orderData, setOrderData] = useState(null);
 
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
@@ -61,7 +61,7 @@ export default function OrderSummaryPage() {
           <SummaryTop>
             <CloseIcon
               src={close}
-              onClick={() => navigate(`/chatbot/${tableNumber}`)}
+              onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}
             />
             <SummaryTitle>주문 내역</SummaryTitle>
           </SummaryTop>

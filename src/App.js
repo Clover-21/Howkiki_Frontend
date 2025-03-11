@@ -52,10 +52,13 @@ function App() {
         <Route path="/tablemanage" element={<TableManagePage />} />
         <Route path="/packaging" element={<PackagingPage />} />
         <Route path="/suggestion" element={<SuggestionPage />} />
-        <Route path="/chatstart/:tableNumber" element={<ChatBotStart />} />
-        <Route path="/chatbot/:tableNumber" element={<ChatBot />} />
         <Route
-          path="/ordersummary/:tableNumber"
+          path="/chatstart/:storeId/:tableNumber"
+          element={<ChatBotStart />}
+        />
+        <Route path="/chatbot/:storeId/:tableNumber" element={<ChatBot />} />
+        <Route
+          path="/ordersummary/:storeId/:tableNumber"
           element={<OrderSummaryPage />}
         />
       </Routes>

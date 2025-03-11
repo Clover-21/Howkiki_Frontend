@@ -21,7 +21,7 @@ export const apiClient = axios.create({
 
 export default function StartPage() {
   const navigate = useNavigate();
-  const { tableNumber } = useParams();
+  const { storeId, tableNumber } = useParams();
   const [tokenData, setTokenData] = useState(null);
 
   const handleStart = async () => {
@@ -33,7 +33,7 @@ export default function StartPage() {
 
       sessionStorage.setItem(`chatbot_token_${tableNumber}`, newToken);
 
-      navigate(`/chatbot/${tableNumber}`);
+      navigate(`/chatbot/${storeId}/${tableNumber}`);
     } catch (error) {
       console.error("토큰 발급 실패:", error);
     }

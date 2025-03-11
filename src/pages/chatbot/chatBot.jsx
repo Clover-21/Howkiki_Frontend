@@ -34,7 +34,7 @@ export const apiClient = axios.create({
 
 export default function ChatBot() {
   const navigate = useNavigate();
-  const { tableNumber } = useParams();
+  const { storeId, tableNumber } = useParams();
   const [input, setInput] = useState("");
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -162,7 +162,7 @@ export default function ChatBot() {
         <ChatInput>
           <HsIcon
             src={orderhs}
-            onClick={() => navigate(`/ordersummary/${tableNumber}`)}
+            onClick={() => navigate(`/ordersummary/${storeId}/${tableNumber}`)}
           />
           <InputContainer>
             <InputField
