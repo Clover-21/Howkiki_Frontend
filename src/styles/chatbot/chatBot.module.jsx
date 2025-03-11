@@ -10,13 +10,21 @@ export const Container = styled.div`
 `;
 
 export const ChatContainer = styled.div`
-  width: 390px;
-  height: 844px;
+  width: 100vw;
+  height: 100vh;
+  max-width: 430px;
   background-color: #f2f2f5;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+
+  @media screen and (min-width: 768px) {
+    max-width: 500px;
+    max-height: 800px;
+    margin: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const ModalWrapper = styled.div`
