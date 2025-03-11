@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
   ModalContainer,
@@ -17,6 +18,7 @@ export const apiClient = axios.create({
 });
 
 export default function PackageModal({ isOpen, onClose, data }) {
+  const { storeId } = useParams();
   const [sugDetail, setSugDetail] = useState(null);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
     const getSuggestion = async () => {
       try {
         const response = await apiClient.get(
-          `/stores/1/suggestions/${data.suggestionList.suggestionId}`
+          `/stores/${storeId}/suggestions/${data.suggestionList.suggestionId}`
         );
         setSugDetail(response.data);
       } catch (error) {

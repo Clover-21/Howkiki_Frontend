@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { closeSSEConnection } from "../../hooks/useSSE";
 import {
@@ -31,12 +32,13 @@ export const apiClient = axios.create({
 });
 
 export default function TableModal({ isOpen, onClose, table }) {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
 
   const handlePaid = async () => {
     try {
       const response = await apiClient.patch(
-        `/stores/1/orders/tables/${table.id}/status-paid`,
+        `/stores/${storeId}/orders/tables/${table.id}/status-paid`,
         {},
         {
           headers: {
@@ -64,7 +66,7 @@ export default function TableModal({ isOpen, onClose, table }) {
     const fetchTableOrder = async () => {
       try {
         const response = await apiClient.get(
-          `/stores/1/orders/tables/${table.id}`
+          `/stores/${storeId}/orders/tables/${table.id}`
         );
         setOrderData(response.data.data);
       } catch (error) {

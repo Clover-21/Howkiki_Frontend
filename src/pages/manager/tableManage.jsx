@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import TableModal from "../../components/manager/tableModal";
@@ -26,6 +27,7 @@ export const apiClient = axios.create({
 });
 
 export default function TableManagePage() {
+  const { storeId } = useParams();
   const [tables, setTables] = useState([]);
   const [orders, setOrders] = useState([]);
   const [isTableModalOpen, setIsTablelModalOpen] = useState(false);
@@ -46,7 +48,9 @@ export default function TableManagePage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await apiClient.get(`/stores/1/orders/tables/all`);
+        const response = await apiClient.get(
+          `/stores/${storeId}/orders/tables/all`
+        );
         setOrders(response.data.data);
         console.log(response.data.data);
       } catch (error) {

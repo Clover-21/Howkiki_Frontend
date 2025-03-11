@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -39,6 +40,7 @@ const override = {
 };
 
 export default function OrderWaitingPage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -101,7 +103,7 @@ export default function OrderWaitingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `/stores/1/orders?status=AWAITING_ACCEPTANCE`
+        `/stores/${storeId}/orders?status=AWAITING_ACCEPTANCE`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);

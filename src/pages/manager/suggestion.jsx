@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SuggestionBox from "../../components/manager/SuggestionBox";
@@ -16,12 +17,15 @@ export const apiClient = axios.create({
 });
 
 export default function SuggestionPage() {
+  const { storeId } = useParams();
   const [suggestionData, setSuggestionData] = useState([]);
   const [isSugModalOpen, setIsSugModalOpen] = useState(false);
 
   const getOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/suggestions/all`);
+      const response = await apiClient.get(
+        `/stores/${storeId}/suggestions/all`
+      );
       setSuggestionData(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("건의 사항 데이터 가져오기 실패:", error);

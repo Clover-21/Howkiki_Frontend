@@ -99,15 +99,15 @@ function App() {
     <>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<StartPage />} />
-        <Route path="/waiting" element={<OrderWaitingPage />} />
-        <Route path="/preparing" element={<OrderPreparingPage />} />
-        <Route path="/readycomplete" element={<ReadyCompletePage />} />
-        <Route path="/paycomplete" element={<PayCompletePage />} />
-        <Route path="/fullorder" element={<FullOrderPage />} />
-        <Route path="/tablemanage" element={<TableManagePage />} />
-        <Route path="/packaging" element={<PackagingPage />} />
-        <Route path="/suggestion" element={<SuggestionPage />} />
+        <Route path="/:storeId" element={<StartPage />} />
+        <Route path="/:storeId/waiting" element={<OrderWaitingPage />} />
+        <Route path="/:storeId/preparing" element={<OrderPreparingPage />} />
+        <Route path="/:storeId/readycomplete" element={<ReadyCompletePage />} />
+        <Route path="/:storeId/paycomplete" element={<PayCompletePage />} />
+        <Route path="/:storeId/fullorder" element={<FullOrderPage />} />
+        <Route path="/:storeId/tablemanage" element={<TableManagePage />} />
+        <Route path="/:storeId/packaging" element={<PackagingPage />} />
+        <Route path="/:storeId/suggestion" element={<SuggestionPage />} />
         <Route path="/chatstart/:tableNumber" element={<ChatBotStart />} />
         <Route path="/chatbot/:tableNumber" element={<ChatBot />} />
         <Route

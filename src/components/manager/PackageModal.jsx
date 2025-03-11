@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { closeSSEConnection } from "../../hooks/useSSE";
 import {
@@ -29,6 +30,7 @@ export const apiClient = axios.create({
 });
 
 export default function PackageModal({ isOpen, onClose, data }) {
+  const { storeId } = useParams();
   if (!isOpen) return null;
 
   console.log(data);
@@ -38,7 +40,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
   const handlePaid = async () => {
     try {
       const response = await apiClient.patch(
-        `/stores/1/orders/${data.orderId}/take-out/status-paid`,
+        `/stores/${storeId}/orders/${data.orderId}/take-out/status-paid`,
         {
           headers: {
             "Content-Type": "application/json",

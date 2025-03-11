@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -34,6 +35,7 @@ const override = {
 };
 
 export default function ReadyCompletePage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -48,7 +50,9 @@ export default function ReadyCompletePage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders?status=COMPLETED`);
+      const response = await apiClient.get(
+        `/stores/${storeId}/orders?status=COMPLETED`
+      );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });

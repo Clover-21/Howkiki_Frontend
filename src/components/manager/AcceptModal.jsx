@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import back from "../../assets/icon/back.svg";
 import {
@@ -30,6 +31,7 @@ export default function AcceptModal({
   selectedOrder,
   setOrderData,
 }) {
+  const { storeId } = useParams();
   const [time, setTime] = useState("");
 
   const handleInputChange = (e) => {
@@ -51,7 +53,7 @@ export default function AcceptModal({
   const handleAccept = async (expectedPrepMin) => {
     try {
       await apiClient.patch(
-        `/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
+        `/stores/${storeId}/orders/${selectedOrder.orderId}/order-acceptance`,
         { expectedPrepMin }
       );
 

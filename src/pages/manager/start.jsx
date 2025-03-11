@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/icon/logo.svg";
 import arrow from "../../assets/icon/arrow.svg";
@@ -50,7 +50,7 @@ export default function StartPage() {
       // 현재 선택된 가게를 따로 저장
       localStorage.setItem("currentStore", storeName);
 
-      navigate("/waiting");
+      navigate(`/${storeId}/waiting`);
     } catch (error) {
       console.error("가게 정보 받기 실패:", error);
     } finally {

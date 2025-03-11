@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -39,6 +39,7 @@ const override = {
 };
 
 export default function OrderPreparingPage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -86,7 +87,7 @@ export default function OrderPreparingPage() {
     const orderId = order.orderId;
     try {
       await apiClient.patch(
-        `/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+        `/stores/${storeId}/orders/${orderId}/status?orderStatus=COMPLETED`,
         {},
         {
           headers: {
@@ -104,7 +105,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `/stores/1/orders?status=IN_PROGRESS`
+        `/stores/${storeId}/orders?status=IN_PROGRESS`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);

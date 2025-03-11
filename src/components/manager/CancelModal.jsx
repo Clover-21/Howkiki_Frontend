@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Checkbox from "./CheckBox";
 import {
@@ -35,6 +36,7 @@ export default function CancelModal({
   onSelectReason,
   canceledOrder,
 }) {
+  const { storeId } = useParams();
   const [selectedMenus, setSelectedMenus] = useState([]);
 
   useEffect(() => {
@@ -84,7 +86,7 @@ export default function CancelModal({
 
         try {
           await apiClient.patch(
-            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            `/stores/${storeId}/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason,
               soldOutMenu: null,
@@ -103,7 +105,7 @@ export default function CancelModal({
 
         try {
           await apiClient.patch(
-            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            `/stores/${storeId}/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason: "OUT_OF_STOCK",
               soldOutMenu,

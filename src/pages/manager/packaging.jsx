@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/manager/Header";
 import PackageBox from "../../components/manager/PackageBox";
@@ -19,13 +20,16 @@ export const apiClient = axios.create({
 });
 
 export default function PackagingPage() {
+  const { storeId } = useParams();
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [orderData, setOrderData] = useState([]);
 
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/take-out`);
+      const response = await apiClient.get(
+        `/stores/${storeId}/orders/take-out`
+      );
       setOrderData(response.data.data);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
