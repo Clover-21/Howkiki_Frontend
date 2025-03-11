@@ -26,8 +26,6 @@ import {
 
 const API_URL = process.env.REACT_APP_CHAT_API_URL;
 
-console.log(API_URL);
-
 const host = window.location.hostname === "localhost" ? API_URL : "api";
 
 export const apiClient = axios.create({
