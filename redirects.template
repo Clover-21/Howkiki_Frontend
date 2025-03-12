@@ -1,0 +1,1 @@
+/api/* ${REACT_APP_API_URL}/:splat 200

@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "generate:redirects": "envsubst < redirects.template > _redirects",
+    "build": "npm run generate:redirects && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
