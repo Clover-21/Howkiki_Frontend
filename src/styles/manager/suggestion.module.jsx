@@ -16,12 +16,13 @@ export const PckContainer = styled.div`
   height: calc(100% - 120px);
   margin-top: 60px;
   padding: 90px;
+  display: flex;
 `;
 
 export const PckContent = styled.div`
   max-width: 1300px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 40px 85px;
+  justify-content: center;
 `;

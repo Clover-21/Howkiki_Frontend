@@ -41,11 +41,30 @@ export default function OrderPreparingPage() {
   const [selectedReason, setSelectedReason] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const numbers = orderData?.data || [];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
-    numbers,
-    8
+    orderData?.data || [],
+    itemsPerPage
   );
 
   const handleOrderClick = (order) => {

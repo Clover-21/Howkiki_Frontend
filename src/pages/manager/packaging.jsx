@@ -16,25 +16,48 @@ export default function PackagingPage() {
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [orderData, setOrderData] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
         `/stores/${storeId}/orders/take-out`
       );
-      setOrderData(response.data.data);
+      setOrderData(response.data.data ?? []);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
+      setOrderData([]);
     }
   };
 
   useEffect(() => {
-    fetchOrderData();
+    if (storeId) {
+      fetchOrderData();
+    }
+  }, [storeId]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
     orderData,
-    8
+    itemsPerPage
   );
 
   const handlePackageOrder = (order) => {

@@ -11,14 +11,16 @@ import { Container } from "../../styles/manager/suggestion.module";
 export default function SuggestionPage() {
   const { storeId } = useParams();
   const [suggestionData, setSuggestionData] = useState([]);
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
   const [isSugModalOpen, setIsSugModalOpen] = useState(false);
 
+  // 건의사항 데이터 가져오기
   const getOrderData = async () => {
     try {
       const response = await apiClient.get(
         `/stores/${storeId}/suggestions/all`
       );
-      setSuggestionData(Array.isArray(response.data) ? response.data : []);
+      setSuggestionData(response.data.data.suggestionList);
     } catch (error) {
       console.error("건의 사항 데이터 가져오기 실패:", error);
     }
@@ -33,7 +35,8 @@ export default function SuggestionPage() {
     4
   );
 
-  const handleSuggestion = () => {
+  const handleSuggestion = (suggestion) => {
+    setSelectedSuggestion(suggestion);
     setIsSugModalOpen(true);
   };
 
@@ -41,11 +44,11 @@ export default function SuggestionPage() {
     <>
       <Header />
       <Container>
-        {currentItems.map((num) => (
+        {currentItems.map((item) => (
           <SuggestionBox
-            key={num}
-            data={suggestionData}
-            onClick={handleSuggestion}
+            key={item.suggestionId}
+            num={item}
+            onClick={() => handleSuggestion(item)}
           />
         ))}
       </Container>
@@ -57,7 +60,7 @@ export default function SuggestionPage() {
       <SuggestionModal
         isOpen={isSugModalOpen}
         onClose={() => setIsSugModalOpen(false)}
-        data={suggestionData}
+        data={selectedSuggestion}
       />
     </>
   );

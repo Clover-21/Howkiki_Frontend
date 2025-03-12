@@ -32,13 +32,31 @@ export default function ReadyCompletePage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const numbers = orderData?.data || [];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
-    numbers,
-    8
+    orderData?.data || [],
+    itemsPerPage
   );
-
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {

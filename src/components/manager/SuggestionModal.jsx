@@ -9,26 +9,29 @@ import {
   FinishBtn,
 } from "../../styles/components/suggestionModal.module";
 
-export default function PackageModal({ isOpen, onClose, data }) {
+export default function SuggestionModal({ isOpen, onClose, data }) {
   const { storeId } = useParams();
   const [sugDetail, setSugDetail] = useState(null);
 
   useEffect(() => {
-    if (!isOpen || !data?.suggestionList?.suggestionId) return;
+    if (!isOpen || !data?.suggestionId) {
+      return;
+    }
 
     const getSuggestion = async () => {
       try {
         const response = await apiClient.get(
-          `/stores/${storeId}/suggestions/${data.suggestionList.suggestionId}`
+          `/stores/${storeId}/suggestions/${data.suggestionId}`
         );
-        setSugDetail(response.data);
+        setSugDetail(response.data.data);
       } catch (error) {
-        console.error("테이블 주문 데이터 가져오기 실패:", error);
+        console.error("데이터 가져오기 실패:", error);
         setSugDetail(null);
       }
     };
+
     getSuggestion();
-  }, [isOpen, data]);
+  }, [isOpen, data?.suggestionId]);
 
   if (!isOpen || !sugDetail) return null;
 
