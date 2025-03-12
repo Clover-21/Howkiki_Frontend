@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
-const API_URL = process.env.REACT_APP_HTTPS_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 const activeSSEConnections = new Map();
 
 export function closeSSEConnection(token) {
