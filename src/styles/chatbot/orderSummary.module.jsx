@@ -9,11 +9,6 @@ export const SummaryContainer = styled.div`
   padding-bottom: 30px;
   margin: 0 auto; /* 화면 가운데 정렬 */
 
-  @media screen and (min-width: 768px) {
-    max-width: 500px; /* 태블릿에서는 좀 더 넓게 */
-    max-height: 800px;
-  }
-
   ::-webkit-scrollbar {
     display: none;
   }
@@ -27,10 +22,6 @@ export const NotYetOrder = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
-
-  @media screen and (max-width: 375px) {
-    margin-top: 15px;
-  }
 `;
 
 export const SummaryTop = styled.div`
@@ -39,16 +30,16 @@ export const SummaryTop = styled.div`
   position: relative;
   padding: 15px;
   margin-top: 50px;
-
-  @media screen and (max-width: 375px) {
-    margin-top: 40px;
-  }
 `;
 
 export const CloseIcon = styled.img`
   position: absolute;
-  left: 10px; /* 위치 수정 */
+  left: 20px;
   cursor: pointer;
+
+  @media screen and (min-width: 430px) {
+    left: 22px;
+  }
 `;
 
 export const SummaryTitle = styled.div`
@@ -57,8 +48,8 @@ export const SummaryTitle = styled.div`
   font-size: 16px;
   font-weight: 700;
 
-  @media screen and (min-width: 768px) {
-    font-size: 18px;
+  @media screen and (min-width: 430px) {
+    font-size: 17px;
   }
 `;
 
@@ -69,14 +60,13 @@ export const Line = styled.div`
 `;
 
 export const TableNum = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   text-align: center;
   padding: 15px;
 
-  @media screen and (min-width: 768px) {
-    font-size: 15px;
-    padding: 20px;
+  @media screen and (min-width: 430px) {
+    font-size: 16px;
   }
 `;
 
@@ -90,10 +80,6 @@ export const TotalBox = styled.div`
   height: 60px;
   border-radius: 16px;
   border: 2px solid #cdcdcd;
-
-  @media screen and (max-width: 375px) {
-    height: 55px;
-  }
 `;
 
 export const TotalContent = styled.div`
@@ -108,18 +94,10 @@ export const TotalContent = styled.div`
 
 export const TotalText = styled.div`
   font-size: 14px;
-
-  @media screen and (min-width: 768px) {
-    font-size: 15px;
-  }
 `;
 
 export const TotalPrice = styled.div`
   font-size: 14px;
-
-  @media screen and (min-width: 768px) {
-    font-size: 15px;
-  }
 `;
 
 export const OrderWrap = styled.div`
@@ -136,37 +114,30 @@ export const OrderBox = styled.div`
   background-color: #ffffff;
 
   @media screen and (max-width: 375px) {
-    padding: 12px; /* 작은 화면에서 패딩 줄임 */
-    border-radius: 12px; /* 둥근 모서리 조정 */
-  }
-
-  @media screen and (min-width: 768px) {
-    max-width: 400px; /* 태블릿에서는 좀 더 넓게 */
+    padding: 12px;
   }
 `;
 
 export const StatusWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
 export const Status = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  height: 30px;
   border-radius: 15px;
   border: 1.5px solid #5d60ef;
   background-color: rgba(83, 225, 185, 0.5);
+  padding: 8px 12px;
   font-size: 11px;
   font-weight: 800;
   color: #5d60ef;
 
-  @media screen and (max-width: 375px) {
-    width: 65px;
-    height: 28px;
-    font-size: 10px;
+  @media screen and (min-width: 430px) {
+    font-size: 12px;
   }
 `;
 
@@ -178,6 +149,10 @@ export const CancelBtn = styled.div`
   font-weight: 800;
   color: ${({ disabled }) => (disabled ? "#cdcdcd" : "#5d60ef")};
   cursor: pointer;
+
+  @media screen and (min-width: 430px) {
+    font-size: 12px;
+  }
 `;
 
 export const OrderNum = styled.div`
@@ -186,6 +161,10 @@ export const OrderNum = styled.div`
   margin-top: 10px;
   margin-left: 7px;
   margin-bottom: 10px;
+
+  @media screen and (min-width: 430px) {
+    font-size: 16px;
+  }
 `;
 
 export const MenuComponent = styled.div``;
@@ -216,16 +195,28 @@ export const MenuWrap = styled.div`
 
 export const MenuName = styled.div`
   font-size: 13px;
+
+  @media screen and (min-width: 430px) {
+    font-size: 14px;
+  }
 `;
 
 export const Quantity = styled.div`
   font-size: 13px;
+
+  @media screen and (min-width: 430px) {
+    font-size: 14px;
+  }
 `;
 
 export const MenuPrice = styled.div`
   font-size: 12px;
   color: #666666;
   margin-left: 5px;
+
+  @media screen and (min-width: 430px) {
+    font-size: 13px;
+  }
 `;
 
 export const OrderPriceContainer = styled.div`
@@ -241,6 +232,10 @@ export const OrderPriceWrap = styled.div`
   font-size: 14px;
   font-weight: 700;
   width: 90%;
+
+  @media screen and (min-width: 430px) {
+    font-size: 15px;
+  }
 `;
 
 export const OrderText = styled.div``;
