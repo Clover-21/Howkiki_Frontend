@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_HTTPS_URL;
 const activeSSEConnections = new Map();
 
 export function closeSSEConnection(token) {
@@ -20,18 +20,16 @@ export default function useSSE(token) {
     if (!token || activeSSEConnections.has(token)) return;
 
     const connectSSE = () => {
-      const eventSource = new EventSourcePolyfill(
-        `${API_URL}/notification/subscribe`,
-        {
-          headers: {
-            sessionToken: token,
-            Accept: "text/event-stream",
-            "Cache-Control": "no-cache",
-            Connection: "keep-alive",
-          },
-          heartbeatTimeout: 45000,
-        }
-      );
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      const eventSource = new EventSource(`${API_URL}/notification/subscribe`, {
+        headers: {
+          sessionToken: token,
+          Accept: "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+        },
+        heartbeatTimeout: 45000,
+      });
 
       eventSource.onopen = () => {
         console.log(`SSE 연결 성공! (토큰: ${token})`);
