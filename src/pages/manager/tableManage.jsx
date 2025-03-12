@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Header from "../../components/manager/Header";
 import TableModal from "../../components/manager/tableModal";
+import { apiClient } from "../../api/apiClient";
 import {
   TableBoxContainer,
   TableBox,
@@ -17,14 +17,6 @@ import {
   TotalPriceWrapper,
   TotalPrice,
 } from "../../styles/manager/tableManage.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function TableManagePage() {
   const { storeId } = useParams();

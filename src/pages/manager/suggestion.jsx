@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Header from "../../components/manager/Header";
 import SuggestionBox from "../../components/manager/SuggestionBox";
 import SuggestionModal from "../../components/manager/SuggestionModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
+import { apiClient } from "../../api/apiClient";
 import { Container } from "../../styles/manager/suggestion.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function SuggestionPage() {
   const { storeId } = useParams();

@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Header from "../../components/manager/Header";
 import PackageBox from "../../components/manager/PackageBox";
 import PackageModal from "../../components/manager/PackageModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
+import { apiClient } from "../../api/apiClient";
 import {
   PckContainer,
   PckContent,
 } from "../../styles/manager/suggestion.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function PackagingPage() {
   const { storeId } = useParams();

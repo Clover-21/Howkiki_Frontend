@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/icon/logo.svg";
 import arrow from "../../assets/icon/arrow.svg";
+import { apiClient } from "../../api/apiClient";
 import {
   StartContainer,
   StartContent,
@@ -13,14 +13,6 @@ import {
   OkBtn,
   Arrow,
 } from "../../styles/manager/start.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function StartPage() {
   const navigate = useNavigate();

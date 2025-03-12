@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
+import { apiClient } from "../../api/apiClient";
 import {
   ListContainer,
   OrderContainer,
@@ -18,14 +18,6 @@ import {
   MenuQuantity,
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 const override = {
   display: "block",

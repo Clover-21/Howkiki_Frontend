@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Checkbox from "./CheckBox";
+import { apiClient } from "../../api/apiClient";
 import {
   CancelModalContainer,
   CancelModalWrap,
@@ -18,14 +18,6 @@ import {
   MenuContentWrapper,
   Line,
 } from "../../styles/components/cancelModal.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function CancelModal({
   isOpen,

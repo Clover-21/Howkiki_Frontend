@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { apiClient } from "../../api/apiClient";
 import {
   ModalContainer,
   Modal,
@@ -8,14 +8,6 @@ import {
   BtnContainer,
   FinishBtn,
 } from "../../styles/components/suggestionModal.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function PackageModal({ isOpen, onClose, data }) {
   const { storeId } = useParams();
