@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
-const API_URL = process.env.REACT_APP_HTTPS_URL;
-console.log(API_URL);
+const API_URL = process.env.REACT_APP_API_URL;
 const activeSSEConnections = new Map();
 
 export function closeSSEConnection(token) {
@@ -30,6 +29,7 @@ export default function useSSE(token) {
             "Cache-Control": "no-cache",
             Connection: "keep-alive",
           },
+          withCredentials: true,
           heartbeatTimeout: 45000,
         }
       );
