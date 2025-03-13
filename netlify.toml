@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = ":REACT_APP_API_URL/:splat"
+  to = "${REACT_APP_API_URL}/:splat"
   status = 200
   force = true
 
@@ -12,5 +12,4 @@
   from = "/*"
   to = "/index.html"
   status = 200
-  force = true
 
