@@ -71,9 +71,14 @@ export default function FullOrderPage() {
           Expires: "0",
         },
       });
-      const sortedOrders = response.data.data.sort((a, b) => {
+
+      // response.data.data가 없으면 빈 배열로 설정
+      const orders = response.data.data || [];
+
+      const sortedOrders = orders.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
+
       setOrderData({ ...response.data, data: sortedOrders });
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
