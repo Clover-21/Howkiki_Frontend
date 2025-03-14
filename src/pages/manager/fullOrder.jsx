@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -25,6 +26,8 @@ const override = {
   borderColor: "#7878F0",
   borderWidth: "6px",
 };
+
+const API_URL = process.env.REACT_APP_HTTPS_URL;
 
 export default function FullOrderPage() {
   const { storeId } = useParams();
@@ -61,7 +64,7 @@ export default function FullOrderPage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/${storeId}/orders/all`);
+      const response = await axios.get(`/stores/${storeId}/orders/all`);
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
