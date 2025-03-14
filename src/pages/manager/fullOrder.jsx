@@ -65,14 +65,7 @@ export default function FullOrderPage() {
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(
-        `${API_URL}/stores/${storeId}/orders/all`,
-        {
-          headers: {
-            "Cache-Control": "no-cache",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
-        }
+        `${API_URL}/stores/${storeId}/orders/all`
       );
 
       // response.data.data가 없으면 빈 배열로 설정
