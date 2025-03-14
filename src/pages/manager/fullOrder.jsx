@@ -64,13 +64,16 @@ export default function FullOrderPage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/stores/${storeId}/orders/all`, {
-        headers: {
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      });
+      const response = await axios.get(
+        `${API_URL}/stores/${storeId}/orders/all`,
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
+      );
 
       // response.data.data가 없으면 빈 배열로 설정
       const orders = response.data.data || [];
