@@ -64,7 +64,13 @@ export default function FullOrderPage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(`/stores/${storeId}/orders/all`);
+      const response = await axios.get(`/stores/${storeId}/orders/all`, {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      });
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
