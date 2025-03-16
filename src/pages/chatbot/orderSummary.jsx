@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import OrderSummaryBox from "../../components/chatbot/OrderSummaryBox";
 import close from "../../assets/icon/close.svg";
+import { apiClient } from "../../api/apiClient";
 import {
   SummaryContainer,
   SummaryContentWrap,
@@ -19,14 +19,6 @@ import {
   NotYetOrder,
 } from "../../styles/chatbot/orderSummary.module";
 import { Container } from "../../styles/chatbot/chatBot.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function OrderSummaryPage() {
   const navigate = useNavigate();

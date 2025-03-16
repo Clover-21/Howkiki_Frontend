@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { apiClient } from "../../api/apiClient";
+import logo from "../../assets/icon/logo.svg";
 import {
   StartContainer,
   StartContent,
@@ -9,15 +10,6 @@ import {
   Btn,
 } from "../../styles/chatbot/chatBotStart.module";
 import { Container } from "../../styles/chatbot/chatBot.module";
-import logo from "../../assets/icon/logo.svg";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function StartPage() {
   const navigate = useNavigate();
