@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
@@ -64,9 +63,7 @@ export default function FullOrderPage() {
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get(
-        `${API_URL}/stores/${storeId}/orders/all`
-      );
+      const response = await apiClient.get(`/stores/${storeId}/orders/all`);
 
       // response.data.data가 없으면 빈 배열로 설정
       const orders = response.data.data || [];
