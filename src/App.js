@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -18,40 +18,96 @@ import SuggestionPage from "./pages/manager/suggestion";
 import ChatBotStart from "./pages/chatbot/chatBotStart";
 import ChatBot from "./pages/chatbot/chatBot";
 import OrderSummaryPage from "./pages/chatbot/orderSummary";
+import useSSE from "./hooks/useSSE";
+import NotificationModal from "./components/NotificationModal";
 
 function App() {
   const location = useLocation();
+  const [token, setToken] = useState(null);
+  const [currentStore, setCurrentStore] = useState(
+    localStorage.getItem("currentStore") || null
+  );
+  const [storeId, setStoreId] = useState(
+    currentStore
+      ? parseInt(localStorage.getItem(`${currentStore}_storeId`))
+      : null
+  );
 
   useEffect(() => {
-    if (location.pathname === "/chatbot") {
-      setScreenSize();
-    }
-    if (location.pathname === "/chatstart") {
-      setScreenSize();
-    }
-    if (location.pathname === "/ordersummary") {
-      setScreenSize();
-    }
-  }, [location]);
+    const handleStorageChange = () => {
+      const updatedStore = localStorage.getItem("currentStore") || null;
+      setCurrentStore(updatedStore);
+      setStoreId(
+        updatedStore
+          ? parseInt(localStorage.getItem(`${updatedStore}_storeId`))
+          : null
+      );
+    };
 
-  function setScreenSize() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!storeId) return;
+
+    let fetchedToken = null;
+    let tableNumber = null;
+
+    if (
+      location.pathname.includes("/chatbot") ||
+      location.pathname.includes("/ordersummary")
+    ) {
+      tableNumber = location.pathname.split("/")[2];
+      fetchedToken = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
+    } else {
+      fetchedToken = sessionStorage.getItem(`${storeId}_token`);
+    }
+
+    setToken(fetchedToken || null);
+  }, [location.pathname, storeId]);
+
+  const { notice, isOpen, setIsOpen } = useSSE(token);
+
+  const isManagerPage = [
+    "/waiting",
+    "/preparing",
+    "/readycomplete",
+    "/paycomplete",
+    "/fullorder",
+    "/tablemanage",
+    "/packaging",
+    "/suggestion",
+  ].some((path) => location.pathname.includes(path));
+
+  const isChatBotPage =
+    location.pathname.includes("/chatbot") ||
+    location.pathname.includes("/ordersummary");
+
+  const isNotificationVisible = useMemo(() => {
+    return (
+      (isManagerPage &&
+        notice?.noticeName.trim() !== "운영자의 주문 취소 알림") ||
+      (isChatBotPage && notice?.noticeName.trim() === "운영자의 주문 취소 알림")
+    );
+  }, [isManagerPage, isChatBotPage, notice]);
 
   return (
     <>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<StartPage />} />
-        <Route path="/waiting" element={<OrderWaitingPage />} />
-        <Route path="/preparing" element={<OrderPreparingPage />} />
-        <Route path="/readycomplete" element={<ReadyCompletePage />} />
-        <Route path="/paycomplete" element={<PayCompletePage />} />
-        <Route path="/fullorder" element={<FullOrderPage />} />
-        <Route path="/tablemanage" element={<TableManagePage />} />
-        <Route path="/packaging" element={<PackagingPage />} />
-        <Route path="/suggestion" element={<SuggestionPage />} />
+        <Route path="/:storeId" element={<StartPage />} />
+        <Route path="/:storeId/waiting" element={<OrderWaitingPage />} />
+        <Route path="/:storeId/preparing" element={<OrderPreparingPage />} />
+        <Route path="/:storeId/readycomplete" element={<ReadyCompletePage />} />
+        <Route path="/:storeId/paycomplete" element={<PayCompletePage />} />
+        <Route path="/:storeId/fullorder" element={<FullOrderPage />} />
+        <Route path="/:storeId/tablemanage" element={<TableManagePage />} />
+        <Route path="/:storeId/packaging" element={<PackagingPage />} />
+        <Route path="/:storeId/suggestion" element={<SuggestionPage />} />
         <Route
           path="/chatstart/:storeId/:tableNumber"
           element={<ChatBotStart />}
@@ -62,6 +118,13 @@ function App() {
           element={<OrderSummaryPage />}
         />
       </Routes>
+      {isNotificationVisible && (
+        <NotificationModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          notice={notice}
+        />
+      )}
     </>
   );
 }

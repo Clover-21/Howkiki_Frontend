@@ -43,12 +43,14 @@ export default function ChatBot() {
     { sender: "bot", text: "호우섬에 오신 것을 환영합니다!" },
   ]);
   const chatBoxRef = useRef(null);
+  const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
 
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
       const response = await apiClient.post(`/api/chat`, {
         question: question,
+        token: token,
       });
       return response.data.response;
     } catch (error) {
