@@ -29,7 +29,9 @@ export default function StartPage() {
     isProcessing.current = true;
 
     try {
-      const response = await apiClient.get(`/stores?storeName=${storeName}`);
+      const response = await apiClient.get(
+        `/stores?storeName=${encodeURIComponent(storeName)}`
+      );
       const storeId = response.data.data.storeId;
       const token = response.data.data.sessionToken;
 
