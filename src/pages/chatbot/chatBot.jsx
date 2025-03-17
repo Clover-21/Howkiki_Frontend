@@ -25,7 +25,6 @@ import {
 } from "../../styles/chatbot/chatBot.module";
 
 const API_URL = process.env.REACT_APP_CHAT_API_URL;
-
 const host = window.location.hostname === "localhost" ? API_URL : "/chatapi";
 
 export const apiClient = axios.create({
@@ -35,23 +34,38 @@ export const apiClient = axios.create({
 export default function ChatBot() {
   const navigate = useNavigate();
   const { storeId, tableNumber } = useParams();
+  const chatBoxRef = useRef(null);
+  const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
+
+  //sessionStorage에서 이전 대화 불러오기
+  const loadMessages = () => {
+    const savedMessages = sessionStorage.getItem(
+      `chat_messages_${tableNumber}`
+    );
+    return savedMessages
+      ? JSON.parse(savedMessages)
+      : [{ sender: "bot", text: "호우섬에 오신 것을 환영합니다!" }];
+  };
+
+  //메시지 상태
+  const [messages, setMessages] = useState(loadMessages);
   const [input, setInput] = useState("");
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "호우섬에 오신 것을 환영합니다!" },
-  ]);
-  const chatBoxRef = useRef(null);
-  const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
+
+  //메시지가 변경될 때마다 저장
+  useEffect(() => {
+    sessionStorage.setItem(
+      `chat_messages_${tableNumber}`,
+      JSON.stringify(messages)
+    );
+  }, [messages, tableNumber]);
 
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
-      const response = await apiClient.post(`/api/chat`, {
-        question: question,
-        token: token,
-      });
+      const response = await apiClient.post(`/api/chat`, { question, token });
       return response.data.response;
     } catch (error) {
       console.error("챗봇 API 호출 오류:", error);
@@ -64,26 +78,32 @@ export default function ChatBot() {
   const handleSendMessage = async () => {
     if (input.trim()) {
       const userMessage = input.trim();
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "user", text: userMessage },
-      ]);
-
       setInput("");
 
-      const inputField = document.getElementById("inputfield");
-      if (inputField) {
-        inputField.style.height = "40px";
-        inputField.style.backgroundColor = "#ffffff";
-      }
+      setMessages((prevMessages) => {
+        const newMessages = [
+          ...prevMessages,
+          { sender: "user", text: userMessage },
+        ];
+        sessionStorage.setItem(
+          `chat_messages_${tableNumber}`,
+          JSON.stringify(newMessages)
+        );
+        return newMessages;
+      });
 
       const botReply = await chatBotMsg(userMessage);
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "bot", text: botReply },
-      ]);
+      setMessages((prevMessages) => {
+        const newMessages = [
+          ...prevMessages,
+          { sender: "bot", text: botReply },
+        ];
+        sessionStorage.setItem(
+          `chat_messages_${tableNumber}`,
+          JSON.stringify(newMessages)
+        );
+        return newMessages;
+      });
     }
   };
 
@@ -104,17 +124,19 @@ export default function ChatBot() {
   }, [messages]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          sender: "bot",
-          text: "주문 또는 궁금한 점을 입력하세요. 대화를 종료하려면 '종료' 또는 '그만'을 입력하세요.",
-        },
-      ]);
-    }, 1000);
+    if (messages.length === 1) {
+      const timer = setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            sender: "bot",
+            text: "주문 또는 궁금한 점을 입력하세요. 대화를 종료하려면 '종료' 또는 '그만'을 입력하세요.",
+          },
+        ]);
+      }, 1000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
