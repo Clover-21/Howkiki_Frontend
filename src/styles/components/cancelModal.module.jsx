@@ -16,8 +16,9 @@ export const CancelModalWrap = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 590px;
-  height: 420px;
+  justify-content: center;
+  width: 537.01px;
+  height: 387.87px;
   background-color: #ffffff;
   border-radius: 20px;
   padding: 40px;
@@ -25,23 +26,40 @@ export const CancelModalWrap = styled.div`
 
 export const CancelModalContent = styled.div`
   height: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CancelText = styled.div`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
-  margin-top: 43px;
-  margin-left: 47px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+`;
+
+export const CheckBoxContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export const CheckBoxWrap = styled.div`
-  margin-top: 30px;
-  margin-left: 55px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 440px;
+  height: 210px;
+  border: 1.5px solid #cdcdcd;
+  border-radius: 16px;
+`;
+
+export const Line = styled.div`
+  height: 1.5px;
+  background-color: #cdcdcd;
 `;
 
 export const CancelBtnContainer = styled.div`
   position: absolute;
-  bottom: 30px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -75,37 +93,34 @@ export const CancelBtn = styled.div`
   background-color: ${({ active }) => (active ? "#7878F0" : "#b2b2b2")};
 `;
 
-export const SelectedTitle = styled.div`
-  font-size: 17px;
-  font-weight: 600;
-`;
-
 export const MenuContainer = styled.div`
-  height: 240px;
-  max-height: 240px;
-  max-width: 550px;
-  overflow-y: auto;
-  margin-top: 10px;
+  height: 210px;
+  max-height: 210px;
+  width: 440px;
   background-color: #efefef;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
 `;
 
 export const MenuContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 80px;
+  background-color: #efefef;
 `;
 
 export const MenuContent = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-left: 20px;
 `;
 
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 28px;
+  padding: 1px;
 `;
 
 export const MenuName = styled.div``;

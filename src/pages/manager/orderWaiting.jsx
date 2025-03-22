@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import OrderDetailModal from "../../components/manager/OrderDetailModal";
@@ -8,6 +8,7 @@ import AcceptModal from "../../components/manager/AcceptModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
+import { apiClient } from "../../api/apiClient";
 import {
   ListContainer,
   OrderContainer,
@@ -23,14 +24,6 @@ import {
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 const override = {
   display: "block",
   margin: "0 auto",
@@ -39,6 +32,7 @@ const override = {
 };
 
 export default function OrderWaitingPage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -48,11 +42,30 @@ export default function OrderWaitingPage() {
   const [selectedReason, setSelectedReason] = useState("");
   const [isAcceptModalOpen, setIsAcceptlModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const numbers = orderData?.data || [];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
-    numbers,
-    8
+    orderData?.data || [],
+    itemsPerPage
   );
 
   const handleOrderClick = (order) => {
@@ -101,7 +114,7 @@ export default function OrderWaitingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `/stores/1/orders?status=AWAITING_ACCEPTANCE`
+        `/stores/${storeId}/orders?status=AWAITING_ACCEPTANCE`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);

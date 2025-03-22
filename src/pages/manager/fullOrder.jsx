@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
-import useSSE from "../../hooks/useSSE";
-import NotificationModal from "../../components/NotificationModal";
+import { apiClient } from "../../api/apiClient";
 import {
   ListContainer,
   OrderContainer,
@@ -20,14 +19,6 @@ import {
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 const override = {
   display: "block",
   margin: "0 auto",
@@ -35,27 +26,52 @@ const override = {
   borderWidth: "6px",
 };
 
-export default function PayCompletePage() {
+const API_URL = process.env.REACT_APP_HTTPS_URL;
+
+export default function FullOrderPage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const numbers = orderData?.data || [];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
-    numbers,
-    8
+    orderData?.data || [],
+    itemsPerPage
   );
-
-  const { notice, isOpen, setIsOpen } = useSSE("1111");
 
   // 주문 데이터 가져오기 함수
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/all`);
-      const sortedOrders = response.data.data.sort((a, b) => {
+      const response = await apiClient.get(`/stores/${storeId}/orders/all`);
+
+      // response.data.data가 없으면 빈 배열로 설정
+      const orders = response.data.data || [];
+
+      const sortedOrders = orders.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
+
       setOrderData({ ...response.data, data: sortedOrders });
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
@@ -67,10 +83,6 @@ export default function PayCompletePage() {
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
     setIsDetailModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -123,11 +135,6 @@ export default function PayCompletePage() {
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
         selectedOrder={selectedOrder}
-      />
-      <NotificationModal
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        notice={notice}
       />
     </>
   );

@@ -19,10 +19,12 @@ export const StyledInput = styled.input`
 export const StyledLabel = styled.label`
   display: flex;
   align-items: center;
-  margin-bottom: 28px;
+  justify-content: space-between;
+  width: 400px;
+  padding: 23px;
+  margin-left: 15px;
 `;
 
 export const StyledP = styled.div`
-  margin-left: 20px;
-  font-size: 18px;
+  font-size: 17px;
 `;

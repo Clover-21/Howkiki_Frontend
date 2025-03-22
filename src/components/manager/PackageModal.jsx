@@ -1,4 +1,8 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { closeSSEConnection } from "../../hooks/useSSE";
+import { apiClient } from "../../api/apiClient";
 import {
   ModalContainer,
   Modal,
@@ -8,6 +12,7 @@ import {
   MenuContent,
   MenuName,
   MenuQuantity,
+  MenuPrice,
   Line,
   PriceWrap,
   Price,
@@ -18,9 +23,36 @@ import {
 } from "../../styles/components/commonModal.module";
 
 export default function PackageModal({ isOpen, onClose, data }) {
+  const { storeId } = useParams();
   if (!isOpen) return null;
 
+  console.log(data);
+
   const formattedNumber = String(data.orderId).padStart(3, "0");
+
+  const handlePaid = async () => {
+    try {
+      const response = await apiClient.patch(
+        `/stores/${storeId}/orders/${data.orderId}/take-out/status-paid`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const userSessionToken = response.data?.data?.userSessionToken;
+
+      if (userSessionToken) {
+        closeSSEConnection(userSessionToken);
+      }
+
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
+    }
+  };
 
   return (
     <ModalContainer>
@@ -31,7 +63,8 @@ export default function PackageModal({ isOpen, onClose, data }) {
             <MenuContentWrapper key={i}>
               <MenuContent>
                 <MenuName>{order.menuName}</MenuName>
-                <MenuQuantity>{order.quantity}</MenuQuantity>
+                <MenuQuantity>x{order.quantity}</MenuQuantity>
+                <MenuPrice>{order.totalPrice.toLocaleString()}원</MenuPrice>
               </MenuContent>
               <Line />
             </MenuContentWrapper>
@@ -39,11 +72,11 @@ export default function PackageModal({ isOpen, onClose, data }) {
         </MenuContainer>
         <PriceWrap>
           <Text>총 주문 금액</Text>
-          <Price>{`${data.orderPrice}원`}</Price>
+          <Price>{`${data.orderPrice.toLocaleString()}원`}</Price>
         </PriceWrap>
         <BtnContainer>
           <FinishBtn onClick={onClose}>닫기</FinishBtn>
-          <PaidBtn>결제 완료</PaidBtn>
+          <PaidBtn onClick={handlePaid}>결제 완료</PaidBtn>
         </BtnContainer>
       </Modal>
     </ModalContainer>

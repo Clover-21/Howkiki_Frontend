@@ -11,19 +11,35 @@ export const ListContainer = styled.div`
 `;
 
 export const OrderContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100% - 20px);
+  margin: 0 auto;
+
+  @media screen and (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 1120px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 850px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+  }
 `;
 
 export const OrderContent = styled.div`
   position: relative;
   background-color: white;
-  width: calc(25% - 20px);
-  width: 269.79px;
-  height: 291.64px;
+  width: 269px;
+  height: 291px;
   border-radius: 28.5px;
   padding: 25px;
 `;

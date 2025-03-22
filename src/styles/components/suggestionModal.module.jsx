@@ -28,6 +28,7 @@ export const SuggestionContainer = styled.div`
   height: 286.43px;
   padding: 25px;
   background-color: #efefef;
+  font-size: 18px;
 `;
 
 export const BtnContainer = styled.div`

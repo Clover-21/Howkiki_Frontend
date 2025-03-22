@@ -13,15 +13,17 @@ export const ModalContainer = styled.div`
 `;
 
 export const Modal = styled.div`
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: ${(props) => (props.isCancelNotice ? "300px" : "600px")};
-  height: ${(props) => (props.isCancelNotice ? "165px" : "400px")};
+  width: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "300px" : "600px"};
+  height: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "165px" : "400px"};
   background-color: #ffffff;
   border-radius: 20px;
-  paddig: 20px;
+  padding: 20px;
 `;
 
 export const ModalContent = styled.div`
@@ -30,20 +32,52 @@ export const ModalContent = styled.div`
   margin-bottom: 40px;
 `;
 
-export const ModalText = styled.div``;
+export const ModalText = styled.div`
+  margin-top: ${({ noticeName }) => {
+    switch (noticeName) {
+      case "새로운 주문 도착 알림":
+        return "90px";
+      case "운영자의 주문 취소 알림":
+        return "10px";
+      case "요청 사항 알림":
+        return "30px";
+      default:
+        return "10px";
+    }
+  }};
+  font-size: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "15.85px" : "29.13px"};
+`;
 
 export const HighlightText = styled.div`
   color: #f25b64;
+  display: inline;
+`;
+
+export const TextWrap = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "3px" : "10px"};
 `;
 
 export const Button = styled.div`
+  position: absolute;
+  bottom: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "20px" : "40px"};
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
-  height: 50px;
+  width: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "64px" : "106px"};
+  height: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "38px" : "54px"};
   border-radius: 10px;
-  font-size: 20px;
+  font-size: ${({ noticeName }) =>
+    noticeName === "운영자의 주문 취소 알림" ? "12.68px" : "20px"};
   background-color: #5d60ef;
   color: #ffffff;
   margin-top: 30px;

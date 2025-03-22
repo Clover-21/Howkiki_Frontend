@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Checkbox from "./CheckBox";
-import Line from "./Line";
+import { apiClient } from "../../api/apiClient";
 import {
   CancelModalContainer,
   CancelModalWrap,
@@ -10,21 +10,14 @@ import {
   CancelBtnContainer,
   CloseBtn,
   CancelBtn,
+  CheckBoxContainer,
   CheckBoxWrap,
-  SelectedTitle,
   MenuContainer,
   MenuContent,
   CheckboxWrapper,
   MenuContentWrapper,
+  Line,
 } from "../../styles/components/cancelModal.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function CancelModal({
   isOpen,
@@ -35,6 +28,7 @@ export default function CancelModal({
   onSelectReason,
   canceledOrder,
 }) {
+  const { storeId } = useParams();
   const [selectedMenus, setSelectedMenus] = useState([]);
 
   useEffect(() => {
@@ -84,7 +78,7 @@ export default function CancelModal({
 
         try {
           await apiClient.patch(
-            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            `/stores/${storeId}/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason,
               soldOutMenu: null,
@@ -92,6 +86,7 @@ export default function CancelModal({
           );
 
           onClose();
+          window.location.reload();
         } catch (error) {
           console.error("주문 취소 오류:", error);
         }
@@ -102,7 +97,7 @@ export default function CancelModal({
 
         try {
           await apiClient.patch(
-            `/stores/1/orders/${canceledOrder.orderId}/admin`,
+            `/stores/${storeId}/orders/${canceledOrder.orderId}/admin`,
             {
               cancelReason: "OUT_OF_STOCK",
               soldOutMenu,
@@ -110,6 +105,7 @@ export default function CancelModal({
           );
 
           onClose();
+          window.location.reload();
         } catch (error) {
           console.error("주문 취소 오류:", error);
         }
@@ -124,28 +120,32 @@ export default function CancelModal({
           {currentStep === 1 && (
             <>
               <CancelText>취소하시려는 이유를 골라주세요.</CancelText>
-              <CheckBoxWrap>
-                <Checkbox
-                  text="재료 소진"
-                  onChange={() => handleReasonSelect("재료 소진")}
-                  checked={selectedReason === "재료 소진"}
-                />
-                <Checkbox
-                  text="라스트오더 종료"
-                  onChange={() => handleReasonSelect("라스트오더 종료")}
-                  checked={selectedReason === "라스트오더 종료"}
-                />
-                <Checkbox
-                  text="기타"
-                  onChange={() => handleReasonSelect("기타")}
-                  checked={selectedReason === "기타"}
-                />
-              </CheckBoxWrap>
+              <CheckBoxContainer>
+                <CheckBoxWrap>
+                  <Checkbox
+                    text="재료 소진"
+                    onChange={() => handleReasonSelect("재료 소진")}
+                    checked={selectedReason === "재료 소진"}
+                  />
+                  <Line />
+                  <Checkbox
+                    text="라스트오더 종료"
+                    onChange={() => handleReasonSelect("라스트오더 종료")}
+                    checked={selectedReason === "라스트오더 종료"}
+                  />
+                  <Line />
+                  <Checkbox
+                    text="기타"
+                    onChange={() => handleReasonSelect("기타")}
+                    checked={selectedReason === "기타"}
+                  />
+                </CheckBoxWrap>
+              </CheckBoxContainer>
             </>
           )}
           {currentStep === 2 && selectedReason === "재료 소진" && (
             <>
-              <SelectedTitle>재료 소진된 메뉴를 골라주세요.</SelectedTitle>
+              <CancelText>재료 소진된 메뉴를 골라주세요.</CancelText>
               <MenuContainer>
                 {canceledOrder?.orderDetail.map((menu, index) => (
                   <MenuContentWrapper key={index}>
@@ -170,7 +170,11 @@ export default function CancelModal({
           <CancelBtn
             onClick={handleNext}
             active={
-              currentStep === 1 ? isStep1ButtonActive : isStep2ButtonActive
+              currentStep === 1
+                ? isStep1ButtonActive
+                : isStep2ButtonActive
+                ? "true"
+                : undefined
             }
           >
             {currentStep === 1

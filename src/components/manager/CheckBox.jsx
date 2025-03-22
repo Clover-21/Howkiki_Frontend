@@ -12,6 +12,7 @@ function Checkbox({ text, onChange, checked }) {
   };
   return (
     <StyledLabel htmlFor={text}>
+      <StyledP>{text}</StyledP>
       <StyledInput
         type="checkbox"
         checked={checked}
@@ -19,7 +20,6 @@ function Checkbox({ text, onChange, checked }) {
         id={text}
         name={text}
       />
-      <StyledP>{text}</StyledP>
     </StyledLabel>
   );
 }
