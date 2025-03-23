@@ -52,8 +52,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!storeId) return;
-
     let fetchedToken = null;
     let tableNumber = null;
 
