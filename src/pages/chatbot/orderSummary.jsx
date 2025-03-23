@@ -29,7 +29,7 @@ export default function OrderSummaryPage() {
 
   const getOrderSummanry = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/user`, {
+      const response = await apiClient.get(`/stores/${storeId}/orders/user`, {
         headers: {
           sessionToken: token,
           Accept: "application/json",
