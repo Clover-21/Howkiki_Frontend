@@ -9,11 +9,17 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    background-color : #F2F2F5;
-    overflow: hidden;
-  }
+    min-height: 100vh;
+    background-color: #F2F2F5;
+    overflow-y: auto; 
 
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+  }
 `;
 
 export default GlobalStyle;
