@@ -52,8 +52,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!storeId) return;
-
     let fetchedToken = null;
     let tableNumber = null;
 
@@ -61,7 +59,8 @@ function App() {
       location.pathname.includes("/chatbot") ||
       location.pathname.includes("/ordersummary")
     ) {
-      tableNumber = location.pathname.split("/")[2];
+      const pathSegments = location.pathname.split("/");
+      tableNumber = pathSegments[3];
       fetchedToken = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
     } else {
       fetchedToken = sessionStorage.getItem(`${storeId}_token`);
