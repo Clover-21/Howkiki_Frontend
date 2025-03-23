@@ -64,7 +64,7 @@ function App() {
       const pathSegments = location.pathname.split("/");
       tableNumber = pathSegments[3];
       fetchedToken = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
-      console.log(fetchedToken);
+      console.log(`토큰 : ${fetchedToken}`);
     } else {
       fetchedToken = sessionStorage.getItem(`${storeId}_token`);
     }
