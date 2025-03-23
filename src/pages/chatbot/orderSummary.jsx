@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import OrderSummaryBox from "../../components/chatbot/OrderSummaryBox";
 import close from "../../assets/icon/close.svg";
+import { apiClient } from "../../api/apiClient";
 import {
   SummaryContainer,
   SummaryContentWrap,
@@ -20,24 +20,16 @@ import {
 } from "../../styles/chatbot/orderSummary.module";
 import { Container } from "../../styles/chatbot/chatBot.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function OrderSummaryPage() {
   const navigate = useNavigate();
-  const { tableNumber } = useParams();
+  const { storeId, tableNumber } = useParams();
   const [orderData, setOrderData] = useState(null);
 
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
 
   const getOrderSummanry = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/user`, {
+      const response = await apiClient.get(`/stores/${storeId}/orders/user`, {
         headers: {
           sessionToken: token,
           Accept: "application/json",
@@ -61,7 +53,7 @@ export default function OrderSummaryPage() {
           <SummaryTop>
             <CloseIcon
               src={close}
-              onClick={() => navigate(`/chatbot/${tableNumber}`)}
+              onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}
             />
             <SummaryTitle>주문 내역</SummaryTitle>
           </SummaryTop>
