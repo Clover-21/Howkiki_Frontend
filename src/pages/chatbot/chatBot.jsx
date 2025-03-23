@@ -25,10 +25,9 @@ import {
 } from "../../styles/chatbot/chatBot.module";
 
 const API_URL = process.env.REACT_APP_CHAT_API_URL;
-const host = window.location.hostname === "localhost" ? API_URL : "api";
 
 export const apiClient = axios.create({
-  baseURL: host,
+  baseURL: API_URL,
 });
 
 export default function ChatBot() {
