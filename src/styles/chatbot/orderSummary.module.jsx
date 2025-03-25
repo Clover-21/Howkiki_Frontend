@@ -76,6 +76,8 @@ export const TotalOrderPriceWrap = styled.div`
 `;
 
 export const TotalBox = styled.div`
+  display: flex;
+  justify-content: center;
   width: 90%;
   height: 60px;
   border-radius: 16px;
@@ -84,10 +86,9 @@ export const TotalBox = styled.div`
 
 export const TotalContent = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 45%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 85%;
   height: 100%;
   font-weight: 600;
 `;
