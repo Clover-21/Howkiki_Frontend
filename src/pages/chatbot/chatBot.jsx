@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
+import { apiClient } from "../../api/chatApiClient";
 import {
   Container,
   ChatContainer,
@@ -23,12 +23,6 @@ import {
   SendIcon,
   HsIcon,
 } from "../../styles/chatbot/chatBot.module";
-
-const API_URL = process.env.REACT_APP_CHAT_API_URL;
-
-export const apiClient = axios.create({
-  baseURL: API_URL,
-});
 
 export default function ChatBot() {
   const navigate = useNavigate();

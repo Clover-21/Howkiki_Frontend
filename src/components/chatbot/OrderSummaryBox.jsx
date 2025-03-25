@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import { apiClient } from "../../api/apiClient";
 import {
   OrderWrap,
   OrderBox,
@@ -20,14 +20,6 @@ import {
   OrderText,
   OrderPrice,
 } from "../../styles/chatbot/orderSummary.module";
-
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
 
 export default function OrderSummaryBox({ status, orderId, orderData }) {
   const getStatusText = (status) => {

@@ -36,7 +36,7 @@ export default function OrderSummaryPage() {
           "Cache-Control": "no-cache",
         },
       });
-      setOrderData(response.data);
+      setOrderData(response.data.data);
     } catch (error) {
       console.log("주문 내역 가져오기 실패", error);
     }
@@ -69,7 +69,7 @@ export default function OrderSummaryPage() {
                     <TotalText>
                       총 {orderData.orderList.length}건의 주문 금액
                     </TotalText>
-                    <TotalPrice>{orderData.tableTotalPrice}</TotalPrice>
+                    <TotalPrice>{orderData.tableTotalPrice}원</TotalPrice>
                   </TotalContent>
                 </TotalBox>
               </TotalOrderPriceWrap>
