@@ -106,7 +106,6 @@ export default function OrderPreparingPage() {
           },
         }
       );
-      navigate("/readycomplete");
     } catch (error) {
       console.error(error);
     }
