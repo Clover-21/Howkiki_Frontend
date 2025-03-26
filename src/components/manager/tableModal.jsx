@@ -43,7 +43,10 @@ export default function TableModal({ isOpen, onClose, table }) {
         .map((order) => order.userSessionToken)
         .filter((token) => token);
 
-      orderTokens.forEach(closeSSEConnection);
+      orderTokens.forEach((token) => {
+        console.log(`SSE 연결 종료 시도 (토큰: ${token})`);
+        closeSSEConnection(token);
+      });
 
       onClose();
       window.location.reload();

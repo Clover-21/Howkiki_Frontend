@@ -53,7 +53,9 @@ export default function useSSE(token) {
         console.error("SSE 연결 오류:", error);
         closeSSEConnection(token);
 
-        setTimeout(connectSSE, 3000);
+        if (activeSSEConnections.has(token)) {
+          setTimeout(connectSSE, 3000);
+        }
       };
     };
 
