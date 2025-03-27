@@ -106,7 +106,6 @@ export default function OrderPreparingPage() {
           },
         }
       );
-      navigate("/readycomplete");
     } catch (error) {
       console.error(error);
     }
@@ -159,9 +158,9 @@ export default function OrderPreparingPage() {
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
-                  {order.orderDetail.length > 4 && (
+                  {order.orderDetail.length > 3 && (
                     <MoreOrders>
-                      +외 {order.orderDetail.length - 4}개
+                      +외 {order.orderDetail.length - 3}개
                     </MoreOrders>
                   )}
                 </MenuContainer>
@@ -174,7 +173,13 @@ export default function OrderPreparingPage() {
                   >
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleFinish(order, "COMPLETED")}>
+                  <OrderOkBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFinish(order, "COMPLETED");
+                      window.location.reload();
+                    }}
+                  >
                     완료
                   </OrderOkBtn>
                 </BtnContainer>
