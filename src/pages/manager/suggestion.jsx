@@ -20,7 +20,10 @@ export default function SuggestionPage() {
       const response = await apiClient.get(
         `/stores/${storeId}/suggestions/all`
       );
-      setSuggestionData(response.data.data.suggestionList);
+      const sortedData = response.data.data.suggestionList.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setSuggestionData(sortedData);
     } catch (error) {
       console.error("건의 사항 데이터 가져오기 실패:", error);
     }
