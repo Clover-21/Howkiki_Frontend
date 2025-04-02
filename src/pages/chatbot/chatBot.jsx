@@ -62,10 +62,10 @@ export default function ChatBot() {
         question,
         token,
       });
-      console.log(response.data.data);
+      console.log(response.data.response);
 
       return {
-        message: response.data.data.response,
+        message: response.data.response,
         imageUrl:
           response.data.data["function_call_result"]["data"]["menuImgUrl"] ||
           null,
