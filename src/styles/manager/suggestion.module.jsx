@@ -23,6 +23,9 @@ export const PckContent = styled.div`
   max-width: 1300px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-rows: repeat(2, auto);
   gap: 40px 85px;
   justify-content: center;
+  align-content: start;
+  width: 100%;
 `;
