@@ -64,10 +64,15 @@ export default function ChatBot() {
       });
       console.log(response.data.response);
 
+      let menuImgUrl = null;
+
+      if (response.data.function_call_result?.data?.menuImgUrl) {
+        menuImgUrl = response.data.function_call_result.data.menuImgUrl;
+      }
+
       return {
         message: response.data.response,
-        imageUrl:
-          response.data["function_call_result"]["data"]["menuImgUrl"] || null,
+        imageUrl: menuImgUrl,
       };
     } catch (error) {
       console.error("챗봇 API 호출 오류:", error);
