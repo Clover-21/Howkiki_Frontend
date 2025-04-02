@@ -179,35 +179,24 @@ export default function ChatBot() {
               index === 0 || messages[index - 1]?.sender !== "bot";
 
             return (
-              <React.Fragment key={index}>
-                {/* 텍스트 메시지 */}
-                {msg.text && (
-                  <MessageWrapper sender={msg.sender}>
-                    {isFirstBotMessage && msg.sender === "bot" && (
-                      <BotIcon src={botIcon} alt="Bot Icon" />
-                    )}
-                    <Message sender={msg.sender}>
-                      <p>{msg.text}</p>
-                    </Message>
-                  </MessageWrapper>
+              <MessageWrapper key={index} sender={msg.sender}>
+                {isFirstBotMessage && msg.sender === "bot" && (
+                  <BotIcon src={botIcon} alt="Bot Icon" />
                 )}
-
-                {/* 이미지 메시지 (봇 아이콘 X) */}
-                {msg.imageUrl && (
-                  <MessageWrapper sender={msg.sender}>
-                    <Message sender={msg.sender}>
-                      <img
-                        src={msg.imageUrl}
-                        alt="menuImg"
-                        style={{
-                          width: "130px",
-                          height: "130px",
-                        }}
-                      />
-                    </Message>
-                  </MessageWrapper>
-                )}
-              </React.Fragment>
+                <Message sender={msg.sender}>
+                  <p>{msg.text}</p>
+                  {msg.imageUrl && (
+                    <img
+                      src={msg.imageUrl}
+                      alt="menuImg"
+                      style={{
+                        width: "130px",
+                        height: "130px",
+                      }}
+                    />
+                  )}
+                </Message>
+              </MessageWrapper>
             );
           })}
 
@@ -220,7 +209,6 @@ export default function ChatBot() {
             </MessageWrapper>
           )}
         </ChatBox>
-
         <ChatInput>
           <HsIcon
             src={orderhs}
