@@ -33,6 +33,8 @@ function App() {
       : null
   );
 
+  const { notice, isOpen, setIsOpen } = useSSE(token);
+
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedStore = localStorage.getItem("currentStore") || null;
@@ -69,7 +71,16 @@ function App() {
     setToken(fetchedToken || null);
   }, [location.pathname, storeId]);
 
-  const { notice, isOpen, setIsOpen } = useSSE(token);
+  useEffect(() => {
+    if (
+      notice?.noticeName.trim() === "상태 업데이트" &&
+      location.pathname.includes("/ordersummary")
+    ) {
+      setTimeout(() => {
+        navigate(0);
+      }, 100);
+    }
+  }, [notice, location.pathname, navigate]);
 
   const isManagerPage = [
     "/waiting",
@@ -93,6 +104,15 @@ function App() {
       (isChatBotPage && notice?.noticeName.trim() === "운영자의 주문 취소 알림")
     );
   }, [isManagerPage, isChatBotPage, notice]);
+
+  useEffect(() => {
+    if (
+      notice?.noticeName.trim() === "상태 업데이트" &&
+      location.pathname.includes("/ordersummary")
+    ) {
+      window.location.reload();
+    }
+  }, [notice, location.pathname]);
 
   return (
     <>
