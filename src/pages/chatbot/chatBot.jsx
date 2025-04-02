@@ -67,8 +67,7 @@ export default function ChatBot() {
       return {
         message: response.data.response,
         imageUrl:
-          response.data.data["function_call_result"]["data"]["menuImgUrl"] ||
-          null,
+          response.data["function_call_result"]["data"]["menuImgUrl"] || null,
       };
     } catch (error) {
       console.error("챗봇 API 호출 오류:", error);
