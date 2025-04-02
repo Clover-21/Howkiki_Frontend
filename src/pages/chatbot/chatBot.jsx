@@ -62,7 +62,7 @@ export default function ChatBot() {
         question,
         token,
       });
-      console.log(response.data.response);
+      console.log(response.data);
 
       let menuImgUrl = null;
 
