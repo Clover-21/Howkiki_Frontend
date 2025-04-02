@@ -18,24 +18,6 @@ export default function PackagingPage() {
   const [orderData, setOrderData] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const fetchOrderData = async () => {
-    try {
-      const response = await apiClient.get(
-        `/stores/${storeId}/orders/take-out`
-      );
-      setOrderData(response.data.data ?? []);
-    } catch (error) {
-      console.error("주문 데이터 가져오기 실패:", error);
-      setOrderData([]);
-    }
-  };
-
-  useEffect(() => {
-    if (storeId) {
-      fetchOrderData();
-    }
-  }, [storeId]);
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 850) {
@@ -55,6 +37,24 @@ export default function PackagingPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const fetchOrderData = async () => {
+    try {
+      const response = await apiClient.get(
+        `/stores/${storeId}/orders/take-out`
+      );
+      setOrderData(response.data.data ?? []);
+    } catch (error) {
+      console.error("주문 데이터 가져오기 실패:", error);
+      setOrderData([]);
+    }
+  };
+
+  useEffect(() => {
+    if (storeId) {
+      fetchOrderData();
+    }
+  }, [storeId]);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
     orderData,
     itemsPerPage
@@ -62,7 +62,6 @@ export default function PackagingPage() {
 
   const handlePackageOrder = (order) => {
     setSelectedPackage(order);
-    console.log(selectedPackage);
     setIsPackageModalOpen(true);
   };
 
