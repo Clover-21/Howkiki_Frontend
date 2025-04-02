@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import GlobalStyle from "./styles/globalStyles";
 import StartPage from "./pages/manager/start";
@@ -32,6 +33,9 @@ function App() {
       ? parseInt(localStorage.getItem(`${currentStore}_storeId`))
       : null
   );
+  const navigate = useNavigate();
+
+  const { notice, isOpen, setIsOpen } = useSSE(token);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -69,7 +73,16 @@ function App() {
     setToken(fetchedToken || null);
   }, [location.pathname, storeId]);
 
-  const { notice, isOpen, setIsOpen } = useSSE(token);
+  useEffect(() => {
+    if (
+      notice?.noticeName.trim() === "상태 업데이트" &&
+      location.pathname.includes("/ordersummary")
+    ) {
+      setTimeout(() => {
+        navigate(0);
+      }, 100);
+    }
+  }, [notice, location.pathname, navigate]);
 
   const isManagerPage = [
     "/waiting",
@@ -93,6 +106,15 @@ function App() {
       (isChatBotPage && notice?.noticeName.trim() === "운영자의 주문 취소 알림")
     );
   }, [isManagerPage, isChatBotPage, notice]);
+
+  useEffect(() => {
+    if (
+      notice?.noticeName.trim() === "상태 업데이트" &&
+      location.pathname.includes("/ordersummary")
+    ) {
+      window.location.reload();
+    }
+  }, [notice, location.pathname]);
 
   return (
     <>

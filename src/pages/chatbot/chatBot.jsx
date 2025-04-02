@@ -58,11 +58,28 @@ export default function ChatBot() {
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
-      const response = await apiClient.post(`/api/chat`, { question, token });
-      return response.data.response;
+      const response = await apiClient.post(`/api/chat`, {
+        question,
+        token,
+      });
+      console.log(response.data);
+
+      let menuImgUrl = null;
+
+      if (response.data.function_call_result?.data?.menuImgUrl) {
+        menuImgUrl = response.data.function_call_result.data.menuImgUrl;
+      }
+
+      return {
+        message: response.data.response,
+        imageUrl: menuImgUrl,
+      };
     } catch (error) {
       console.error("챗봇 API 호출 오류:", error);
-      return "죄송합니다, 답변을 가져올 수 없습니다.";
+      return {
+        message: "죄송합니다, 답변을 가져올 수 없습니다.",
+        imageUrl: null,
+      };
     } finally {
       setLoading(false);
     }
@@ -86,10 +103,15 @@ export default function ChatBot() {
       });
 
       const botReply = await chatBotMsg(userMessage);
+
       setMessages((prevMessages) => {
         const newMessages = [
           ...prevMessages,
-          { sender: "bot", text: botReply },
+          {
+            sender: "bot",
+            text: botReply.message,
+            imageUrl: botReply.imageUrl,
+          },
         ];
         sessionStorage.setItem(
           `chat_messages_${tableNumber}`,
@@ -163,10 +185,21 @@ export default function ChatBot() {
                 )}
                 <Message sender={msg.sender}>
                   <p>{msg.text}</p>
+                  {msg.imageUrl && (
+                    <img
+                      src={msg.imageUrl}
+                      alt="menuImg"
+                      style={{
+                        width: "130px",
+                        height: "130px",
+                      }}
+                    />
+                  )}
                 </Message>
               </MessageWrapper>
             );
           })}
+
           {loading && (
             <MessageWrapper sender="bot">
               <BotIcon src={botIcon} alt="Bot Icon" />
