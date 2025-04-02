@@ -58,13 +58,17 @@ export default function ChatBot() {
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
-      const response = await apiClient.post(`/api/chat`, { question, token });
-      console.log(response);
+      const response = await apiClient.post(`/api/chat`, {
+        question,
+        token,
+      });
+      console.log(response.data.data);
 
       return {
-        message: response.data.response,
+        message: response.data.data.response,
         imageUrl:
-          response.data["function_call_result"]["data"]["menuImgUrl"] || null,
+          response.data.data["function_call_result"]["data"]["menuImgUrl"] ||
+          null,
       };
     } catch (error) {
       console.error("챗봇 API 호출 오류:", error);
