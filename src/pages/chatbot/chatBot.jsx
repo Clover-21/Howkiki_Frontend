@@ -59,6 +59,7 @@ export default function ChatBot() {
     setLoading(true);
     try {
       const response = await apiClient.post(`/api/chat`, { question, token });
+      console.log(response);
 
       return {
         message: response.data.response,

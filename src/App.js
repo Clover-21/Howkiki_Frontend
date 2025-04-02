@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import GlobalStyle from "./styles/globalStyles";
 import StartPage from "./pages/manager/start";
@@ -32,6 +33,7 @@ function App() {
       ? parseInt(localStorage.getItem(`${currentStore}_storeId`))
       : null
   );
+  const navigate = useNavigate();
 
   const { notice, isOpen, setIsOpen } = useSSE(token);
 
