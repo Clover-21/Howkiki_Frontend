@@ -1,5 +1,5 @@
-import React from "react";
-import { apiClient } from "../../api/apiClient";
+import React, { useState } from "react";
+import UserCancelModal from "./UserCancelModal";
 import {
   OrderWrap,
   OrderBox,
@@ -22,6 +22,8 @@ import {
 } from "../../styles/chatbot/orderSummary.module";
 
 export default function OrderSummaryBox({ status, orderId, orderData }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getStatusText = (status) => {
     switch (status) {
       case "NOT_YET_SENT":
@@ -38,20 +40,6 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
     }
   };
 
-  const handleCancel = async () => {
-    if (status !== "NOT_YET_SENT") {
-      return;
-    }
-    try {
-      const response = await apiClient.patch(
-        `/stores/1/orders/${orderData.orderId}/user`
-      );
-      console.log("주문 취소 성공:", response.data);
-    } catch (error) {
-      console.error("상태 업데이트 중 에러 발생:", error);
-    }
-  };
-
   return (
     <OrderWrap>
       <OrderBox>
@@ -59,7 +47,7 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
           <Status>{getStatusText(status)}</Status>
           <CancelBtn
             disabled={status !== "NOT_YET_SENT"}
-            onClick={handleCancel}
+            onClick={() => setIsModalOpen(true)}
           >
             주문취소
           </CancelBtn>
@@ -87,6 +75,12 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
           </OrderPriceWrap>
         </OrderPriceContainer>
       </OrderBox>
+      <UserCancelModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        status={status}
+        orderId={orderId}
+      />
     </OrderWrap>
   );
 }
