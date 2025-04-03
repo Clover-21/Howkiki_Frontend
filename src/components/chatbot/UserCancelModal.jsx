@@ -31,11 +31,6 @@ export default function UserCancelModal({ isOpen, onClose, status, orderId }) {
     }
   };
 
-  const handleClose = () => {
-    onClose();
-    window.location.reload();
-  };
-
   return (
     <ModalContainer>
       <Modal>
@@ -44,7 +39,7 @@ export default function UserCancelModal({ isOpen, onClose, status, orderId }) {
           <ModalText>주문을 취소하시겠습니까?</ModalText>
         </ModalContent>
         <BtnContainer>
-          <Button className="cancel" onClick={handleClose}>
+          <Button className="cancel" onClick={onClose}>
             취소
           </Button>
           <Button className="confirm" onClick={handleCancel}>
