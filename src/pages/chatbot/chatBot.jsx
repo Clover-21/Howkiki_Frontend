@@ -60,6 +60,8 @@ export default function ChatBot() {
     try {
       const response = await apiClient.post(`/api/chat`, {
         question,
+        storeId,
+        tableNum: tableNumber,
         token,
       });
       console.log(response.data);
