@@ -36,8 +36,6 @@ export default function OrderSummaryPage() {
           "Cache-Control": "no-cache",
         },
       });
-
-      console.log(response.data.data);
       setOrderData(response.data.data);
     } catch (error) {
       console.log("주문 내역 가져오기 실패", error);
