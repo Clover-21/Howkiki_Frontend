@@ -44,7 +44,7 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
     <OrderWrap>
       <OrderBox>
         <StatusWrap>
-          <Status>{getStatusText(status)}</Status>
+          <Status status={status}>{getStatusText(status)}</Status>
           <CancelBtn
             disabled={status !== "NOT_YET_SENT"}
             onClick={() => setIsModalOpen(true)}
@@ -52,17 +52,17 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
             주문취소
           </CancelBtn>
         </StatusWrap>
-        <OrderNum>주문 번호 {orderId}</OrderNum>
+        <OrderNum status={status}>주문 번호 {orderId}</OrderNum>
         {orderData.orderDetail.map((orderItem) => (
           <MenuComponent key={orderItem.id}>
             <Line2 />
             <OrderList>
               <OrderContent>
                 <MenuWrap>
-                  <MenuName>{orderItem.menuName}</MenuName>
-                  <Quantity>{orderItem.quantity}개</Quantity>
+                  <MenuName status={status}>{orderItem.menuName}</MenuName>
+                  <Quantity status={status}>{orderItem.quantity}개</Quantity>
                 </MenuWrap>
-                <MenuPrice>{orderItem.totalPrice}원</MenuPrice>
+                <MenuPrice status={status}>{orderItem.totalPrice}원</MenuPrice>
               </OrderContent>
             </OrderList>
           </MenuComponent>
@@ -70,8 +70,8 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
         <Line2 />
         <OrderPriceContainer>
           <OrderPriceWrap>
-            <OrderText>주문 금액</OrderText>
-            <OrderPrice>{orderData.orderPrice}원</OrderPrice>
+            <OrderText status={status}>주문 금액</OrderText>
+            <OrderPrice status={status}>{orderData.orderPrice}원</OrderPrice>
           </OrderPriceWrap>
         </OrderPriceContainer>
       </OrderBox>

@@ -130,12 +130,25 @@ export const Status = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  border: 1.5px solid #5d60ef;
-  background-color: rgba(83, 225, 185, 0.5);
+  border: 1.5px solid
+    ${({ status }) =>
+      status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+        ? "#cdcdcd"
+        : "#5d60ef"};
+  background-color: ${({ status }) => {
+    if (status === "ADMIN_CANCELLED" || status === "USER_CANCELLED") {
+      return "#ffffff";
+    } else {
+      return "rgba(83, 225, 185, 0.5)";
+    }
+  }};
   padding: 8px 12px;
   font-size: 11px;
   font-weight: 800;
-  color: #5d60ef;
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#777777"
+      : "#5d60ef"};
 
   @media screen and (min-width: 430px) {
     font-size: 12px;
@@ -162,6 +175,10 @@ export const OrderNum = styled.div`
   margin-top: 10px;
   margin-left: 7px;
   margin-bottom: 10px;
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#000000"};
 
   @media screen and (min-width: 430px) {
     font-size: 16px;
@@ -196,6 +213,10 @@ export const MenuWrap = styled.div`
 
 export const MenuName = styled.div`
   font-size: 13px;
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#000000"};
 
   @media screen and (min-width: 430px) {
     font-size: 14px;
@@ -204,6 +225,10 @@ export const MenuName = styled.div`
 
 export const Quantity = styled.div`
   font-size: 13px;
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#000000"};
 
   @media screen and (min-width: 430px) {
     font-size: 14px;
@@ -212,7 +237,10 @@ export const Quantity = styled.div`
 
 export const MenuPrice = styled.div`
   font-size: 12px;
-  color: #666666;
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#666666"};
   margin-left: 5px;
 
   @media screen and (min-width: 430px) {
@@ -239,6 +267,16 @@ export const OrderPriceWrap = styled.div`
   }
 `;
 
-export const OrderText = styled.div``;
+export const OrderText = styled.div`
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#000000"};
+`;
 
-export const OrderPrice = styled.div``;
+export const OrderPrice = styled.div`
+  color: ${({ status }) =>
+    status === "ADMIN_CANCELLED" || status === "USER_CANCELLED"
+      ? "#cdcdcd"
+      : "#000000"};
+`;
