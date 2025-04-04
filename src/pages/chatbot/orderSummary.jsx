@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import OrderSummaryBox from "../../components/chatbot/OrderSummaryBox";
 import close from "../../assets/icon/close.svg";
+import refresh from "../../assets/icon/refresh.svg";
 import { apiClient } from "../../api/apiClient";
 import {
   SummaryContainer,
   SummaryContentWrap,
   SummaryTop,
   CloseIcon,
+  RefreshIcon,
   SummaryTitle,
   Line,
   TableNum,
@@ -56,6 +58,10 @@ export default function OrderSummaryPage() {
               onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}
             />
             <SummaryTitle>주문 내역</SummaryTitle>
+            <RefreshIcon
+              src={refresh}
+              onClick={() => window.location.reload()}
+            />
           </SummaryTop>
           <Line />
           {orderData &&

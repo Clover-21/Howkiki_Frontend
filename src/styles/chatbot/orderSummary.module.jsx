@@ -27,26 +27,30 @@ export const NotYetOrder = styled.div`
 export const SummaryTop = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
-  padding: 15px;
+  justify-content: space-between; // 간격 균형 잡기 위해 추가
+  padding: 15px 20px;
+  margin: 0 auto; // 가운데 정렬
   margin-top: 50px;
+  max-width: 430px; // 모바일 기준 폭 제한
 `;
 
 export const CloseIcon = styled.img`
-  position: absolute;
-  left: 20px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
+`;
 
-  @media screen and (min-width: 430px) {
-    left: 22px;
-  }
+export const RefreshIcon = styled.img`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 `;
 
 export const SummaryTitle = styled.div`
-  flex: 1;
-  text-align: center;
   font-size: 16px;
   font-weight: 700;
+  text-align: center;
+  flex: 1;
 
   @media screen and (min-width: 430px) {
     font-size: 17px;
