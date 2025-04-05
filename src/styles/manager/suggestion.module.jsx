@@ -22,10 +22,16 @@ export const PckContainer = styled.div`
 export const PckContent = styled.div`
   max-width: 1300px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-template-rows: repeat(2, auto);
+  grid-template-columns: repeat(2, 1fr); // 기본 2열
   gap: 40px 85px;
-  justify-content: center;
   align-content: start;
   width: 100%;
+
+  @media (min-width: 1120px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
