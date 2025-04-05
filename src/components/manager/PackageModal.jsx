@@ -40,10 +40,6 @@ export default function PackageModal({ isOpen, onClose, data }) {
       );
 
       const userSessionToken = response.data?.data?.userSessionToken;
-
-      if (userSessionToken) {
-      }
-
       onClose();
       window.location.reload();
     } catch (error) {

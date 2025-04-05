@@ -43,6 +43,7 @@ export default function useSSE(token) {
 
       eventSource.onerror = (error) => {
         console.error("SSE 연결 오류:", error);
+        eventSource.close();
 
         setTimeout(connectSSE, 3000);
       };
