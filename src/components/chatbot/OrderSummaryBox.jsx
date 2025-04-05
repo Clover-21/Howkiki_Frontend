@@ -62,7 +62,9 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
                   <MenuName status={status}>{orderItem.menuName}</MenuName>
                   <Quantity status={status}>{orderItem.quantity}개</Quantity>
                 </MenuWrap>
-                <MenuPrice status={status}>{orderItem.totalPrice}원</MenuPrice>
+                <MenuPrice status={status}>
+                  ㄴ {orderItem.totalPrice.toLocaleString()}원
+                </MenuPrice>
               </OrderContent>
             </OrderList>
           </MenuComponent>
@@ -71,7 +73,9 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
         <OrderPriceContainer>
           <OrderPriceWrap>
             <OrderText status={status}>주문 금액</OrderText>
-            <OrderPrice status={status}>{orderData.orderPrice}원</OrderPrice>
+            <OrderPrice status={status}>
+              {orderData.orderPrice.toLocaleString()}원
+            </OrderPrice>
           </OrderPriceWrap>
         </OrderPriceContainer>
       </OrderBox>

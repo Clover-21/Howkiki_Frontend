@@ -75,7 +75,9 @@ export default function OrderSummaryPage() {
                     <TotalText>
                       총 {orderData.orderList.length}건의 주문 금액
                     </TotalText>
-                    <TotalPrice>{orderData.tableTotalPrice}원</TotalPrice>
+                    <TotalPrice>
+                      {orderData.tableTotalPrice.toLocaleString()}원
+                    </TotalPrice>
                   </TotalContent>
                 </TotalBox>
               </TotalOrderPriceWrap>
