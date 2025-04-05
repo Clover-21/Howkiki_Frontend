@@ -2,25 +2,18 @@ import { useEffect, useState } from "react";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
 const API_URL = process.env.REACT_APP_HTTPS_URL;
-const activeSSEConnections = new Map();
-
-export function closeSSEConnection(token) {
-  if (activeSSEConnections.has(token)) {
-    console.log(`SSE 연결 종료 (토큰: ${token})`);
-    activeSSEConnections.get(token).close();
-    activeSSEConnections.delete(token);
-  }
-}
 
 export default function useSSE(token) {
   const [notice, setNotice] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (!token || activeSSEConnections.has(token)) return;
+    if (!token) return;
+
+    let eventSource;
 
     const connectSSE = () => {
-      const eventSource = new EventSourcePolyfill(
+      eventSource = new EventSourcePolyfill(
         `${API_URL}/notification/subscribe`,
         {
           headers: {
@@ -36,7 +29,6 @@ export default function useSSE(token) {
 
       eventSource.onopen = () => {
         console.log(`SSE 연결 성공! (토큰: ${token})`);
-        activeSSEConnections.set(token, eventSource);
       };
 
       eventSource.addEventListener("notification", (event) => {
@@ -52,6 +44,7 @@ export default function useSSE(token) {
       eventSource.onerror = (error) => {
         console.error("SSE 연결 오류:", error);
         closeSSEConnection(token);
+
         setTimeout(connectSSE, 3000);
       };
     };
@@ -59,7 +52,10 @@ export default function useSSE(token) {
     connectSSE();
 
     return () => {
-      closeSSEConnection(token);
+      console.log(`SSE 연결 종료 (토큰: ${token})`);
+      if (eventSource) {
+        eventSource.close();
+      }
     };
   }, [token]);
 
