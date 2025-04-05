@@ -1,49 +1,67 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
-import ContentBox from "../../components/manager/PackageBox";
+import PackageBox from "../../components/manager/PackageBox";
 import PackageModal from "../../components/manager/PackageModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
+import { apiClient } from "../../api/apiClient";
 import {
   PckContainer,
   PckContent,
 } from "../../styles/manager/suggestion.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function PackagingPage() {
+  const { storeId } = useParams();
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [orderData, setOrderData] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const fetchOrderData = async () => {
     try {
-      const response = await apiClient.get(`/stores/1/orders/take-out`);
-      setOrderData(response.data.data);
+      const response = await apiClient.get(
+        `/stores/${storeId}/orders/take-out`
+      );
+      setOrderData(response.data.data ?? []);
     } catch (error) {
       console.error("주문 데이터 가져오기 실패:", error);
+      setOrderData([]);
     }
   };
 
   useEffect(() => {
-    fetchOrderData();
-  }, []);
+    if (storeId) {
+      fetchOrderData();
+    }
+  }, [storeId]);
 
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
     orderData,
-    8
+    itemsPerPage
   );
 
   const handlePackageOrder = (order) => {
     setSelectedPackage(order);
-    console.log(selectedPackage);
     setIsPackageModalOpen(true);
   };
 
@@ -53,7 +71,7 @@ export default function PackagingPage() {
       <PckContainer>
         <PckContent>
           {currentItems.map((order) => (
-            <ContentBox
+            <PackageBox
               key={order.orderId}
               number={order.orderId}
               onClick={() => handlePackageOrder(order)}

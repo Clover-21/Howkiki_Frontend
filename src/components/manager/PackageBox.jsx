@@ -8,9 +8,10 @@ import {
   MenuContainer,
   MenuName,
   MenuQuantity,
+  MoreOrders,
 } from "../../styles/components/packageBox.module";
 
-export default function ContentBox({ number, onClick, data }) {
+export default function PackageBox({ number, onClick, data }) {
   return (
     <SuggestionWrap onClick={onClick}>
       <ContentContainer>
@@ -18,12 +19,13 @@ export default function ContentBox({ number, onClick, data }) {
           <Number>{number}</Number>
         </NumberContainer>
         <ContentText>
-          {data.map((order, i) => (
+          {data.slice(0, 5)?.map((order, i) => (
             <MenuContainer key={i}>
               <MenuName>{order.menuName}</MenuName>
               <MenuQuantity>{order.quantity}</MenuQuantity>
             </MenuContainer>
           ))}
+          {data.length > 5 && <MoreOrders>+외 {data.length - 5}개</MoreOrders>}
         </ContentText>
       </ContentContainer>
     </SuggestionWrap>

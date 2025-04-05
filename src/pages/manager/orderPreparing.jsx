@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import SideBar from "../../components/manager/SideBar";
 import CancelModal from "../../components/manager/CancelModal";
@@ -8,6 +7,7 @@ import OrderDetailModal from "../../components/manager/OrderDetailModal";
 import Pagination from "../../components/manager/Pagination";
 import usePagination from "../../hooks/usePagination";
 import ClipLoader from "react-spinners/ClipLoader";
+import { apiClient } from "../../api/apiClient";
 import {
   ListContainer,
   OrderContainer,
@@ -23,14 +23,6 @@ import {
   MoreOrders,
 } from "../../styles/manager/orderWaiting.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 const override = {
   display: "block",
   margin: "0 auto",
@@ -39,6 +31,7 @@ const override = {
 };
 
 export default function OrderPreparingPage() {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [canceldOrder, setCanceledOrder] = useState(null);
@@ -48,11 +41,30 @@ export default function OrderPreparingPage() {
   const [selectedReason, setSelectedReason] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  const numbers = orderData?.data || [];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setItemsPerPage(2);
+      } else if (window.innerWidth <= 1120) {
+        setItemsPerPage(4);
+      } else if (window.innerWidth <= 1400) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const { currentPage, totalPages, currentItems, goToPage } = usePagination(
-    numbers,
-    8
+    orderData?.data || [],
+    itemsPerPage
   );
 
   const handleOrderClick = (order) => {
@@ -86,7 +98,7 @@ export default function OrderPreparingPage() {
     const orderId = order.orderId;
     try {
       await apiClient.patch(
-        `/stores/1/orders/${orderId}/status?orderStatus=COMPLETED`,
+        `/stores/${storeId}/orders/${orderId}/status?orderStatus=COMPLETED`,
         {},
         {
           headers: {
@@ -94,7 +106,6 @@ export default function OrderPreparingPage() {
           },
         }
       );
-      navigate("/readycomplete");
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +115,7 @@ export default function OrderPreparingPage() {
   const fetchOrderData = async () => {
     try {
       const response = await apiClient.get(
-        `/stores/1/orders?status=IN_PROGRESS`
+        `/stores/${storeId}/orders?status=IN_PROGRESS`
       );
       const sortedOrders = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
@@ -147,9 +158,9 @@ export default function OrderPreparingPage() {
                       <MenuQuantity>{menu.quantity}</MenuQuantity>
                     </MenuContent>
                   ))}
-                  {order.orderDetail.length > 4 && (
+                  {order.orderDetail.length > 3 && (
                     <MoreOrders>
-                      +외 {order.orderDetail.length - 4}개
+                      +외 {order.orderDetail.length - 3}개
                     </MoreOrders>
                   )}
                 </MenuContainer>
@@ -162,7 +173,13 @@ export default function OrderPreparingPage() {
                   >
                     취소
                   </OrderCancelBtn>
-                  <OrderOkBtn onClick={() => handleFinish(order, "COMPLETED")}>
+                  <OrderOkBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFinish(order, "COMPLETED");
+                      window.location.reload();
+                    }}
+                  >
                     완료
                   </OrderOkBtn>
                 </BtnContainer>

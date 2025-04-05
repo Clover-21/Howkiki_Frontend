@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import back from "../../assets/icon/back.svg";
+import { apiClient } from "../../api/apiClient";
 import {
   ModalContainer,
   Modal,
@@ -13,14 +14,6 @@ import {
   BackButton,
 } from "../../styles/components/acceptModal.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function AcceptModal({
   isOpen,
   onClose,
@@ -30,6 +23,7 @@ export default function AcceptModal({
   selectedOrder,
   setOrderData,
 }) {
+  const { storeId } = useParams();
   const [time, setTime] = useState("");
 
   const handleInputChange = (e) => {
@@ -51,7 +45,7 @@ export default function AcceptModal({
   const handleAccept = async (expectedPrepMin) => {
     try {
       await apiClient.patch(
-        `/stores/1/orders/${selectedOrder.orderId}/order-acceptance`,
+        `/stores/${storeId}/orders/${selectedOrder.orderId}/order-acceptance`,
         { expectedPrepMin }
       );
 
@@ -63,6 +57,7 @@ export default function AcceptModal({
       });
 
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("상태 업데이트 중 에러 발생:", error);
     }

@@ -31,4 +31,6 @@ export const ContentContainer = styled.div`
   background-color: #ffffff;
 `;
 
-export const ContentText = styled.div``;
+export const ContentText = styled.div`
+  font-size: 17px;
+`;

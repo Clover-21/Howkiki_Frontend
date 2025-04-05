@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import { apiClient } from "../../api/apiClient";
+import { closeSSEConnection } from "../../hooks/useSSE";
 import {
   ModalContainer,
   Modal,
@@ -21,21 +23,14 @@ import {
   FinishBtn,
 } from "../../styles/components/commonModal.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function TableModal({ isOpen, onClose, table }) {
+  const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
 
   const handlePaid = async () => {
     try {
-      await apiClient.patch(
-        `/stores/1/orders/tables/${table.id}/status-paid`,
+      const response = await apiClient.patch(
+        `/stores/${storeId}/orders/tables/${table.id}/status-paid`,
         {},
         {
           headers: {
@@ -43,7 +38,18 @@ export default function TableModal({ isOpen, onClose, table }) {
           },
         }
       );
+
+      const orderTokens = response.data.data.orderList
+        .map((order) => order.userSessionToken)
+        .filter((token) => token);
+
+      orderTokens.forEach((token) => {
+        console.log(`SSE 연결 종료 시도 (토큰: ${token})`);
+        closeSSEConnection(token);
+      });
+
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("상태 업데이트 중 에러 발생:", error);
     }
@@ -55,7 +61,7 @@ export default function TableModal({ isOpen, onClose, table }) {
     const fetchTableOrder = async () => {
       try {
         const response = await apiClient.get(
-          `/stores/1/orders/tables/${table.id}`
+          `/stores/${storeId}/orders/tables/${table.id}`
         );
         setOrderData(response.data.data);
       } catch (error) {
@@ -79,7 +85,7 @@ export default function TableModal({ isOpen, onClose, table }) {
                 <MenuContent>
                   <MenuName>{order.menuName}</MenuName>
                   <MenuQuantity>x{order.quantity}</MenuQuantity>
-                  <MenuPrice>{order.totalPrice}원</MenuPrice>
+                  <MenuPrice>{order.totalPrice.toLocaleString()}원</MenuPrice>
                 </MenuContent>
                 <Line />
               </MenuContentWrapper>
@@ -94,7 +100,7 @@ export default function TableModal({ isOpen, onClose, table }) {
           <Text>총 주문 금액</Text>
           <Price>
             {orderData?.tableTotalPrice
-              ? `${orderData.tableTotalPrice}원`
+              ? `${orderData.tableTotalPrice.toLocaleString()}원`
               : "0원"}
           </Price>
         </PriceWrap>

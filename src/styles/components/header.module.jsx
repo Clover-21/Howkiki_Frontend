@@ -29,9 +29,12 @@ export const CategoryName = styled.div`
   color: white;
   font-size: 20px;
   font-weight: bold;
-  flex: 0 0 auto;
   color: ${(props) =>
     props.selected ? "#ffffff" : "rgba(255, 255, 255, 0.5)"};
+
+  @media screen and (max-width: 865px) {
+    font-size: 18px;
+  }
 `;
 
 export const Circle = styled.div`

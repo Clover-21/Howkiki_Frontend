@@ -67,7 +67,15 @@ export default function NotificationModal({ isOpen, onClose, notice }) {
             {renderMessage(notice)}
           </ModalText>
         </ModalContent>
-        <Button noticeName={notice.noticeName} onClick={onClose}>
+        <Button
+          noticeName={notice.noticeName}
+          onClick={() => {
+            onClose();
+            setTimeout(() => {
+              window.location.reload();
+            }, 100);
+          }}
+        >
           확인
         </Button>
       </Modal>

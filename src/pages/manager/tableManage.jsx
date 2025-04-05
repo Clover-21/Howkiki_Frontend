@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Header from "../../components/manager/Header";
 import TableModal from "../../components/manager/tableModal";
+import { apiClient } from "../../api/apiClient";
 import {
   TableBoxContainer,
   TableBox,
@@ -17,15 +18,8 @@ import {
   TotalPrice,
 } from "../../styles/manager/tableManage.module";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-const host = window.location.hostname === "localhost" ? API_URL : "api";
-
-export const apiClient = axios.create({
-  baseURL: host,
-});
-
 export default function TableManagePage() {
+  const { storeId } = useParams();
   const [tables, setTables] = useState([]);
   const [orders, setOrders] = useState([]);
   const [isTableModalOpen, setIsTablelModalOpen] = useState(false);
@@ -46,7 +40,9 @@ export default function TableManagePage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await apiClient.get(`/stores/1/orders/tables/all`);
+        const response = await apiClient.get(
+          `/stores/${storeId}/orders/tables/all`
+        );
         setOrders(response.data.data);
         console.log(response.data.data);
       } catch (error) {
@@ -88,7 +84,12 @@ export default function TableManagePage() {
                   </HasOrderBox>
                   <Line />
                   <TotalPriceWrapper>
-                    <TotalPrice>{matchingOrder.orderPrice}원</TotalPrice>
+                    <TotalPrice>
+                      {matchingOrder?.totalPrice
+                        ? matchingOrder.totalPrice.toLocaleString()
+                        : "0"}
+                      원
+                    </TotalPrice>
                   </TotalPriceWrapper>
                 </>
               ) : (

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const TableBoxContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 60px 0;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px 20px;
   padding-top: 170px;
   justify-content: center;
   place-items: center;
