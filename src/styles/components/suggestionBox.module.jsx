@@ -22,6 +22,10 @@ export const Number = styled.div`
   color: #ffffff;
   font-size: 30px;
   font-weight: 600;
+
+  @media (max-width: 1200px) {
+    font-size: 25px;
+  }
 `;
 
 export const ContentContainer = styled.div`
