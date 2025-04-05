@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiClient } from "../../api/apiClient";
-import { closeSSEConnection } from "../../hooks/useSSE";
 import {
   ModalContainer,
   Modal,
@@ -45,7 +44,6 @@ export default function TableModal({ isOpen, onClose, table }) {
 
       orderTokens.forEach((token) => {
         console.log(`SSE 연결 종료 시도 (토큰: ${token})`);
-        closeSSEConnection(token);
       });
 
       onClose();
