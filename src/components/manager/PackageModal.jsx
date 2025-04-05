@@ -1,7 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { closeSSEConnection } from "../../hooks/useSSE";
 import { apiClient } from "../../api/apiClient";
 import {
   ModalContainer,
@@ -44,7 +42,6 @@ export default function PackageModal({ isOpen, onClose, data }) {
       const userSessionToken = response.data?.data?.userSessionToken;
 
       if (userSessionToken) {
-        closeSSEConnection(userSessionToken);
       }
 
       onClose();
