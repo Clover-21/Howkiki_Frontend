@@ -201,7 +201,6 @@ export default function ChatBot() {
               </MessageWrapper>
             );
           })}
-
           {loading && (
             <MessageWrapper sender="bot">
               <BotIcon src={botIcon} alt="Bot Icon" />
