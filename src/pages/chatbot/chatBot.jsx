@@ -92,6 +92,11 @@ export default function ChatBot() {
       const userMessage = input.trim();
       setInput("");
 
+      const inputElement = document.getElementById("inputfield");
+      if (inputElement) {
+        inputElement.style.height = "40px";
+      }
+
       setMessages((prevMessages) => {
         const newMessages = [
           ...prevMessages,
