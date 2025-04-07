@@ -22,6 +22,7 @@ import {
   OrderOkBtn,
   OrderCancelBtn,
   MoreOrders,
+  LoaderWrap,
 } from "../../styles/manager/orderWaiting.module";
 
 const override = {
@@ -138,14 +139,16 @@ export default function OrderWaitingPage() {
         <SideBar />
         <OrderContainer>
           {isLoading ? (
-            <ClipLoader
-              color="#fff"
-              loading={isLoading}
-              cssOverride={override}
-              size={50}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+            <LoaderWrap>
+              <ClipLoader
+                color="#fff"
+                loading={isLoading}
+                cssOverride={override}
+                size={50}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </LoaderWrap>
           ) : (
             currentItems.map((order, i) => (
               <OrderContent key={i} onClick={() => handleOrderClick(order)}>
