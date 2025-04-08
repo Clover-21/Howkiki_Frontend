@@ -130,6 +130,19 @@ export const FinishBtn = styled.div`
   font-weight: 600;
   background-color: ${(props) => (props.$isEmpty ? "#7878F0" : "#D9D9D9")};
   border-radius: 7.28px;
+
+  ${(props) =>
+    props.$isEmpty
+      ? `
+    &:hover {
+      background-color: #5e5ee0;
+    }
+  `
+      : `
+    &:hover {
+      background-color: #bfbfbf;
+    }
+  `}
 `;
 
 export const PaidBtn = styled.div`
@@ -142,6 +155,10 @@ export const PaidBtn = styled.div`
   font-weight: 600;
   background-color: #7878f0;
   border-radius: 7.28px;
+
+  &:hover {
+    background-color: #5e5ee0;
+  }
 `;
 
 export const TextWrapper = styled.div`

@@ -85,6 +85,14 @@ export const FinishBtn = styled.div`
   border-radius: 8px;
   margin-top: 40px;
   background-color: ${({ disabled }) => (disabled ? "#A8A8A8" : "#5D60EF")};
+
+  ${({ disabled }) =>
+    !disabled &&
+    `
+    &:hover {
+      background-color: #4b4ee0; 
+    }
+  `}
 `;
 
 export const BackButton = styled.img`

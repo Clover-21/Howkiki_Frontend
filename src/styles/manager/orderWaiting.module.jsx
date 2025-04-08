@@ -89,6 +89,11 @@ export const OrderCancelBtn = styled.div`
   font-weight: bold;
   background-color: #d9d9d9;
   border-bottom-left-radius: 28.41px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #bfbfbf; /* 좀 더 진한 회색으로 hover 느낌 */
+  }
 `;
 
 export const OrderOkBtn = styled.div`
@@ -102,6 +107,11 @@ export const OrderOkBtn = styled.div`
   font-weight: bold;
   background-color: #53e1b9;
   border-bottom-right-radius: 28.41px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3fc7a4; /* 좀 더 진한 민트색 */
+  }
 `;
 
 export const MoreOrders = styled.div`

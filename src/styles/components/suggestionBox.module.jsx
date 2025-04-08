@@ -12,10 +12,14 @@ export const NumberContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 4.5%;
+  width: 65px;
   height: 140px;
-  border-radius: 12.14px;
+  border-radius: 14px;
   background-color: #53e1b9;
+
+  @media (max-width: 1200px) {
+    width: 55px;
+  }
 `;
 
 export const Number = styled.div`
