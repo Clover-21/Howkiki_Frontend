@@ -137,10 +137,6 @@ export const InputField = styled.textarea`
   &::-webkit-scrollbar {
     display: none;
   }
-
-  &:disabled {
-    background-color: #ffffff;
-  }
 `;
 
 export const SendButton = styled.button`
