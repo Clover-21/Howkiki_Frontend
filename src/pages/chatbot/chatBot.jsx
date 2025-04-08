@@ -226,7 +226,6 @@ export default function ChatBot() {
               value={input}
               onChange={handleChange}
               placeholder="메시지를 입력해주세요"
-              disabled={loading}
             />
             <BtnWrap>
               <SendButton onClick={handleSendMessage} />
