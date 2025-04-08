@@ -53,12 +53,20 @@ export const ChatBox = styled.div`
   }
 `;
 
+export const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${({ sender }) =>
+    sender === "user" ? "flex-end" : "flex-start"};
+  margin-left: ${({ sender }) => (sender === "bot" ? "8px" : "")};
+`;
+
 export const Message = styled.div`
   width: fit-content;
   max-width: 80%;
   word-wrap: break-word;
   white-space: pre-wrap;
-  padding: 14px;
+  padding: 14px 14px 14px 14px;
   border-radius: 20px;
   font-size: 14px;
   line-height: 18px;
@@ -73,15 +81,6 @@ export const Message = styled.div`
   @media screen and (min-width: 430px) {
     font-size: 15px;
   }
-`;
-
-export const MessageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: ${({ sender }) =>
-    sender === "user" ? "flex-end" : "flex-start"};
-  margin-left: ${({ sender }) => (sender === "bot" ? "8px" : "")};
-  margin-right: ${({ sender }) => (sender === "bot" ? "" : "8px")};
 `;
 
 export const BotIcon = styled.img`
@@ -123,7 +122,7 @@ export const InputField = styled.textarea`
   border-radius: 20px;
   border: none;
   outline: none;
-  font-size: 12.5px;
+  font-size: 14px;
   line-height: 18px;
   box-sizing: border-box;
   backgrount-color: #ffffff;

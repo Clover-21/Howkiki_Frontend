@@ -178,7 +178,6 @@ export default function ChatBot() {
             />
           )}
         </ModalWrapper>
-
         <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
         <ChatBox ref={chatBoxRef}>
           {messages.map((msg, index) => {
