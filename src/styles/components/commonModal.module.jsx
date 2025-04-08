@@ -155,8 +155,6 @@ export const PaidBtn = styled.div`
   font-weight: 600;
   background-color: #7878f0;
   border-radius: 7.28px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 
   &:hover {
     background-color: #5e5ee0;
