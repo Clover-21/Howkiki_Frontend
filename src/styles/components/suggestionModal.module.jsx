@@ -48,4 +48,8 @@ export const FinishBtn = styled.div`
   font-weight: 600;
   background-color: #7878f0;
   border-radius: 7.28px;
+
+  &:hover {
+    background-color: #5e5ee0;
+  }
 `;

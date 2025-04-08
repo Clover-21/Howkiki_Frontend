@@ -91,4 +91,8 @@ export const CloseBtn = styled.div`
   background-color: #7878f0;
   color: #ffffff;
   font-weight: 600;
+
+  &:hover {
+    background-color: #5e5ee0;
+  }
 `;

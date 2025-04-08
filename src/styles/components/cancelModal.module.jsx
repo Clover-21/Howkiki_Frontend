@@ -79,6 +79,10 @@ export const CloseBtn = styled.div`
   font-weight: bold;
   border-radius: 8px;
   background-color: #b2b2b2;
+
+  &:hover {
+    background-color: #9e9e9e;
+  }
 `;
 
 export const CancelBtn = styled.div`
@@ -91,6 +95,16 @@ export const CancelBtn = styled.div`
   font-weight: bold;
   border-radius: 8px;
   background-color: ${({ active }) => (active ? "#7878F0" : "#b2b2b2")};
+
+  ${({ active }) =>
+    active
+      ? `
+    &:hover {
+      background-color: #5e5ee0; 
+    }
+  `
+      : `
+  `}
 `;
 
 export const MenuContainer = styled.div`
