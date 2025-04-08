@@ -31,6 +31,10 @@ export default function useSSE(token) {
         console.log(`SSE 연결 성공! (토큰: ${token})`);
       };
 
+      eventSource.addEventListener("ping", (event) => {
+        // ping 무시
+      });
+
       eventSource.addEventListener("notification", (event) => {
         try {
           const newNotice = JSON.parse(event.data);
