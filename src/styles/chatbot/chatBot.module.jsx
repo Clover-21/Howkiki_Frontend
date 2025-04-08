@@ -69,7 +69,7 @@ export const Message = styled.div`
   padding: 14px 14px 14px 14px;
   border-radius: 20px;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 20px;
   color: ${({ sender }) => (sender === "bot" ? "#000000" : "#ffffff")};
   background-color: ${({ sender }) =>
     sender === "bot" ? "#ffffff" : "#5D60EF"};
@@ -123,7 +123,7 @@ export const InputField = styled.textarea`
   border: none;
   outline: none;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 20px;
   box-sizing: border-box;
   backgrount-color: #ffffff;
 
