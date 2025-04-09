@@ -59,6 +59,8 @@ export const MessageWrapper = styled.div`
   justify-content: ${({ sender }) =>
     sender === "user" ? "flex-end" : "flex-start"};
   margin-left: ${({ sender }) => (sender === "bot" ? "8px" : "")};
+  margin-bottom: ${({ sender }) => (sender === "bot" ? "0px" : "10px")};
+  margin-top: ${({ sender }) => (sender === "user" ? "10px" : "0px")};
 `;
 
 export const Message = styled.div`
@@ -73,8 +75,8 @@ export const Message = styled.div`
   color: ${({ sender }) => (sender === "bot" ? "#000000" : "#ffffff")};
   background-color: ${({ sender }) =>
     sender === "bot" ? "#ffffff" : "#5D60EF"};
-  margin-bottom: ${({ sender }) => (sender === "bot" ? "5px" : "15px")};
-  margin-top: ${({ sender }) => (sender === "user" ? "15px" : "5px")};
+  margin-bottom: ${({ sender }) => (sender === "bot" ? "5px" : "5px")};
+  margin-top: ${({ sender }) => (sender === "user" ? "5px" : "5px")};
   align-self: ${({ sender }) =>
     sender === "user" ? "flex-end" : "flex-start"};
 
