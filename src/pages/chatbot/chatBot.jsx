@@ -192,7 +192,7 @@ export default function ChatBot() {
                 key={index}
                 sender={msg.sender}
                 style={{
-                  marginTop: isSameSender ? "10px" : "22px",
+                  marginTop: isSameSender ? "10px" : "20px",
                 }}
               >
                 {isFirstBotMessage && msg.sender === "bot" && (
@@ -223,7 +223,7 @@ export default function ChatBot() {
                 <MessageWrapper
                   sender="bot"
                   style={{
-                    marginTop: isSameSender ? "10px" : "22px",
+                    marginTop: isSameSender ? "10px" : "20px",
                   }}
                 >
                   <BotIcon src={botIcon} alt="Bot Icon" />
