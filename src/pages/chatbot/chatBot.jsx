@@ -191,7 +191,7 @@ export default function ChatBot() {
                 style={{
                   marginTop:
                     index > 0 && messages[index - 1].sender !== msg.sender
-                      ? "16px"
+                      ? "5px"
                       : "0px",
                 }}
               >
