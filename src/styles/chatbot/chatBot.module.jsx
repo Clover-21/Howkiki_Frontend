@@ -59,6 +59,8 @@ export const MessageWrapper = styled.div`
   justify-content: ${({ sender }) =>
     sender === "user" ? "flex-end" : "flex-start"};
   margin-left: ${({ sender }) => (sender === "bot" ? "8px" : "")};
+  margin-top: ${({ isSameSenderAsPrevious }) =>
+    isSameSenderAsPrevious ? "2px" : "15px"};
 `;
 
 export const Message = styled.div`
