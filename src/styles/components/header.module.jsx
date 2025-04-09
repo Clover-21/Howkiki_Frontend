@@ -16,6 +16,14 @@ export const HeaderContainer = styled.div`
   left: 0;
   right: 0;
   z-index: 1000;
+
+  @media screen and (max-width: 790px) {
+    gap: 140px;
+  }
+
+  @media screen and (max-width: 650px) {
+    gap: 110px;
+  }
 `;
 
 export const Category = styled.div`
@@ -34,6 +42,14 @@ export const CategoryName = styled.div`
 
   @media screen and (max-width: 865px) {
     font-size: 18px;
+  }
+
+  @media screen and (max-width: 790px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 15px;
   }
 `;
 
