@@ -192,7 +192,7 @@ export default function ChatBot() {
                 key={index}
                 sender={msg.sender}
                 style={{
-                  marginTop: isSameSender ? "4px" : "16px",
+                  marginTop: isSameSender ? "8px" : "20px",
                 }}
               >
                 {isFirstBotMessage && msg.sender === "bot" && (
