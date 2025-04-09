@@ -188,9 +188,12 @@ export default function ChatBot() {
               <MessageWrapper
                 key={index}
                 sender={msg.sender}
-                isSameSenderAsPrevious={
-                  index > 0 && messages[index - 1]?.sender === msg.sender
-                }
+                style={{
+                  marginTop:
+                    index > 0 && messages[index - 1].sender !== msg.sender
+                      ? "16px"
+                      : "0px",
+                }}
               >
                 {isFirstBotMessage && msg.sender === "bot" && (
                   <BotIcon src={botIcon} alt="Bot Icon" />
