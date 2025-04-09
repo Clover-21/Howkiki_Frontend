@@ -181,11 +181,20 @@ export default function ChatBot() {
         <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
         <ChatBox ref={chatBoxRef}>
           {messages.map((msg, index) => {
+            const prevSender = messages[index - 1]?.sender;
+            const isSameSender = msg.sender === prevSender;
+
             const isFirstBotMessage =
               index === 0 || messages[index - 1]?.sender !== "bot";
 
             return (
-              <MessageWrapper key={index} sender={msg.sender}>
+              <MessageWrapper
+                key={index}
+                sender={msg.sender}
+                style={{
+                  marginTop: isSameSender ? "10px" : "20px",
+                }}
+              >
                 {isFirstBotMessage && msg.sender === "bot" && (
                   <BotIcon src={botIcon} alt="Bot Icon" />
                 )}
@@ -205,14 +214,25 @@ export default function ChatBot() {
               </MessageWrapper>
             );
           })}
-          {loading && (
-            <MessageWrapper sender="bot">
-              <BotIcon src={botIcon} alt="Bot Icon" />
-              <Message sender="bot">
-                <p>. . .</p>
-              </Message>
-            </MessageWrapper>
-          )}
+          {loading &&
+            (() => {
+              const lastSender = messages[messages.length - 1]?.sender;
+              const isSameSender = lastSender === "bot";
+
+              return (
+                <MessageWrapper
+                  sender="bot"
+                  style={{
+                    marginTop: isSameSender ? "10px" : "20px",
+                  }}
+                >
+                  <BotIcon src={botIcon} alt="Bot Icon" />
+                  <Message sender="bot">
+                    <p>. . .</p>
+                  </Message>
+                </MessageWrapper>
+              );
+            })()}
         </ChatBox>
         <ChatInput>
           <HsIcon
