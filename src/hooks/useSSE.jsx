@@ -38,7 +38,7 @@ export default function useSSE(token) {
       eventSource.addEventListener("notification", (event) => {
         try {
           const newNotice = JSON.parse(event.data);
-          setNotice({ ...newNotice, receivedAt: Date.now() });
+          setNotice(newNotice);
           setIsOpen(true);
         } catch (error) {
           console.error("알림 오류:", error);
@@ -61,12 +61,6 @@ export default function useSSE(token) {
       }
     };
   }, [token]);
-
-  useEffect(() => {
-    if (notice) {
-      setIsOpen(true);
-    }
-  }, [notice]);
 
   return { notice, isOpen, setIsOpen };
 }
