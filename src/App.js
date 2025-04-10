@@ -107,15 +107,6 @@ function App() {
     );
   }, [isManagerPage, isChatBotPage, notice]);
 
-  useEffect(() => {
-    if (
-      notice?.noticeName.trim() === "상태 업데이트" &&
-      location.pathname.includes("/ordersummary")
-    ) {
-      window.location.reload();
-    }
-  }, [notice, location.pathname]);
-
   return (
     <>
       <GlobalStyle />
