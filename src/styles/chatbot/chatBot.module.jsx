@@ -115,15 +115,14 @@ export const InputField = styled.textarea`
   max-height: 78px;
   overflow-y: auto;
   resize: none;
-  padding: 12px;
+  padding: 12px 12px;
   padding-right: 50px;
   border-radius: 20px;
   border: none;
   outline: none;
   font-size: 14px;
-  line-height: 20px;
-  box-sizing: border-box;
-  backgrount-color: #ffffff;
+  line-height: 18px;
+  background-color: #ffffff;
 
   &::placeholder {
     color: #848484;
