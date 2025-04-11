@@ -119,7 +119,7 @@ export const InputField = styled.textarea`
   outline: none;
   font-size: 15px;
   padding: 8px 0;
-  padding-right: 45px;
+  padding-right: 38px;
   line-height: 1.5;
   max-height: 78px;
   overflow-y: auto;
