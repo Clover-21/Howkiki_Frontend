@@ -104,57 +104,61 @@ export const InputContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  background-color: white;
+  border-radius: 25px;
+  padding: 4px 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 500px;
+  gap: 8px;
 `;
 
 export const InputField = styled.textarea`
   flex: 1;
-  height: 40px;
-  min-height: 42px;
-  max-height: 78px;
-  overflow-y: auto;
   resize: none;
-  padding: 12px;
-  padding-right: 50px;
-  border-radius: 20px;
   border: none;
   outline: none;
-  font-size: 14px;
-  line-height: 20px;
-  box-sizing: border-box;
-  backgrount-color: #ffffff;
+  font-size: 15px;
+  padding: 8px 0;
+  padding-right: 38px;
+  line-height: 1.5;
+  max-height: 78px;
+  overflow-y: auto;
 
   &::placeholder {
-    color: #848484;
-    font-size: 12.5px;
-    font-weight: 600;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
+    color: #888;
   }
 `;
 
 export const SendButton = styled.button`
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+
   background-color: #5d60ef;
   border: none;
-  border-radius: 50%;
-  margin-left: -39px;
-  margin-top: 7px;
+  border-radius: 9999px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4f46e5;
+  }
+`;
+
+export const SendIcon = styled.img`
+  width: 18px;
+  height: 18px;
+  position: relative;
+  top: 1px;
+  right: 1px;
 `;
 
 export const BtnWrap = styled.div`
   position: relative;
-`;
-
-export const SendIcon = styled.img`
-  width: 25px;
-  position: absolute;
-  top: 8px;
-  transform: translateX(-103%);
 `;
 
 export const HsIcon = styled.img`

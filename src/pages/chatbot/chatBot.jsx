@@ -135,8 +135,9 @@ export default function ChatBot() {
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    e.target.style.height = "40px";
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 78)}px`;
+    const el = e.target;
+    el.style.height = "40px";
+    el.style.height = `${Math.min(el.scrollHeight, 78)}px`;
   };
 
   useEffect(() => {
@@ -144,6 +145,17 @@ export default function ChatBot() {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    const inputElement = document.getElementById("inputfield");
+    if (inputElement) {
+      inputElement.style.height = "40px"; // 초기화
+      inputElement.style.height = `${Math.min(
+        inputElement.scrollHeight,
+        78
+      )}px`; // scrollHeight 기반으로 설정
+    }
+  }, []);
 
   useEffect(() => {
     if (messages.length === 1) {
@@ -246,10 +258,9 @@ export default function ChatBot() {
               onChange={handleChange}
               placeholder="메시지를 입력해주세요"
             />
-            <BtnWrap>
-              <SendButton onClick={handleSendMessage} />
-              <SendIcon src={send} onClick={handleSendMessage} />
-            </BtnWrap>
+            <SendButton onClick={handleSendMessage}>
+              <SendIcon src={send} alt="send" />
+            </SendButton>
           </InputContainer>
         </ChatInput>
       </ChatContainer>
