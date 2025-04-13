@@ -272,7 +272,10 @@ export default function ChatBot() {
         </ChatInput>
       </ChatContainer>
       {openSuccessModal && (
-        <SuccessModal onClose={() => setOpenSuccessModal(false)} />
+        <SuccessModal
+          isOpen={openSuccessModal}
+          onClose={() => setOpenSuccessModal(false)}
+        />
       )}
     </Container>
   );
