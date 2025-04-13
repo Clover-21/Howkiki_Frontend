@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
+import SuccessModal from "../../components/chatbot/SuccessModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
@@ -27,6 +28,7 @@ import {
 export default function ChatBot() {
   const navigate = useNavigate();
   const { storeId, tableNumber } = useParams();
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const chatBoxRef = useRef(null);
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
 
@@ -70,6 +72,11 @@ export default function ChatBot() {
 
       if (response.data.function_call_result?.data?.menuImgUrl) {
         menuImgUrl = response.data.function_call_result.data.menuImgUrl;
+      }
+
+      const successMessage = response.data.function_call_result?.message;
+      if (successMessage === "주문 생성 성공") {
+        setOpenSuccessModal(true);
       }
 
       return {
@@ -264,6 +271,9 @@ export default function ChatBot() {
           </InputContainer>
         </ChatInput>
       </ChatContainer>
+      {openSuccessModal && (
+        <SuccessModal onClose={() => setOpenSuccessModal(false)} />
+      )}
     </Container>
   );
 }
