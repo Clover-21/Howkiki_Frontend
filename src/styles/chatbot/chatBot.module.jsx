@@ -107,6 +107,7 @@ export const InputContainer = styled.div`
   padding: 5px 12px;
   width: 100%;
   gap: 8px;
+  min-width: 0;
   box-sizing: border-box;
 `;
 
@@ -122,12 +123,16 @@ export const InputField = styled.textarea`
   overflow-y: auto;
   padding: 8px 0;
 
+  min-width: 0;
+  box-sizing: border-box;
+
   &::placeholder {
     color: #888;
   }
 `;
 
 export const SendButton = styled.button`
+  flex-shrink: 0;
   background-color: #5d60ef;
   border: none;
   border-radius: 9999px;
