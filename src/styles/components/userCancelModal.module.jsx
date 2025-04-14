@@ -62,3 +62,16 @@ export const Button = styled.div`
     background: #b2b2b2;
   }
 `;
+
+export const Button1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 12.68px;
+  background-color: #5d60ef;
+  color: #ffffff;
+  margin-top: 10px;
+`;

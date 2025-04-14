@@ -5,7 +5,7 @@ import {
   ModalContent,
   ModalTitle,
   BtnContainer,
-  Button,
+  Button1,
 } from "../../styles/components/userCancelModal.module";
 
 export default function SuccessModal({ isOpen, onClose }) {
@@ -18,7 +18,7 @@ export default function SuccessModal({ isOpen, onClose }) {
           <ModalTitle>주문 성공!</ModalTitle>
         </ModalContent>
         <BtnContainer>
-          <Button onClick={onClose}>확인</Button>
+          <Button1 onClick={onClose}>확인</Button1>
         </BtnContainer>
       </Modal>
     </ModalContainer>
