@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const ChatContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   max-width: 430px;
   background-color: #f2f2f5;
   display: flex;
@@ -107,10 +107,12 @@ export const InputContainer = styled.div`
   padding: 5px 12px;
   width: 100%;
   gap: 8px;
+  box-sizing: border-box;
 `;
 
 export const InputField = styled.textarea`
   flex: 1;
+  min-width: 0;
   resize: none;
   border: none;
   outline: none;
