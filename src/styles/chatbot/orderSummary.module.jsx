@@ -159,7 +159,7 @@ export const Status = styled.div`
   }
 `;
 
-export const CancelBtn = styled.div`
+export const CancelBtn = styled.button`
   border-radius: 12px;
   padding: 8px 12px;
   border: 2px solid ${({ disabled }) => (disabled ? "#cdcdcd" : "#5d60ef")};
