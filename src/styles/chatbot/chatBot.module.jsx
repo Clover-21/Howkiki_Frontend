@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const ChatContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   max-width: 430px;
   background-color: #f2f2f5;
   display: flex;
@@ -45,7 +45,6 @@ export const ChatBox = styled.div`
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  display: flex;
   flex-direction: column;
 
   &::-webkit-scrollbar {
@@ -66,7 +65,7 @@ export const Message = styled.div`
   max-width: 80%;
   word-wrap: break-word;
   white-space: pre-wrap;
-  padding: 14px 14px 14px 14px;
+  padding: 14px;
   border-radius: 20px;
   font-size: 14px;
   line-height: 20px;
@@ -101,28 +100,31 @@ export const ChatInput = styled.div`
 `;
 
 export const InputContainer = styled.div`
-  position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   background-color: white;
   border-radius: 25px;
-  padding: 4px 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 5px 12px;
   width: 100%;
   gap: 8px;
+  min-width: 0;
+  box-sizing: border-box;
 `;
 
 export const InputField = styled.textarea`
   flex: 1;
+  min-width: 0;
   resize: none;
   border: none;
   outline: none;
   font-size: 15px;
-  padding: 8px 0;
-  padding-right: 38px;
   line-height: 1.5;
   max-height: 78px;
   overflow-y: auto;
+  padding: 8px 0;
+
+  min-width: 0;
+  box-sizing: border-box;
 
   &::placeholder {
     color: #888;
@@ -130,10 +132,7 @@ export const InputField = styled.textarea`
 `;
 
 export const SendButton = styled.button`
-  position: absolute;
-  bottom: 6px;
-  right: 8px;
-
+  flex-shrink: 0;
   background-color: #5d60ef;
   border: none;
   border-radius: 9999px;
@@ -143,6 +142,7 @@ export const SendButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transform: translateY(-1px);
 
   &:hover {
     background-color: #4f46e5;
@@ -158,7 +158,8 @@ export const SendIcon = styled.img`
 `;
 
 export const BtnWrap = styled.div`
-  position: relative;
+  display: flex;
+  align-items: flex-end;
 `;
 
 export const HsIcon = styled.img`
