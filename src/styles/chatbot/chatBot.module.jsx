@@ -45,7 +45,6 @@ export const ChatBox = styled.div`
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  display: flex;
   flex-direction: column;
 
   &::-webkit-scrollbar {
@@ -66,7 +65,7 @@ export const Message = styled.div`
   max-width: 80%;
   word-wrap: break-word;
   white-space: pre-wrap;
-  padding: 14px 14px 14px 14px;
+  padding: 14px;
   border-radius: 20px;
   font-size: 14px;
   line-height: 20px;
@@ -120,6 +119,7 @@ export const InputField = styled.textarea`
   max-height: 78px;
   overflow-y: auto;
   padding: 8px 0;
+
   &::placeholder {
     color: #888;
   }
@@ -151,7 +151,8 @@ export const SendIcon = styled.img`
 `;
 
 export const BtnWrap = styled.div`
-  position: relative;
+  display: flex;
+  align-items: flex-end;
 `;
 
 export const HsIcon = styled.img`
