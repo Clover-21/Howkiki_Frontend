@@ -2,10 +2,10 @@ import React from "react";
 import {
   ModalContainer,
   Modal,
-  ModalContent,
+  ModalContent1,
   ModalTitle,
   BtnContainer,
-  Button1,
+  Button,
 } from "../../styles/components/userCancelModal.module";
 
 export default function SuccessModal({ isOpen, onClose }) {
@@ -14,11 +14,11 @@ export default function SuccessModal({ isOpen, onClose }) {
   return (
     <ModalContainer>
       <Modal>
-        <ModalContent>
+        <ModalContent1>
           <ModalTitle>주문 성공!</ModalTitle>
-        </ModalContent>
+        </ModalContent1>
         <BtnContainer>
-          <Button1 onClick={onClose}>확인</Button1>
+          <Button onClick={onClose}>확인</Button>
         </BtnContainer>
       </Modal>
     </ModalContainer>

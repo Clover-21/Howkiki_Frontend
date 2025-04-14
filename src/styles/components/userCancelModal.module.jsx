@@ -30,6 +30,13 @@ export const ModalContent = styled.div`
   margin-bottom: 30px;
 `;
 
+export const ModalContent1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+`;
+
 export const ModalTitle = styled.div`
   margin-top: 10px;
   font-size: 19px;
@@ -61,17 +68,4 @@ export const Button = styled.div`
   &.cancel {
     background: #b2b2b2;
   }
-`;
-
-export const Button1 = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 64px;
-  height: 38px;
-  border-radius: 10px;
-  font-size: 12.68px;
-  background-color: #5d60ef;
-  color: #ffffff;
-  margin-top: 10px;
 `;
