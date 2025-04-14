@@ -101,13 +101,11 @@ export const ChatInput = styled.div`
 `;
 
 export const InputContainer = styled.div`
-  position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   background-color: white;
   border-radius: 25px;
-  padding: 4px 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 5px 12px;
   width: 100%;
   gap: 8px;
 `;
@@ -118,22 +116,16 @@ export const InputField = styled.textarea`
   border: none;
   outline: none;
   font-size: 15px;
-  padding: 8px 0;
-  padding-right: 38px;
   line-height: 1.5;
   max-height: 78px;
   overflow-y: auto;
-
+  padding: 8px 0;
   &::placeholder {
     color: #888;
   }
 `;
 
 export const SendButton = styled.button`
-  position: absolute;
-  bottom: 6px;
-  right: 8px;
-
   background-color: #5d60ef;
   border: none;
   border-radius: 9999px;
@@ -143,6 +135,7 @@ export const SendButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transform: translateY(-1px);
 
   &:hover {
     background-color: #4f46e5;
