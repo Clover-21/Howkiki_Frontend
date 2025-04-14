@@ -30,6 +30,13 @@ export const ModalContent = styled.div`
   margin-bottom: 30px;
 `;
 
+export const ModalContent1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+`;
+
 export const ModalTitle = styled.div`
   margin-top: 10px;
   font-size: 19px;
