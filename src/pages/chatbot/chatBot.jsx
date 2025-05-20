@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
+import PaymentBtn from "../../components/chatbot/PaymenBtn";
 import PaymentModal from "../../components/chatbot/PaymentModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
