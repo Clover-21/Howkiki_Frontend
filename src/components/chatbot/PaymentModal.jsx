@@ -17,10 +17,7 @@ export default function PaymentModal({ isOpen, children }) {
         <ModalContent1>
           <ModalTitle>결제를 진행해주세요!</ModalTitle>
         </ModalContent1>
-        <BtnContainer>
-          <Button onClick={onClose}>닫기</Button>
-          {children}
-        </BtnContainer>
+        <BtnContainer>{children}</BtnContainer>
       </Modal>
     </ModalContainer>
   );
