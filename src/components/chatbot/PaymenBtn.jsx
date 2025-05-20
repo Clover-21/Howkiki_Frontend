@@ -17,7 +17,7 @@ export default function PaymentBtn({
     }
 
     const script = document.createElement("script");
-    script.src = "https://cdn.portone.io/v1/js-sdk.js";
+    script.src = "https://cdn.portone.io/v2/browser-sdk.js";
     script.async = true;
 
     script.onload = () => {
