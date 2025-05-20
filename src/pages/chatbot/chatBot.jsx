@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
-import { initIamport, requestPayment } from "../../components/chatbot/Payment";
+import { requestPayment } from "../../components/chatbot/Payment";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
@@ -33,6 +33,8 @@ export default function ChatBot() {
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const chatBoxRef = useRef(null);
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
+
+  console.log("merchant code:", process.env.REACT_APP_PORTONE_MERCHANT_CODE);
 
   //sessionStorage에서 이전 대화 불러오기
   const loadMessages = () => {
@@ -120,7 +122,7 @@ export default function ChatBot() {
       // 주문 생성 성공 시 결제 요청
       if (successMessage === "주문 생성 성공") {
         const paymentData = {
-          pg: "html5_inicis",
+          channel: process.env.REACT_APP_PORTONE_CHANNEL_KEY,
           pay_method: "card",
           amount: data.orderPrice,
           name: data.orderDetail[0]?.menuName || "주문", // 첫 번째 메뉴명
