@@ -6,15 +6,26 @@ export default function PaymentBtn({
   merchantUid,
   onSuccess,
 }) {
+  const [sdkLoaded, setSdkLoaded] = useState(false);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.portone.io/v1/js-sdk.js";
     script.async = true;
+
+    script.onload = () => {
+      setSdkLoaded(true);
+    };
+
     document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   const handlePayment = () => {
-    if (!window.PortOne) {
+    if (!sdkLoaded || !window.PortOne) {
       alert("PortOne SDK가 아직 로드되지 않았습니다.");
       return;
     }
