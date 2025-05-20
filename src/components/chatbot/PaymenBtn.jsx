@@ -10,7 +10,7 @@ export default function PaymentBtn({
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://cdn.portone.io/v2/browser-sdk.js";
+    script.src = "https://static.portone.io/v2/browser-sdk.js";
     script.async = true;
 
     script.onload = async () => {
