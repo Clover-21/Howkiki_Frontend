@@ -92,6 +92,19 @@ export default function ChatBot() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!window.IMP) {
+      const script = document.createElement("script");
+      script.src = "https://cdn.portone.io/v1/js-sdk.js";
+      script.onload = () => {
+        window.IMP.init(process.env.REACT_APP_PORTONE_MERCHANT_CODE);
+      };
+      document.head.appendChild(script);
+    } else {
+      window.IMP.init(process.env.REACT_APP_PORTONE_MERCHANT_CODE);
+    }
+  }, []);
+
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
