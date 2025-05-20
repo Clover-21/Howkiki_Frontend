@@ -11,14 +11,13 @@ export default function PaymentBtn({
   useEffect(() => {
     console.log("SDK 스크립트 삽입 시도");
 
-    // SDK 중복 로딩 방지
-    if (window.IMP) {
+    if (window.PortOne) {
       setSdkLoaded(true);
       return;
     }
 
     const script = document.createElement("script");
-    script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+    script.src = "https://cdn.portone.io/v1/js-sdk.js";
     script.async = true;
 
     script.onload = () => {
@@ -42,26 +41,29 @@ export default function PaymentBtn({
       return;
     }
 
-    const IMP = window.IMP;
-    IMP.init(process.env.REACT_APP_PORTONE_MERCHANT_CODE);
+    const storeId = process.env.REACT_APP_PORTONE_CLIENT_KEY;
 
-    IMP.request_pay(
-      {
-        pg: "inicis_v2",
-        pay_method: "card",
-        merchant_uid: merchantUid,
-        name: productName,
-        amount: amount,
-      },
-      function (rsp) {
-        if (rsp.success) {
-          alert("결제 성공!");
-          if (onSuccess) onSuccess(rsp);
-        } else {
-          alert("결제 실패: " + rsp.error_msg);
-        }
-      }
+    const portone = new window.PortOne(
+      process.env.REACT_APP_PORTONE_CHANNEL_KEY
     );
+
+    portone
+      .requestPayment({
+        storeId: storeId,
+        paymentId: merchantUid,
+        orderName: productName,
+        totalAmount: amount,
+        currency: "KRW",
+        payMethod: "CARD",
+      })
+      .then((res) => {
+        alert("결제 성공!");
+        if (onSuccess) onSuccess(res);
+      })
+      .catch((err) => {
+        alert("결제 실패: " + err.message);
+        console.error("결제 실패", err);
+      });
   };
 
   return <button onClick={handlePayment}>결제하기</button>;
