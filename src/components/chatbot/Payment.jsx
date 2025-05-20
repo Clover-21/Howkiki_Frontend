@@ -1,5 +1,5 @@
 export const requestPayment = ({
-  pg,
+  channel,
   pay_method,
   amount,
   name,
@@ -11,7 +11,7 @@ export const requestPayment = ({
 
     IMP.request_pay(
       {
-        pg,
+        channel,
         pay_method,
         amount,
         name,
