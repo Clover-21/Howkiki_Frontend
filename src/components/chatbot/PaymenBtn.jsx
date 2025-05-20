@@ -36,7 +36,7 @@ export default function PaymentBtn({
   }, []);
 
   const handlePayment = () => {
-    if (!sdkLoaded || !window.IMP) {
+    if (!sdkLoaded || !window.PortOne) {
       alert("PortOne SDK가 아직 로드되지 않았습니다.");
       return;
     }
