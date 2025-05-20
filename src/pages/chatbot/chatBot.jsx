@@ -34,8 +34,6 @@ export default function ChatBot() {
   const chatBoxRef = useRef(null);
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
 
-  console.log("merchant code:", process.env.REACT_APP_PORTONE_MERCHANT_CODE);
-
   //sessionStorage에서 이전 대화 불러오기
   const loadMessages = () => {
     const savedMessages = sessionStorage.getItem(
