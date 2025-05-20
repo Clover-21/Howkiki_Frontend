@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
-import { requestPayment } from "../../components/chatbot/Payment";
+import PaymentModal from "../../components/chatbot/PaymentModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
@@ -21,7 +20,6 @@ import {
   ChatInput,
   InputContainer,
   InputField,
-  BtnWrap,
   SendButton,
   SendIcon,
   HsIcon,
@@ -30,6 +28,8 @@ import {
 export default function ChatBot() {
   const navigate = useNavigate();
   const { storeId, tableNumber } = useParams();
+  const [orderInfo, setOrderInfo] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const chatBoxRef = useRef(null);
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
@@ -124,29 +124,15 @@ export default function ChatBot() {
         menuImgUrl = data.menuImgUrl;
       }
 
-      // 주문 생성 성공 시 결제 요청
-
       if (successMessage === "주문 생성 성공") {
-        const merchant_uid = `order_${data.orderId}_${Date.now()}`;
+        const merchantUid = `order_${data.orderId}_${Date.now()}`;
 
-        const paymentData = {
-          channel: process.env.REACT_APP_PORTONE_CHANNEL_KEY,
-          pay_method: "card",
-          amount: data.orderPrice,
-          name: data.orderDetail[0]?.menuName || "주문", // 첫 번째 메뉴명
-          merchant_uid,
-        };
-
-        requestPayment(
-          paymentData,
-          () => {
-            setOpenSuccessModal(true);
-          },
-          (error) => {
-            alert("결제에 실패했습니다.");
-            console.error("결제 실패:", error);
-          }
-        );
+        setOrderInfo({
+          productName: data?.orderDetail[0]?.menuName,
+          amount: data?.orderPrice,
+          merchantUid,
+        });
+        setIsPaymentModalOpen(true);
       }
 
       return {
@@ -304,6 +290,22 @@ export default function ChatBot() {
           </InputContainer>
         </ChatInput>
       </ChatContainer>
+      {isPaymentModalOpen && orderInfo && (
+        <PaymentModal
+          isOpen={isPaymentModalOpen}
+          onClose={() => setIsPaymentModalOpen(false)}
+        >
+          <PaymentBtn
+            productName={orderInfo.productName}
+            amount={orderInfo.amount}
+            merchantUid={orderInfo.merchantUid}
+            onSuccess={() => {
+              setIsPaymentModalOpen(false);
+              setOpenSuccessModal(true);
+            }}
+          />
+        </PaymentModal>
+      )}
       {openSuccessModal && (
         <SuccessModal
           isOpen={openSuccessModal}
