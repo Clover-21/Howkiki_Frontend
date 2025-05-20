@@ -12,18 +12,27 @@ export default function PaymentBtn({
     const script = document.createElement("script");
     script.src = "https://cdn.portone.io/v2/browser-sdk.js";
     script.async = true;
-    script.onload = async () => {
-      console.log("✅ PortOne SDK 로드 완료");
 
-      const loadedPortOne = await window.loadPortOne();
-      setPortone(loadedPortOne);
+    script.onload = async () => {
+      console.log("PortOne SDK 로드 완료");
+
+      if (window.loadPortOne) {
+        try {
+          const loadedPortOne = await window.loadPortOne();
+          setPortone(loadedPortOne);
+        } catch (err) {
+          console.error("PortOne 초기화 실패", err);
+        }
+      } else {
+        console.error("window.loadPortOne 함수가 없습니다");
+      }
     };
+
     script.onerror = () => {
-      console.error("❌ PortOne SDK 로드 실패");
+      console.error("PortOne SDK 로드 실패");
     };
 
     document.body.appendChild(script);
-
     return () => {
       document.body.removeChild(script);
     };
