@@ -9,6 +9,17 @@ export default function PaymentBtn({
   const [portone, setPortone] = useState(null);
 
   useEffect(() => {
+    // 이미 SDK가 로드되어 있으면 바로 초기화
+    if (window.loadPortOne) {
+      window
+        .loadPortOne()
+        .then(setPortone)
+        .catch((err) => {
+          console.error("PortOne 초기화 실패", err);
+        });
+      return;
+    }
+
     const script = document.createElement("script");
     script.src = "https://static.portone.io/v2/browser-sdk.js";
     script.async = true;
@@ -33,9 +44,8 @@ export default function PaymentBtn({
     };
 
     document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
+
+    // cleanup에서 스크립트 제거하지 않음 (한 번만 로드 유지)
   }, []);
 
   const handlePayment = async () => {
@@ -44,9 +54,22 @@ export default function PaymentBtn({
       return;
     }
 
+    // 환경변수명 주의!
+    const storeId = process.env.REACT_APP_PORTONE_MERCHANT_CODE;
+
+    if (!storeId) {
+      alert("storeId(클라이언트 키)가 설정되어 있지 않습니다.");
+      return;
+    }
+
+    if (!merchantUid) {
+      alert("결제 고유 ID(merchantUid)가 필요합니다.");
+      return;
+    }
+
     try {
       const result = await portone.requestPayment({
-        storeId: process.env.REACT_APP_PORTONE_CLIENT_KEY,
+        storeId: storeId,
         paymentId: merchantUid,
         orderName: productName,
         totalAmount: amount,
