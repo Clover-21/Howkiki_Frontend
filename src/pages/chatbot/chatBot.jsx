@@ -118,9 +118,10 @@ export default function ChatBot() {
       }
 
       // 주문 생성 성공 시 결제 요청
-      const merchant_uid = `order_${data.orderId}_${Date.now()}`;
 
       if (successMessage === "주문 생성 성공") {
+        const merchant_uid = `order_${data.orderId}_${Date.now()}`;
+
         const paymentData = {
           channel: process.env.REACT_APP_PORTONE_CHANNEL_KEY,
           pay_method: "card",
