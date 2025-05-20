@@ -291,20 +291,19 @@ export default function ChatBot() {
           </InputContainer>
         </ChatInput>
       </ChatContainer>
-      {isPaymentModalOpen && orderInfo && (
-        <PaymentModal
-          isOpen={isPaymentModalOpen}
-          onClose={() => setIsPaymentModalOpen(false)}
-        >
-          <PaymentBtn
-            productName={orderInfo.productName}
-            amount={orderInfo.amount}
-            merchantUid={orderInfo.merchantUid}
-            onSuccess={() => {
-              setIsPaymentModalOpen(false);
-              setOpenSuccessModal(true);
-            }}
-          />
+      {isPaymentModalOpen && (
+        <PaymentModal isOpen={isPaymentModalOpen}>
+          {orderInfo && (
+            <PaymentBtn
+              productName={orderInfo.productName}
+              amount={orderInfo.amount}
+              merchantUid={orderInfo.merchantUid}
+              onSuccess={() => {
+                setIsPaymentModalOpen(false);
+                setOpenSuccessModal(true);
+              }}
+            />
+          )}
         </PaymentModal>
       )}
       {openSuccessModal && (

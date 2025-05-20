@@ -8,7 +8,7 @@ import {
   Button,
 } from "../../styles/components/userCancelModal.module";
 
-export default function PaymentModal({ isOpen, children }) {
+export default function PaymentModal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return (
@@ -17,7 +17,10 @@ export default function PaymentModal({ isOpen, children }) {
         <ModalContent1>
           <ModalTitle>결제를 진행해주세요!</ModalTitle>
         </ModalContent1>
-        <BtnContainer>{children}</BtnContainer>
+        <BtnContainer>
+          <Button onClick={onClose}>닫기</Button>
+          {children}
+        </BtnContainer>
       </Modal>
     </ModalContainer>
   );
