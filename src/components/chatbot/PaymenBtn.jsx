@@ -9,13 +9,13 @@ export default function PaymentBtn({
   const [sdkLoaded, setSdkLoaded] = useState(false);
 
   useEffect(() => {
+    console.log("스크립트 삽입 시도");
     const script = document.createElement("script");
     script.src = "https://cdn.portone.io/v1/js-sdk.js";
     script.async = true;
 
-    script.onload = () => {
-      setSdkLoaded(true);
-    };
+    script.onload = () => console.log("스크립트 로드 완료");
+    script.onerror = () => console.error("스크립트 로드 실패");
 
     document.body.appendChild(script);
 
