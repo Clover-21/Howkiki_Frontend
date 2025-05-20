@@ -39,7 +39,7 @@ export default function PaymentBtn({
     const IMP = window.IMP;
     IMP.request_pay(
       {
-        channel: process.env.REACT_APP_PORTONE_CHANNEL_KEYㄴ,
+        channel: process.env.REACT_APP_PORTONE_CHANNEL_KEY,
         pay_method: "card",
         merchant_uid: merchantUid,
         name: productName,
