@@ -7,7 +7,11 @@ export const requestPayment = ({
 }) => {
   return new Promise((resolve, reject) => {
     const IMP = window.IMP;
-    IMP.init(process.env.REACT_APP_PORTONE_MERCHANT_CODE);
+
+    if (!IMP) {
+      reject("PortOne SDK가 로드되지 않았습니다.");
+      return;
+    }
 
     IMP.request_pay(
       {

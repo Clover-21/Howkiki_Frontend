@@ -92,12 +92,6 @@ export default function ChatBot() {
     }
   }, []);
 
-  useEffect(() => {
-    if (window.IMP) {
-      window.IMP.init(process.env.REACT_APP_PORTONE_MERCHANT_CODE);
-    }
-  }, []);
-
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
