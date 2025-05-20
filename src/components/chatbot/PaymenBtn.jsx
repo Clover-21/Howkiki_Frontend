@@ -6,26 +6,20 @@ export default function PaymentBtn({
   merchantUid,
   onSuccess,
 }) {
-  const [sdkLoaded, setSdkLoaded] = useState(false);
+  const [portone, setPortone] = useState(null);
 
   useEffect(() => {
-    console.log("SDK 스크립트 삽입 시도");
-
-    if (window.PortOne) {
-      setSdkLoaded(true);
-      return;
-    }
-
     const script = document.createElement("script");
     script.src = "https://cdn.portone.io/v2/browser-sdk.js";
     script.async = true;
+    script.onload = async () => {
+      console.log("✅ PortOne SDK 로드 완료");
 
-    script.onload = () => {
-      console.log("SDK 스크립트 로드 완료");
-      setSdkLoaded(true);
+      const loadedPortOne = await window.loadPortOne();
+      setPortone(loadedPortOne);
     };
     script.onerror = () => {
-      console.error("SDK 스크립트 로드 실패");
+      console.error("❌ PortOne SDK 로드 실패");
     };
 
     document.body.appendChild(script);
@@ -35,35 +29,28 @@ export default function PaymentBtn({
     };
   }, []);
 
-  const handlePayment = () => {
-    if (!sdkLoaded || !window.PortOne) {
-      alert("PortOne SDK가 아직 로드되지 않았습니다.");
+  const handlePayment = async () => {
+    if (!portone) {
+      alert("PortOne SDK가 아직 준비되지 않았습니다.");
       return;
     }
 
-    const storeId = process.env.REACT_APP_PORTONE_CLIENT_KEY;
-
-    const portone = new window.PortOne(
-      process.env.REACT_APP_PORTONE_CHANNEL_KEY
-    );
-
-    portone
-      .requestPayment({
-        storeId: storeId,
+    try {
+      const result = await portone.requestPayment({
+        storeId: process.env.REACT_APP_PORTONE_CLIENT_KEY,
         paymentId: merchantUid,
         orderName: productName,
         totalAmount: amount,
         currency: "KRW",
         payMethod: "CARD",
-      })
-      .then((res) => {
-        alert("결제 성공!");
-        if (onSuccess) onSuccess(res);
-      })
-      .catch((err) => {
-        alert("결제 실패: " + err.message);
-        console.error("결제 실패", err);
       });
+
+      alert("결제 성공!");
+      if (onSuccess) onSuccess(result);
+    } catch (err) {
+      alert("결제 실패: " + err.message);
+      console.error("결제 실패", err);
+    }
   };
 
   return <button onClick={handlePayment}>결제하기</button>;
