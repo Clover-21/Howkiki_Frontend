@@ -8,7 +8,7 @@ import {
   Button,
 } from "../../styles/components/userCancelModal.module";
 
-export default function PaymentModal({ isOpen, onClose, children }) {
+export default function PaymentModal({ isOpen, children }) {
   if (!isOpen) return null;
 
   return (
