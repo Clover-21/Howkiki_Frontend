@@ -11,7 +11,7 @@ export default function PaymentBtn({
   useEffect(() => {
     console.log("스크립트 삽입 시도");
     const script = document.createElement("script");
-    script.src = "https://cdn.portone.io/v1/js-sdk.js";
+    script.src = "https://cdn.iamport.kr/js/iamport.payment-v1.js";
     script.async = true;
 
     script.onload = () => console.log("스크립트 로드 완료");
