@@ -35,9 +35,7 @@ export default function PaymentBtn({
     }
 
     const IMP = window.IMP;
-    IMP.init("imp12345678");
-    /*
-    IMP.init(storeId);*/
+    IMP.init(storeId);
 
     IMP.request_pay(
       {
