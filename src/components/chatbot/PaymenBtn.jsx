@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import axios from "axios";
+import { apiClient } from "../../api/apiClient";
 
 export default function PaymentBtn({
   productName,
@@ -44,7 +44,7 @@ export default function PaymentBtn({
         if (rsp.success) {
           alert("결제 성공!");
           try {
-            const res = await axios.post(`/api/payments/verification`, {
+            const res = await apiClient.post(`/api/payments/verification`, {
               imp_uid: rsp.imp_uid,
               merchant_uid: rsp.merchant_uid,
               amount: rsp.paid_amount,
@@ -67,5 +67,9 @@ export default function PaymentBtn({
     );
   };
 
-  return <button onClick={handlePayment}>결제하기</button>;
+  return (
+    <button type="button" onClick={handlePayment}>
+      결제하기
+    </button>
+  );
 }
