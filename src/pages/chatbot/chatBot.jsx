@@ -119,6 +119,7 @@ export default function ChatBot() {
           productName: data?.orderDetail[0]?.menuName,
           amount: data?.orderPrice,
           merchantUid,
+          orderId: data?.orderId,
         });
         setIsPaymentModalOpen(true);
       }
@@ -285,6 +286,7 @@ export default function ChatBot() {
               productName={orderInfo.productName}
               amount={orderInfo.amount}
               merchantUid={orderInfo.merchantUid}
+              orderId={orderInfo.orderId}
               onSuccess={() => {
                 setIsPaymentModalOpen(false);
                 setOpenSuccessModal(true);

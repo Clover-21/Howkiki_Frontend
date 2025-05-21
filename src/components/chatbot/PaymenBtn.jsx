@@ -5,6 +5,7 @@ export default function PaymentBtn({
   productName,
   amount,
   merchantUid,
+  orderId,
   onSuccess,
 }) {
   useEffect(() => {
@@ -14,7 +15,9 @@ export default function PaymentBtn({
     document.body.appendChild(script);
   }, []);
 
-  const handlePayment = () => {
+  const handlePayment = (event) => {
+    if (event) event.preventDefault();
+
     if (!window.IMP) {
       alert("결제 SDK가 로드되지 않았습니다.");
       return;
@@ -47,7 +50,7 @@ export default function PaymentBtn({
             const res = await apiClient.post(`/api/payments/verification`, {
               imp_uid: rsp.imp_uid,
               merchant_uid: rsp.merchant_uid,
-              amount: rsp.paid_amount,
+              orderId: orderId,
             });
 
             console.log(res.data);
