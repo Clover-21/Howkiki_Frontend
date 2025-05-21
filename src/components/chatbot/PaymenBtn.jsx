@@ -59,7 +59,7 @@ export default function PaymentBtn({
 
             console.log(res.data);
 
-            if (res.data.success) {
+            if (res.data?.data?.payStatus === "paid") {
               console.log("서버 결제 검증 성공!");
               if (onSuccess) onSuccess(rsp);
             } else {
