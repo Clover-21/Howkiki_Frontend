@@ -117,7 +117,8 @@ export default function ChatBot() {
 
         setOrderInfo({
           productName: data?.orderDetail[0]?.menuName,
-          amount: data?.orderPrice,
+          amount: "1",
+          /*amount: data?.orderPrice,*/
           merchantUid,
           orderId: data?.orderId,
         });
