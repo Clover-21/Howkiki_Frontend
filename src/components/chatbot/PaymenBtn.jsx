@@ -42,7 +42,7 @@ export default function PaymentBtn({
         console.log("결제 응답 rsp:", rsp);
 
         if (rsp.success) {
-          alert("결제 성공!");
+          console.log("결제 성공");
           try {
             const res = await apiClient.post(`/api/payments/verification`, {
               imp_uid: rsp.imp_uid,
@@ -50,18 +50,19 @@ export default function PaymentBtn({
               amount: rsp.paid_amount,
             });
 
+            console.log(res.data);
+
             if (res.data.success) {
-              alert("서버 결제 검증 성공!");
+              console.log("서버 결제 검증 성공!");
               if (onSuccess) onSuccess(rsp);
             } else {
-              alert("서버 검증 실패: " + res.data.message);
+              console.log("서버 검증 실패: " + res.data.message);
             }
           } catch (err) {
             console.error("서버 통신 오류", err);
-            alert("서버 검증 중 오류가 발생했습니다.");
           }
         } else {
-          alert("결제 실패: " + rsp.error_msg);
+          console.log("결제 실패: " + rsp.error_msg);
         }
       }
     );
