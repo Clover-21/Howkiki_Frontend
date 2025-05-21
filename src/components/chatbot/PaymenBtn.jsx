@@ -21,6 +21,7 @@ export default function PaymentBtn({
 
   const handlePayment = (event) => {
     if (event) event.preventDefault();
+    console.log("handlePayment 호출됨");
 
     if (!window.IMP) {
       alert("결제 SDK가 로드되지 않았습니다.");
@@ -37,6 +38,7 @@ export default function PaymentBtn({
     const IMP = window.IMP;
     IMP.init(storeId);
 
+    console.log("request_pay 호출됨");
     IMP.request_pay(
       {
         pg: "html5_inicis",
@@ -46,12 +48,13 @@ export default function PaymentBtn({
         amount: amount,
       },
       async function (rsp) {
+        console.log("콜백 진입");
         console.log("결제 응답 rsp:", rsp);
 
         if (rsp.success) {
           console.log("결제 성공");
           try {
-            const res = await apiClient.post(`/api/payments/verification`, {
+            const res = await apiClient.post(`/payments/verification`, {
               imp_uid: rsp.imp_uid,
               merchant_uid: rsp.merchant_uid,
               orderId: orderId,
