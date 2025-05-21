@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function PaymentBtn({
   productName,
@@ -7,7 +8,6 @@ export default function PaymentBtn({
   onSuccess,
 }) {
   useEffect(() => {
-    // IMP SDK 스크립트 로드
     const script = document.createElement("script");
     script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
     script.async = true;
@@ -32,19 +32,36 @@ export default function PaymentBtn({
 
     IMP.request_pay(
       {
-        pg: "html5_inicis", // PG사 코드 (필요에 따라 변경)
-        pay_method: "card", // 결제수단
-        merchant_uid: merchantUid, // 고유 주문번호
-        name: productName, // 상품명
-        amount: amount, // 결제금액
+        pg: "html5_inicis",
+        pay_method: "card",
+        merchant_uid: merchantUid,
+        name: productName,
+        amount: amount,
       },
-      function (rsp) {
+      async function (rsp) {
+        console.log("결제 응답 rsp:", rsp);
+
         if (rsp.success) {
           alert("결제 성공!");
-          if (onSuccess) onSuccess(rsp);
+          try {
+            const res = await axios.post(`/api/payments/verification`, {
+              imp_uid: rsp.imp_uid,
+              merchant_uid: rsp.merchant_uid,
+              amount: rsp.paid_amount,
+            });
+
+            if (res.data.success) {
+              alert("서버 결제 검증 성공!");
+              if (onSuccess) onSuccess(rsp);
+            } else {
+              alert("서버 검증 실패: " + res.data.message);
+            }
+          } catch (err) {
+            console.error("서버 통신 오류", err);
+            alert("서버 검증 중 오류가 발생했습니다.");
+          }
         } else {
           alert("결제 실패: " + rsp.error_msg);
-          console.error("결제 실패", rsp);
         }
       }
     );
