@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { apiClient } from "../../api/apiClient";
+import {
+  BtnContainer,
+  Button,
+} from "../../styles/components/userCancelModal.module";
 
 export default function PaymentBtn({
   productName,
@@ -72,8 +76,8 @@ export default function PaymentBtn({
   };
 
   return (
-    <button type="button" onClick={handlePayment}>
-      결제하기
-    </button>
+    <BtnContainer>
+      <Button onClick={handlePayment}>결제하기</Button>
+    </BtnContainer>
   );
 }
