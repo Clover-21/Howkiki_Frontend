@@ -48,15 +48,14 @@ export default function PaymentBtn({
         amount: amount,
       },
       async function (rsp) {
-        console.log("콜백 진입");
         console.log("결제 응답 rsp:", rsp);
 
         if (rsp.success) {
           console.log("결제 성공");
           try {
             const res = await apiClient.post(`/payments/verification`, {
-              imp_uid: rsp.imp_uid,
-              merchant_uid: rsp.merchant_uid,
+              impUid: rsp.imp_uid,
+              merchantUid: rsp.merchant_uid,
               orderId: orderId,
             });
 

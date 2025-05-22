@@ -290,7 +290,7 @@ export default function ChatBot() {
               orderId={orderInfo.orderId}
               onSuccess={() => {
                 setIsPaymentModalOpen(false);
-                setTimeout(() => setOpenSuccessModal(true), 300);
+                setOpenSuccessModal(true);
               }}
             />
           )}
