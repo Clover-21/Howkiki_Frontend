@@ -113,7 +113,7 @@ export default function ChatBot() {
       }
 
       if (successMessage === "주문 생성 성공") {
-        const merchantUid = `order_${data.orderId}_${Date.now()}`;
+        const merchantUid = Date.now();
 
         setOrderInfo({
           productName: data?.orderDetail[0]?.menuName,
