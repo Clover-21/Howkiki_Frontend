@@ -23,9 +23,9 @@ export const ChatContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 23px;
-  font-weight: 500;
-  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 20px;
 `;
 
 export const BtnContainer = styled.div``;
@@ -35,9 +35,9 @@ export const Button = styled.div`
   justify-content: center;
   align-items: center;
   width: 160px;
-  height: 50px;
-  border-radius: 20px;
+  height: 45px;
+  border-radius: 15px;
   background-color: #5d60ef;
-  font-size: 16px;
+  font-size: 14px;
   color: #ffffff;
 `;
