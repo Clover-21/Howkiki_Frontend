@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../api/apiClient";
 import {
+  Container,
+  ChatContainer,
   Title,
   BtnContainer,
   Button,
@@ -50,17 +52,27 @@ export default function ChatOrderSuccess() {
   }, []);
 
   if (!isVerified) {
-    return <p>결제 검증 중입니다...</p>;
+    return (
+      <Container>
+        <ChatContainer>
+          <Title>결제 검증 중입니다 ...</Title>
+        </ChatContainer>
+      </Container>
+    );
   }
 
   return (
-    <>
-      <Title>주문이 완료되었습니다!</Title>
-      <BtnContainer>
-        <Button onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}>
-          챗오더로 돌아가기
-        </Button>
-      </BtnContainer>
-    </>
+    <Container>
+      <ChatContainer>
+        <Title>주문이 완료되었습니다!</Title>
+        <BtnContainer>
+          <Button
+            onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}
+          >
+            챗오더로 돌아가기
+          </Button>
+        </BtnContainer>
+      </ChatContainer>
+    </Container>
   );
 }
