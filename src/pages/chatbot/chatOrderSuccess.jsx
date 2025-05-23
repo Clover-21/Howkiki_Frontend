@@ -24,13 +24,21 @@ export default function ChatOrderSuccess() {
     setStoreId(storeIdFromUrl);
     setTableNumber(tableNumberFromUrl);
 
+    console.log("imp_uid:", impUid);
+    console.log("merchant_uid:", merchantUid);
+    console.log("storeId:", storeId);
+    console.log("tableNumber:", tableNumber);
+    console.log("orderId:", orderId);
+
     async function verifyPayment() {
       try {
         const rsp = await apiClient.post(`/payments/verification`, {
-          impUid: rsp.imp_uid,
-          merchantUid: rsp.merchant_uid,
+          impUid: impUid,
+          merchantUid: merchantUid,
           orderId: orderId,
         });
+
+        console.log(rsp.data);
 
         if (rsp.data?.data?.payStatus === "paid") {
           setIsVerified(true);
@@ -55,7 +63,7 @@ export default function ChatOrderSuccess() {
     <>
       <Title>주문이 완료되었습니다!</Title>
       <BtnContainer>
-        <Button onClick={() => navigate(`/chatbot/${storeId}/${tableNumber}`)}>
+        <Button onClick={() => navigate(`/chatbot/1/1`)}>
           챗오더로 돌아가기
         </Button>
       </BtnContainer>
