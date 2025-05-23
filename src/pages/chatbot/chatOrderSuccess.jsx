@@ -19,6 +19,7 @@ export default function ChatOrderSuccess() {
     const merchantUid = query.get("merchant_uid");
     const storeIdFromUrl = query.get("storeId");
     const tableNumberFromUrl = query.get("tableNumber");
+    const orderId = query.get("orderId");
 
     setStoreId(storeIdFromUrl);
     setTableNumber(tableNumberFromUrl);

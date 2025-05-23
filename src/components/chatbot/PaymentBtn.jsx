@@ -49,7 +49,7 @@ export default function PaymentBtn({
         merchant_uid: merchantUid,
         name: productName,
         amount: amount,
-        m_redirect_url: `${window.location.origin}/orderSuccess?storeId=${storeId}&tableNumber=${tableNumber}`,
+        m_redirect_url: `${window.location.origin}/orderSuccess?storeId=${storeId}&tableNumber=${tableNumber}&orderId=${orderId}`,
       },
       async function (rsp) {
         console.log("결제 응답 rsp:", rsp);
