@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
-import PaymentBtn from "../../components/chatbot/PaymenBtn";
+import PaymentBtn from "../../components/chatbot/PaymentBtn";
 import PaymentModal from "../../components/chatbot/PaymentModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
@@ -90,36 +90,6 @@ export default function ChatBot() {
       }, 1000);
 
       return () => clearTimeout(timer);
-    }
-  }, []);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const impUid = params.get("imp_uid");
-    const merchantUid = params.get("merchant_uid");
-
-    if (impUid && merchantUid) {
-      const orderId = sessionStorage.getItem("pendingOrderId");
-
-      apiClient
-        .post("/payments/verification", {
-          impUid,
-          merchantUid,
-          orderId,
-        })
-        .then((res) => {
-          if (res.data?.data?.payStatus === "paid") {
-            setOpenSuccessModal(true); // 바로 모달 띄우기
-            window.history.replaceState(
-              {},
-              document.title,
-              window.location.pathname
-            ); // 쿼리 제거
-          }
-        })
-        .catch((err) => {
-          console.error("검증 실패", err);
-        });
     }
   }, []);
 

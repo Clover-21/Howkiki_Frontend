@@ -38,40 +38,43 @@ export default function PaymentBtn({
     const IMP = window.IMP;
     IMP.init(storeId);
 
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-    sessionStorage.setItem("pendingOrderId", orderId);
-
-    const params = {
-      pg: "html5_inicis",
-      pay_method: "card",
-      merchant_uid: merchantUid,
-      name: productName,
-      amount: amount,
-    };
-
-    if (isMobile) {
-      params.m_redirect_url = window.location.href; // 현재 페이지로 돌아오게
-    }
-
     console.log("request_pay 호출됨");
-    IMP.request_pay(params, async function (rsp) {
-      // 모바일에서는 이 콜백이 호출되지 않음
-      if (rsp.success) {
-        try {
-          const res = await apiClient.post(`/payments/verification`, {
-            impUid: rsp.imp_uid,
-            merchantUid: rsp.merchant_uid,
-            orderId,
-          });
-          if (res.data?.data?.payStatus === "paid") {
-            if (onSuccess) onSuccess(rsp);
+    IMP.request_pay(
+      {
+        pg: "html5_inicis",
+        pay_method: "card",
+        merchant_uid: merchantUid,
+        name: productName,
+        amount: amount,
+      },
+      async function (rsp) {
+        console.log("결제 응답 rsp:", rsp);
+
+        if (rsp.success) {
+          console.log("결제 성공");
+          try {
+            const res = await apiClient.post(`/payments/verification`, {
+              impUid: rsp.imp_uid,
+              merchantUid: rsp.merchant_uid,
+              orderId: orderId,
+            });
+
+            console.log(res.data);
+
+            if (res.data?.data?.payStatus === "paid") {
+              console.log("서버 결제 검증 성공!");
+              if (onSuccess) onSuccess(rsp);
+            } else {
+              console.log("서버 검증 실패: " + res.data.message);
+            }
+          } catch (err) {
+            console.error("서버 통신 오류", err);
           }
-        } catch (err) {
-          console.error("결제 검증 오류", err);
+        } else {
+          console.log("결제 실패: " + rsp.error_msg);
         }
       }
-    });
+    );
   };
 
   return (
