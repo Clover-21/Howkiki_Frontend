@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { apiClient } from "../../api/apiClient";
 import {
   BtnContainer,
@@ -12,6 +13,8 @@ export default function PaymentBtn({
   orderId,
   onSuccess,
 }) {
+  const { storeId, tableNumber } = useParams();
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
@@ -28,15 +31,15 @@ export default function PaymentBtn({
       return;
     }
 
-    const storeId = process.env.REACT_APP_PORTONE_MERCHANT_CODE;
+    const merchantCode = process.env.REACT_APP_PORTONE_MERCHANT_CODE;
 
-    if (!storeId) {
+    if (!merchantCode) {
       alert("storeId(가맹점 식별코드)가 설정되지 않았습니다.");
       return;
     }
 
     const IMP = window.IMP;
-    IMP.init(storeId);
+    IMP.init(merchantCode);
 
     console.log("request_pay 호출됨");
     IMP.request_pay(
@@ -46,6 +49,7 @@ export default function PaymentBtn({
         merchant_uid: merchantUid,
         name: productName,
         amount: amount,
+        m_redirect_url: `${window.location.origin}/orderSuccess?storeId=${storeId}&tableNumber=${tableNumber}`,
       },
       async function (rsp) {
         console.log("결제 응답 rsp:", rsp);
