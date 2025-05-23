@@ -93,6 +93,36 @@ export default function ChatBot() {
     }
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const impUid = params.get("imp_uid");
+    const merchantUid = params.get("merchant_uid");
+
+    if (impUid && merchantUid) {
+      const orderId = sessionStorage.getItem("pendingOrderId");
+
+      apiClient
+        .post("/payments/verification", {
+          impUid,
+          merchantUid,
+          orderId,
+        })
+        .then((res) => {
+          if (res.data?.data?.payStatus === "paid") {
+            setOpenSuccessModal(true); // 바로 모달 띄우기
+            window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+            ); // 쿼리 제거
+          }
+        })
+        .catch((err) => {
+          console.error("검증 실패", err);
+        });
+    }
+  }, []);
+
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
