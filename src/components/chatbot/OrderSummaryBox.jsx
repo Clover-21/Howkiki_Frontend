@@ -34,7 +34,7 @@ export default function OrderSummaryBox({ status, orderId, orderData }) {
         return "접수된 주문";
       case "USER_CANCELLED":
       case "ADMIN_CANCELLED":
-        return "취소된 접수";
+        return "취소된 주문";
       default:
         return "상태 없음";
     }

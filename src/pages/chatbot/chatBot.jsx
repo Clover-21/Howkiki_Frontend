@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
+import PaymentBtn from "../../components/chatbot/PaymentBtn";
+import PaymentModal from "../../components/chatbot/PaymentModal";
 import send from "../../assets/icon/send.svg";
 import orderhs from "../../assets/icon/orderhistory.svg";
 import botIcon from "../../assets/icon/boticon.svg";
@@ -19,7 +21,6 @@ import {
   ChatInput,
   InputContainer,
   InputField,
-  BtnWrap,
   SendButton,
   SendIcon,
   HsIcon,
@@ -28,6 +29,8 @@ import {
 export default function ChatBot() {
   const navigate = useNavigate();
   const { storeId, tableNumber } = useParams();
+  const [orderInfo, setOrderInfo] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const chatBoxRef = useRef(null);
   const token = sessionStorage.getItem(`chatbot_token_${tableNumber}`);
@@ -57,6 +60,39 @@ export default function ChatBot() {
     );
   }, [messages, tableNumber]);
 
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const inputElement = document.getElementById("inputfield");
+    if (inputElement) {
+      inputElement.style.height = "40px"; // 초기화
+      inputElement.style.height = `${Math.min(
+        inputElement.scrollHeight,
+        78
+      )}px`; // scrollHeight 기반으로 설정
+    }
+  }, []);
+
+  useEffect(() => {
+    if (messages.length === 1) {
+      const timer = setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            sender: "bot",
+            text: "주문 또는 궁금한 점을 입력하세요. 대화를 종료하려면 '종료' 또는 '그만'을 입력하세요.",
+          },
+        ]);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const chatBotMsg = async (question) => {
     setLoading(true);
     try {
@@ -68,15 +104,24 @@ export default function ChatBot() {
       });
       console.log(response.data);
 
-      let menuImgUrl = null;
+      const data = response.data.function_call_result?.data;
+      const successMessage = response.data.function_call_result?.message;
 
-      if (response.data.function_call_result?.data?.menuImgUrl) {
-        menuImgUrl = response.data.function_call_result.data.menuImgUrl;
+      let menuImgUrl = null;
+      if (data?.menuImgUrl) {
+        menuImgUrl = data.menuImgUrl;
       }
 
-      const successMessage = response.data.function_call_result?.message;
       if (successMessage === "주문 생성 성공") {
-        setOpenSuccessModal(true);
+        const merchantUid = Number(`${data.orderId}${Date.now()}`);
+
+        setOrderInfo({
+          productName: data?.orderDetail[0]?.menuName,
+          amount: data?.orderPrice,
+          merchantUid,
+          orderId: data?.orderId,
+        });
+        setIsPaymentModalOpen(true);
       }
 
       return {
@@ -136,49 +181,12 @@ export default function ChatBot() {
     }
   };
 
-  const handleCancelModal = () => {
-    setIsCancelModalOpen(true);
-  };
-
   const handleChange = (e) => {
     setInput(e.target.value);
     const el = e.target;
     el.style.height = "40px";
     el.style.height = `${Math.min(el.scrollHeight, 78)}px`;
   };
-
-  useEffect(() => {
-    if (chatBoxRef.current) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    const inputElement = document.getElementById("inputfield");
-    if (inputElement) {
-      inputElement.style.height = "40px"; // 초기화
-      inputElement.style.height = `${Math.min(
-        inputElement.scrollHeight,
-        78
-      )}px`; // scrollHeight 기반으로 설정
-    }
-  }, []);
-
-  useEffect(() => {
-    if (messages.length === 1) {
-      const timer = setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            sender: "bot",
-            text: "주문 또는 궁금한 점을 입력하세요. 대화를 종료하려면 '종료' 또는 '그만'을 입력하세요.",
-          },
-        ]);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   return (
     <Container>
@@ -197,7 +205,7 @@ export default function ChatBot() {
             />
           )}
         </ModalWrapper>
-        <ChatTitle onClick={handleCancelModal}>키키 chat</ChatTitle>
+        <ChatTitle>키키 chat</ChatTitle>
         <ChatBox ref={chatBoxRef}>
           {messages.map((msg, index) => {
             const prevSender = messages[index - 1]?.sender;
@@ -271,6 +279,22 @@ export default function ChatBot() {
           </InputContainer>
         </ChatInput>
       </ChatContainer>
+      {isPaymentModalOpen && (
+        <PaymentModal isOpen={isPaymentModalOpen}>
+          {orderInfo && (
+            <PaymentBtn
+              productName={orderInfo.productName}
+              amount={orderInfo.amount}
+              merchantUid={orderInfo.merchantUid}
+              orderId={orderInfo.orderId}
+              onSuccess={() => {
+                setIsPaymentModalOpen(false);
+                setOpenSuccessModal(true);
+              }}
+            />
+          )}
+        </PaymentModal>
+      )}
       {openSuccessModal && (
         <SuccessModal
           isOpen={openSuccessModal}

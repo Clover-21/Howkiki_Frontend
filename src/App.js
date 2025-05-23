@@ -21,6 +21,8 @@ import ChatBot from "./pages/chatbot/chatBot";
 import OrderSummaryPage from "./pages/chatbot/orderSummary";
 import useSSE from "./hooks/useSSE";
 import NotificationModal from "./components/NotificationModal";
+import ChatOrderSuccess from "./pages/chatbot/chatOrderSuccess";
+import { ChatBox } from "./styles/chatbot/chatBot.module";
 
 function App() {
   const location = useLocation();
@@ -120,6 +122,7 @@ function App() {
         <Route path="/:storeId/tablemanage" element={<TableManagePage />} />
         <Route path="/:storeId/packaging" element={<PackagingPage />} />
         <Route path="/:storeId/suggestion" element={<SuggestionPage />} />
+        <Route path="/orderSuccess" element={<ChatOrderSuccess />} />
         <Route
           path="/chatstart/:storeId/:tableNumber"
           element={<ChatBotStart />}
