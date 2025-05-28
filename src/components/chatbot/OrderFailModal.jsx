@@ -7,7 +7,7 @@ import {
   ModalSubTitle,
   BtnContainer,
   Button,
-} from "../../styles/components/orderFaillModal.module";
+} from "../../styles/components/orderFailModal.module";
 
 export default function OrderFailModal({ isOpen, onClose }) {
   if (!isOpen) return null;
