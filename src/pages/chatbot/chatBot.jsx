@@ -114,18 +114,20 @@ export default function ChatBot() {
         menuImgUrl = data.menuImgUrl;
       }
 
-      if (successMessage === "주문 생성 성공") {
-        const merchantUid = Number(`${data.orderId}${Date.now()}`);
+      if (successMessage) {
+        if (successMessage === "주문 생성 성공") {
+          const merchantUid = Number(`${data.orderId}${Date.now()}`);
 
-        setOrderInfo({
-          productName: data?.orderDetail[0]?.menuName,
-          amount: data?.orderPrice,
-          merchantUid,
-          orderId: data?.orderId,
-        });
-        setIsPaymentModalOpen(true);
-      } else if (successMessage !== "메뉴 사진 URL 조회 성공") {
-        setIsFailModalOpen(true);
+          setOrderInfo({
+            productName: data?.orderDetail[0]?.menuName,
+            amount: data?.orderPrice,
+            merchantUid,
+            orderId: data?.orderId,
+          });
+          setIsPaymentModalOpen(true);
+        } else if (successMessage !== "메뉴 사진 URL 조회 성공") {
+          setIsFailModalOpen(true);
+        }
       }
 
       return {
