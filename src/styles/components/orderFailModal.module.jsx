@@ -23,24 +23,23 @@ export const Modal = styled.div`
   padding: 20px;
 `;
 
-export const ModalContent1 = styled.div`
+export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 `;
 
 export const ModalTitle = styled.div`
-  margin-top: 10px;
   font-size: 19px;
   font-weight: bold;
   color: #f25b64;
 `;
 
 export const ModalSubTitle = styled.div`
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
 `;
 
 export const ModalText = styled.div`
@@ -51,7 +50,6 @@ export const ModalText = styled.div`
 
 export const BtnContainer = styled.div`
   display: flex;
-  gap: 10px;
 `;
 
 export const Button = styled.div`

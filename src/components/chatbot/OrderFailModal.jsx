@@ -2,7 +2,7 @@ import React from "react";
 import {
   ModalContainer,
   Modal,
-  ModalContent1,
+  ModalContent,
   ModalTitle,
   ModalSubTitle,
   BtnContainer,
@@ -15,10 +15,10 @@ export default function OrderFailModal({ isOpen, onClose }) {
   return (
     <ModalContainer>
       <Modal>
-        <ModalContent1>
+        <ModalContent>
           <ModalTitle>주문 실패</ModalTitle>
           <ModalSubTitle>다시 주문해주세요!</ModalSubTitle>
-        </ModalContent1>
+        </ModalContent>
         <BtnContainer>
           <Button onClick={onClose}>확인</Button>
         </BtnContainer>
