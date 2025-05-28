@@ -23,11 +23,11 @@ export const Modal = styled.div`
   padding: 20px;
 `;
 
-export const ModalContent = styled.div`
+export const ModalContent1 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 `;
 
 export const ModalTitle = styled.div`
