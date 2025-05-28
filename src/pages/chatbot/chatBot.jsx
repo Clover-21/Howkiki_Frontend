@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RequestFinishModal from "../../components/chatbot/RequestFinishModal";
 import OrderCancelModal from "../../components/chatbot/OrderCancelModal";
+import OrderFailModal from "../../components/chatbot/OrderFailModal";
 import SuccessModal from "../../components/chatbot/SuccessModal";
 import PaymentBtn from "../../components/chatbot/PaymentBtn";
 import PaymentModal from "../../components/chatbot/PaymentModal";
@@ -30,6 +31,7 @@ export default function ChatBot() {
   const navigate = useNavigate();
   const { storeId, tableNumber } = useParams();
   const [orderInfo, setOrderInfo] = useState(null);
+  const [isFailModalOpen, setIsFailModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const chatBoxRef = useRef(null);
@@ -122,6 +124,8 @@ export default function ChatBot() {
           orderId: data?.orderId,
         });
         setIsPaymentModalOpen(true);
+      } else {
+        setIsFailModalOpen(true);
       }
 
       return {
@@ -299,6 +303,12 @@ export default function ChatBot() {
         <SuccessModal
           isOpen={openSuccessModal}
           onClose={() => setOpenSuccessModal(false)}
+        />
+      )}
+      {isFailModalOpen && (
+        <OrderFailModal
+          isOpen={isFailModalOpen}
+          onClose={() => setIsFailModalOpen(false)}
         />
       )}
     </Container>
