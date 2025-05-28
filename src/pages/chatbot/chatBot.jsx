@@ -124,7 +124,7 @@ export default function ChatBot() {
           orderId: data?.orderId,
         });
         setIsPaymentModalOpen(true);
-      } else {
+      } else if (successMessage !== "메뉴 사진 URL 조회 성공") {
         setIsFailModalOpen(true);
       }
 
