@@ -16,8 +16,7 @@ import {
   Price,
   Text,
   BtnContainer,
-  PaidBtn,
-  FinishBtn,
+  CloseBtn,
 } from "../../styles/components/commonModal.module";
 
 export default function PackageModal({ isOpen, onClose, data }) {
@@ -27,25 +26,6 @@ export default function PackageModal({ isOpen, onClose, data }) {
   console.log(data);
 
   const formattedNumber = String(data.orderId).padStart(3, "0");
-
-  const handlePaid = async () => {
-    try {
-      const response = await apiClient.patch(
-        `/stores/${storeId}/orders/${data.orderId}/take-out/status-paid`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const userSessionToken = response.data?.data?.userSessionToken;
-      onClose();
-      window.location.reload();
-    } catch (error) {
-      console.error("상태 업데이트 중 에러 발생:", error);
-    }
-  };
 
   return (
     <ModalContainer>
@@ -68,8 +48,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
           <Price>{`${data.orderPrice.toLocaleString()}원`}</Price>
         </PriceWrap>
         <BtnContainer>
-          <FinishBtn onClick={onClose}>닫기</FinishBtn>
-          <PaidBtn onClick={handlePaid}>결제 완료</PaidBtn>
+          <CloseBtn onClick={onClose}>닫기</CloseBtn>
         </BtnContainer>
       </Modal>
     </ModalContainer>

@@ -145,7 +145,7 @@ export const FinishBtn = styled.div`
   `}
 `;
 
-export const PaidBtn = styled.div`
+export const CloseBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
