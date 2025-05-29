@@ -11,7 +11,6 @@ import StartPage from "./pages/manager/start";
 import OrderWaitingPage from "./pages/manager/orderWaiting";
 import OrderPreparingPage from "./pages/manager/orderPreparing";
 import ReadyCompletePage from "./pages/manager/readyComplete";
-import PayCompletePage from "./pages/manager/payComplete";
 import FullOrderPage from "./pages/manager/fullOrder";
 import TableManagePage from "./pages/manager/tableManage";
 import PackagingPage from "./pages/manager/packaging";
@@ -88,7 +87,6 @@ function App() {
     "/waiting",
     "/preparing",
     "/readycomplete",
-    "/paycomplete",
     "/fullorder",
     "/tablemanage",
     "/packaging",
@@ -124,7 +122,6 @@ function App() {
         <Route path="/:storeId/waiting" element={<OrderWaitingPage />} />
         <Route path="/:storeId/preparing" element={<OrderPreparingPage />} />
         <Route path="/:storeId/readycomplete" element={<ReadyCompletePage />} />
-        <Route path="/:storeId/paycomplete" element={<PayCompletePage />} />
         <Route path="/:storeId/fullorder" element={<FullOrderPage />} />
         <Route path="/:storeId/tablemanage" element={<TableManagePage />} />
         <Route path="/:storeId/packaging" element={<PackagingPage />} />
