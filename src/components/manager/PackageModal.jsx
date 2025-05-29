@@ -18,6 +18,7 @@ import {
   BtnContainer,
   CloseBtn,
 } from "../../styles/components/commonModal.module";
+import { FinishBtn } from "../../styles/components/suggestionModal.module";
 
 export default function PackageModal({ isOpen, onClose, data }) {
   const { storeId } = useParams();
@@ -48,7 +49,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
           <Price>{`${data.orderPrice.toLocaleString()}원`}</Price>
         </PriceWrap>
         <BtnContainer>
-          <CloseBtn onClick={onClose}>닫기</CloseBtn>
+          <FinishBtn onClick={onClose}>닫기</FinishBtn>
         </BtnContainer>
       </Modal>
     </ModalContainer>

@@ -145,22 +145,6 @@ export const FinishBtn = styled.div`
   `}
 `;
 
-export const CloseBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 103.4px;
-  height: 38.84px;
-  color: #ffffff;
-  font-weight: 600;
-  background-color: #7878f0;
-  border-radius: 7.28px;
-
-  &:hover {
-    background-color: #5e5ee0;
-  }
-`;
-
 export const TextWrapper = styled.div`
   width: 628.68px;
   padding: 20px;

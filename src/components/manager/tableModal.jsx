@@ -20,6 +20,7 @@ import {
   BtnContainer,
   CloseBtn,
 } from "../../styles/components/commonModal.module";
+import { FinishBtn } from "../../styles/components/suggestionModal.module";
 
 export default function TableModal({ isOpen, onClose, table }) {
   const { storeId } = useParams();
@@ -75,12 +76,12 @@ export default function TableModal({ isOpen, onClose, table }) {
           </Price>
         </PriceWrap>
         <BtnContainer>
-          <CloseBtn
+          <FinishBtn
             onClick={onClose}
             $isEmpty={!orderData || orderData.orderList.length === 0}
           >
             닫기
-          </CloseBtn>
+          </FinishBtn>
         </BtnContainer>
       </Modal>
     </ModalContainer>
