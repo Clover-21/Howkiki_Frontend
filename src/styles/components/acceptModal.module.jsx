@@ -84,7 +84,7 @@ export const FinishBtn = styled.div`
   font-weight: bold;
   border-radius: 8px;
   margin-top: 40px;
-  background-color: ${({ disabled }) => (disabled ? "#A8A8A8" : "#5D60EF")};
+  background-color: ${({ disabled }) => (disabled ? "#D9D9D9" : "#7878F0")};
 
   ${({ disabled }) =>
     !disabled &&
