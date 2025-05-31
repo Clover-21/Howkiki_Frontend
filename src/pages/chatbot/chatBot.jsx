@@ -125,7 +125,11 @@ export default function ChatBot() {
             orderId: data?.orderId,
           });
           setIsPaymentModalOpen(true);
-        } else if (successMessage !== "메뉴 사진 URL 조회 성공") {
+        } else if (
+          successMessage !== "메뉴 사진 URL 조회 성공" &&
+          successMessage !== "사용자 요청 도착 알림 전송 성공" &&
+          successMessage !== "건의 사항 등록 성공"
+        ) {
           setIsFailModalOpen(true);
         }
       }
