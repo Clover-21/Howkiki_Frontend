@@ -110,7 +110,7 @@ export default function TableModal({ isOpen, onClose, table }) {
             닫기
           </FinishBtn>
           {orderData && orderData.orderList.length > 0 && (
-            <PaidBtn onClick={handlePaid}>결제 완료</PaidBtn>
+            <PaidBtn onClick={handlePaid}>완료</PaidBtn>
           )}
         </BtnContainer>
       </Modal>

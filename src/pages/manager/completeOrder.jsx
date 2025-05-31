@@ -27,7 +27,7 @@ const override = {
   borderWidth: "6px",
 };
 
-export default function PayCompletePage() {
+export default function CompleteOrderPage() {
   const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);

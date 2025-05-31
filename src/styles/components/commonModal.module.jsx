@@ -149,7 +149,7 @@ export const PaidBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 103.4px;
+  width: 81.07px;
   height: 38.84px;
   color: #ffffff;
   font-weight: 600;

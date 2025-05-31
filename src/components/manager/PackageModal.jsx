@@ -69,7 +69,7 @@ export default function PackageModal({ isOpen, onClose, data }) {
         </PriceWrap>
         <BtnContainer>
           <FinishBtn onClick={onClose}>닫기</FinishBtn>
-          <PaidBtn onClick={handlePaid}>결제 완료</PaidBtn>
+          <PaidBtn onClick={handlePaid}>완료</PaidBtn>
         </BtnContainer>
       </Modal>
     </ModalContainer>

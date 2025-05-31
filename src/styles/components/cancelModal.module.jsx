@@ -78,7 +78,7 @@ export const CloseBtn = styled.div`
   color: white;
   font-weight: bold;
   border-radius: 8px;
-  background-color: #b2b2b2;
+  background-color: #d9d9d9;
 
   &:hover {
     background-color: #9e9e9e;
@@ -94,7 +94,7 @@ export const CancelBtn = styled.div`
   color: white;
   font-weight: bold;
   border-radius: 8px;
-  background-color: ${({ active }) => (active ? "#7878F0" : "#b2b2b2")};
+  background-color: ${({ active }) => (active ? "#7878F0" : "#D9D9D9")};
 
   ${({ active }) =>
     active
