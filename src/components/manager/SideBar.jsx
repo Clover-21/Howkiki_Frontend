@@ -47,6 +47,14 @@ export default function SideBar() {
           </SideBarName>
         </SideBarLink>
         <SideBarLink
+          onClick={() => handleClick(`/${storeId}/completeorder`)}
+          selected={selectedBar === `/${storeId}/completeorder`}
+        >
+          <SideBarName selected={selectedBar === `/${storeId}/completeorder`}>
+            판매 내역
+          </SideBarName>
+        </SideBarLink>
+        <SideBarLink
           onClick={() => handleClick(`/${storeId}/fullorder`)}
           selected={selectedBar === `/${storeId}/fullorder`}
         >

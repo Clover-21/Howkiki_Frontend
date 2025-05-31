@@ -18,13 +18,40 @@ import {
   Price,
   Text,
   BtnContainer,
-  CloseBtn,
+  PaidBtn,
+  FinishBtn,
 } from "../../styles/components/commonModal.module";
-import { FinishBtn } from "../../styles/components/suggestionModal.module";
 
 export default function TableModal({ isOpen, onClose, table }) {
   const { storeId } = useParams();
   const [orderData, setOrderData] = useState(null);
+
+  const handlePaid = async () => {
+    try {
+      const response = await apiClient.patch(
+        `/stores/${storeId}/orders/tables/${table.id}/status-paid`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const orderTokens = response.data.data.orderList
+        .map((order) => order.userSessionToken)
+        .filter((token) => token);
+
+      orderTokens.forEach((token) => {
+        console.log(`SSE 연결 종료 시도 (토큰: ${token})`);
+      });
+
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("상태 업데이트 중 에러 발생:", error);
+    }
+  };
 
   useEffect(() => {
     if (!isOpen || !table) return;
@@ -82,6 +109,9 @@ export default function TableModal({ isOpen, onClose, table }) {
           >
             닫기
           </FinishBtn>
+          {orderData && orderData.orderList.length > 0 && (
+            <PaidBtn onClick={handlePaid}>완료</PaidBtn>
+          )}
         </BtnContainer>
       </Modal>
     </ModalContainer>
