@@ -27,7 +27,7 @@ export default function SideBar() {
           selected={selectedBar === `/${storeId}/waiting`}
         >
           <SideBarName selected={selectedBar === `/${storeId}/waiting`}>
-            접수대기
+            주문 대기
           </SideBarName>
         </SideBarLink>
         <SideBarLink
@@ -59,7 +59,7 @@ export default function SideBar() {
           selected={selectedBar === `/${storeId}/fullorder`}
         >
           <SideBarName selected={selectedBar === `/${storeId}/fullorder`}>
-            주문조회
+            주문 조회
           </SideBarName>
         </SideBarLink>
       </SideBarWrap>
